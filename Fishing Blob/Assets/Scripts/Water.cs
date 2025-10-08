@@ -1,0 +1,250 @@
+using System.Collections.Generic;
+using NUnit.Framework;
+using UnityEngine;
+
+public class Water : MonoBehaviour
+{
+    [Header("Mesh")]
+    [SerializeField]
+    private int amountOfVerticesOnTop = 100;
+    [SerializeField]
+    private float meshHeight = 0.1f;
+    [SerializeField]
+    private float meshWidth = 0.2f;
+    private Mesh _waterMesh;
+    private Vector3[] _bottomVertices;
+    private Vector3[] _topVertices;
+    private Vector3[] _vertices;
+    private Vector2[] _uvs;
+    private int[] _triangles;
+    private WaterPoint[]  _waterPoints;
+    private float _realMeshWidth;
+    
+    [Header("Box Collider")]
+    [SerializeField]
+    private BoxCollider2D boxCollider;
+    
+    [Header("Collision with surface")]
+    private EdgeCollider2D _edgeCollider;
+    [SerializeField, UnityEngine.Range(1f, 10f)] 
+    private float playerCollisionRadiusMult = 4.15f;
+    [SerializeField]
+    public float forceMultiplier = 0.2f;
+    [SerializeField]
+    public float maxForce = 5f;
+    
+    
+    [Header("Spring")] 
+    [SerializeField]
+    private float springConst = 1.4f;
+    [SerializeField]
+    private float damping = 1.1f;
+    [SerializeField]
+    private int propagationIterations = 3;
+    [SerializeField] 
+    private float spread = 6.5f;
+    [SerializeField]
+    private float speedMultiplier = 5.5f;
+    
+    
+
+    void Awake()
+    {
+        _edgeCollider = GetComponent<EdgeCollider2D>();
+        CreateWaterMesh();
+    }
+
+    void FixedUpdate()
+    {
+        SimulatePoints();
+        WavePropagation();
+        // UpdateColliderAndMesh();
+        _waterMesh.vertices = _vertices;
+    }
+    
+    private class WaterPoint
+    {
+        public float Velocity;
+        public float Pos;
+        public float TargetPos;
+    }
+
+    private void CreateWaterMesh()
+    {
+        _waterMesh = new Mesh
+        {
+            name = "Water"
+        };
+        _bottomVertices = new Vector3[amountOfVerticesOnTop];
+        _topVertices = new Vector3[amountOfVerticesOnTop];
+        _vertices = new Vector3[amountOfVerticesOnTop * 2];
+        _uvs = new Vector2[amountOfVerticesOnTop * 2];
+        _triangles = new int[(amountOfVerticesOnTop - 1) * 6];
+        _realMeshWidth = meshWidth / (amountOfVerticesOnTop - 1);
+        for (int i = 0; i < amountOfVerticesOnTop; i++)
+        {
+            _bottomVertices[i] = new Vector3(i * _realMeshWidth, 0);
+            _topVertices[i] = new Vector3(i * _realMeshWidth, meshHeight);
+            _vertices[2*i] = _bottomVertices[i];
+            _vertices[2 * i + 1] = _topVertices[i];
+            
+            float u = (float)i / (amountOfVerticesOnTop - 1);
+            
+            _uvs[2 * i] = new Vector2(u, 0f);
+            _uvs[2*i + 1] = new Vector2(u, 1f);
+        }
+        
+        for (int i = 0; i < amountOfVerticesOnTop - 1; i++)
+        {
+            int bl = 2*i;     
+            int tl = 2 * i + 1; 
+            int tr = 2*i + 3; 
+            int br = 2*i + 2;
+
+            _triangles[i * 6 + 0] = bl;
+            _triangles[i * 6 + 1] = tl;
+            _triangles[i * 6 + 2] = br;
+            _triangles[i * 6 + 3] = tl;
+            _triangles[i * 6 + 4] = tr;
+            _triangles[i * 6 + 5] = br;
+        }
+        
+                     
+        _waterMesh.vertices = _vertices;
+        _waterMesh.uv = _uvs;
+        _waterMesh.triangles = _triangles;
+        GetComponent<MeshFilter>().mesh = _waterMesh;  
+        CreateWaterPoints();
+        SetUpBoxCollider();
+        UpdateColliderAndMesh();
+    }
+
+    private void SetUpBoxCollider()
+    {
+        Bounds waterBound = _waterMesh.bounds;
+        boxCollider.offset = waterBound.center;
+        boxCollider.size = waterBound.size;
+    }
+    
+
+    private void UpdateColliderAndMesh()
+    {
+        
+        Vector2[] edgeCollider =  new Vector2[_topVertices.Length];
+        for (int i = 0; i < _topVertices.Length; i++)
+        {
+            edgeCollider[i] = new Vector2(_topVertices[i].x, _topVertices[i].y);
+            _topVertices[i].y = _waterPoints[i].Pos;
+            _vertices[i*2+1] =  _topVertices[i];
+
+        }
+        _edgeCollider.points = edgeCollider;
+        _waterMesh.vertices = _vertices;
+    }
+    
+
+    private void CreateWaterPoints()
+    {
+        _waterPoints = new WaterPoint[amountOfVerticesOnTop];
+        for (int i = 0; i < _topVertices.Length; i++)
+        {
+            Vector3 pos = _topVertices[i];
+            _waterPoints[i] = new WaterPoint
+            {
+                Pos = pos.y,
+                TargetPos = pos.y
+            };
+        }
+    }
+
+    private void SimulatePoints()
+    {
+        for (int i = 1; i < _waterPoints.Length - 1; i++)
+        {
+            float heightDif =  _waterPoints[i].Pos - _waterPoints[i].TargetPos;
+            float acceleration = -springConst  * heightDif - damping * _waterPoints[i].Velocity;
+
+            _waterPoints[i].Pos += _waterPoints[i].Velocity * Time.fixedDeltaTime;
+            _waterPoints[i].Velocity += acceleration;
+            _vertices[2*i+1].y =  _waterPoints[i].Pos;
+        }
+    }
+
+    private void WavePropagation()
+    {   
+        for (int j = 0; j < propagationIterations; j++)
+        {
+            for (int i = 1; i < _waterPoints.Length - 1; i++)
+            {
+                if (i > 0)
+                {
+                    float leftDelta = spread * (_waterPoints[i].Pos - _waterPoints[i - 1].Pos);
+                    _waterPoints[i - 1].Velocity += leftDelta;
+                }
+                if (i < _waterPoints.Length - 1)
+                {
+                    float rightDelta = spread * (_waterPoints[i].Pos - _waterPoints[i + 1].Pos);
+                    _waterPoints[i + 1].Velocity += rightDelta;
+                }
+            }
+        }
+    }
+
+    public void Splash(Collider2D collision, float force)
+    {
+        float radius = collision.bounds.extents.x * playerCollisionRadiusMult;
+        Vector2 center = collision.transform.position;
+
+        for (int i = 0; i < amountOfVerticesOnTop; i++)
+        {
+            Vector2 waterParticlePosition = transform.TransformPoint(_vertices[2 * i + 1]);
+
+            if (IsPointInsideCircle(waterParticlePosition, center, radius))
+            {
+                _waterPoints[i].Velocity = force;
+            }
+        }
+    }
+
+    private bool IsPointInsideCircle(Vector2 point, Vector2 center, float radius)
+    {
+        float sqrDistance = (point - center).sqrMagnitude;
+        return sqrDistance <= radius * radius;
+    }
+
+    private (WaterPoint, int) FindCollidedWaterPoint(Vector3 itemPos)
+    {
+        float smallestDistance = Mathf.Infinity;
+        WaterPoint currentPoint = null;
+        int currentIndex = 0;
+        for (int i = 0; i < _topVertices.Length; i++)
+        {
+
+            Vector3 waterParticlePosition = transform.TransformPoint(new Vector3(_topVertices[i].x, _waterPoints[i].Pos));
+            float sqrDistance = (itemPos - waterParticlePosition).sqrMagnitude;
+            if (sqrDistance < smallestDistance)
+            {
+                smallestDistance = sqrDistance;
+                currentPoint = _waterPoints[i];
+                currentIndex = i;
+            }
+        }
+        return (currentPoint, currentIndex);
+    }
+
+    public float GetMeshWidth()
+    {
+        return meshWidth;
+    }
+
+    public float GetMeshHeight()
+    {
+        return meshHeight;
+    }
+
+    public Vector2 GetMeshCenter()
+    {
+        return _waterMesh.bounds.center;
+    }
+}
+
