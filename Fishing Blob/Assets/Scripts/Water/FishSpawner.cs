@@ -22,7 +22,6 @@ public class FishSpawner : MonoBehaviour
     {
         _waterHeight = water.GetMeshHeight();
         _waterWidth = water.GetMeshWidth();
-        Debug.Log("Water Height: " + _waterHeight +  " Water Width: " + _waterWidth);
     }
     
     private void Update()
@@ -47,6 +46,6 @@ public class FishSpawner : MonoBehaviour
         float waterStartPosX = water.transform.position.x;
         float waterStartPosY = water.transform.position.y;
         float maxWidth = waterStartPosX + width;
-        return new Vector2 (Random.Range(waterStartPosX + waterBoundry, width + waterStartPosX - waterBoundry),  Random.Range(waterStartPosY + waterBoundry, height + waterStartPosY - waterBoundry));
+        return new Vector2 (Random.Range(waterStartPosX + waterBoundry, maxWidth - waterBoundry),  Random.Range(waterStartPosY + waterBoundry, height + waterStartPosY - waterBoundry));
     }
 }

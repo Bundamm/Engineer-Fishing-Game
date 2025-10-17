@@ -7,9 +7,6 @@ public class Floater : MonoBehaviour
     [SerializeField]
     private float splashVelocity = 10;
 
-    [SerializeField] 
-    private float splashForce = 2;
-
     private Coroutine _waterCoroutine;
     private Collider2D _collider2D;
     private Rigidbody2D _rigidbody2D;

@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class Fish : MonoBehaviour
+public class Trout : Fish
 {
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         

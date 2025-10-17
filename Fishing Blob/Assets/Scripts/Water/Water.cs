@@ -1,16 +1,15 @@
-using System.Collections.Generic;
-using NUnit.Framework;
 using UnityEngine;
 
 public class Water : MonoBehaviour
 {
+    #region Mesh Variables
     [Header("Mesh")]
     [SerializeField]
     private int amountOfVerticesOnTop = 100;
     [SerializeField]
-    private float meshHeight = 0.1f;
+    private float meshHeight = 5f;
     [SerializeField]
-    private float meshWidth = 0.2f;
+    private float meshWidth = 50f;
     private Mesh _waterMesh;
     private Vector3[] _bottomVertices;
     private Vector3[] _topVertices;
@@ -19,11 +18,15 @@ public class Water : MonoBehaviour
     private int[] _triangles;
     private WaterPoint[]  _waterPoints;
     private float _realMeshWidth;
+    #endregion
     
+    #region Box collider
     [Header("Box Collider")]
     [SerializeField]
     private BoxCollider2D boxCollider;
+    #endregion
     
+    #region Collisions with surface
     [Header("Collision with surface")]
     private EdgeCollider2D _edgeCollider;
     [SerializeField, UnityEngine.Range(1f, 10f)] 
@@ -32,8 +35,9 @@ public class Water : MonoBehaviour
     public float forceMultiplier = 0.2f;
     [SerializeField]
     public float maxForce = 5f;
+    #endregion
     
-    
+    #region Springs
     [Header("Spring")] 
     [SerializeField]
     private float springConst = 1.4f;
@@ -45,6 +49,7 @@ public class Water : MonoBehaviour
     private float spread = 6.5f;
     [SerializeField]
     private float speedMultiplier = 5.5f;
+    #endregion
     
     
 
@@ -68,7 +73,8 @@ public class Water : MonoBehaviour
         public float Pos;
         public float TargetPos;
     }
-
+    
+    #region Water Mesh functions
     private void CreateWaterMesh()
     {
         _waterMesh = new Mesh
@@ -142,7 +148,6 @@ public class Water : MonoBehaviour
         _waterMesh.vertices = _vertices;
     }
     
-
     private void CreateWaterPoints()
     {
         _waterPoints = new WaterPoint[amountOfVerticesOnTop];
@@ -156,7 +161,9 @@ public class Water : MonoBehaviour
             };
         }
     }
+    #endregion
 
+    #region Water Simulation
     private void SimulatePoints()
     {
         for (int i = 1; i < _waterPoints.Length - 1; i++)
@@ -189,6 +196,7 @@ public class Water : MonoBehaviour
             }
         }
     }
+    
 
     public void Splash(Collider2D collision, float force)
     {
@@ -205,31 +213,13 @@ public class Water : MonoBehaviour
             }
         }
     }
+    
+    #endregion
 
     private bool IsPointInsideCircle(Vector2 point, Vector2 center, float radius)
     {
         float sqrDistance = (point - center).sqrMagnitude;
         return sqrDistance <= radius * radius;
-    }
-
-    private (WaterPoint, int) FindCollidedWaterPoint(Vector3 itemPos)
-    {
-        float smallestDistance = Mathf.Infinity;
-        WaterPoint currentPoint = null;
-        int currentIndex = 0;
-        for (int i = 0; i < _topVertices.Length; i++)
-        {
-
-            Vector3 waterParticlePosition = transform.TransformPoint(new Vector3(_topVertices[i].x, _waterPoints[i].Pos));
-            float sqrDistance = (itemPos - waterParticlePosition).sqrMagnitude;
-            if (sqrDistance < smallestDistance)
-            {
-                smallestDistance = sqrDistance;
-                currentPoint = _waterPoints[i];
-                currentIndex = i;
-            }
-        }
-        return (currentPoint, currentIndex);
     }
 
     public float GetMeshWidth()
