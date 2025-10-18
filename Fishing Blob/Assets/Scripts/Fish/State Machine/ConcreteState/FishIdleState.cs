@@ -6,7 +6,7 @@ public class FishIdleState : FishState
     private Vector2 _startPos;
     private Vector2 _targetPos;
     private Vector2 _direction;
-    private Vector2 _startPointOfWater;
+    private Vector2 _lowerStartPointOfWater;
 
     private float _waterHeight;
     private float _waterWidth;
@@ -26,7 +26,9 @@ public class FishIdleState : FishState
         _startPos = Fish.transform.position;
         _targetPos = _startPos + _targetDir * Fish.lengthOfDirectionVector;
         _randomMovementSpeed = Random.Range(1f, Fish.randomMovementSpeed);
-        _startPointOfWater = new Vector2(Fish.waterStartPosX, Fish.waterStartPosY);
+        _lowerStartPointOfWater = new Vector2(Fish.waterStartPosX, Fish.waterStartPosY);
+        _waterHeight = Fish.waterHeight;
+        _waterWidth = Fish.waterWidth;
     }
     
     public override void ExitState()
@@ -46,21 +48,12 @@ public class FishIdleState : FishState
             _targetPos = _startPos + _targetDir * Fish.lengthOfDirectionVector;
             _randomMovementSpeed = Random.Range(1f, Fish.randomMovementSpeed);
         }
+        
+        Vector2 upperEndPointOfWater = new Vector2(Fish.waterStartPosX + _waterWidth, Fish.waterStartPosY + _waterHeight);
+        Vector2 lowerEndPointOfWater = new Vector2(Fish.waterStartPosX + _waterWidth, Fish.waterStartPosY);
+        _targetPos.x = Mathf.Clamp(_targetPos.x, _lowerStartPointOfWater.x, lowerEndPointOfWater.x);
+        _targetPos.y = Mathf.Clamp(_targetPos.y, _lowerStartPointOfWater.y, upperEndPointOfWater.y);
         Vector2 finishedMovement = movementLeft * _randomMovementSpeed;
-        Vector2 endPointOfWater = new Vector2(_startPointOfWater.x + _waterWidth, _startPointOfWater.y + _waterHeight);
-        // TODO: Fix
-        Debug.Log("End point of water " + endPointOfWater + "Start Point of water " + _startPointOfWater + "Fish position " + Fish.transform.position);
-        if (endPointOfWater.x - Fish.transform.position.x < 0.01f || Fish.transform.position.x - _startPointOfWater.x < 0.01f || Fish.transform.position.y - _startPointOfWater.y < 0.01f || endPointOfWater.y - Fish.transform.position.y < 0.01f)
-        {
-            _amountOfTries++;
-            finishedMovement *= -1;
-        }
-
-        if (_amountOfTries >= 3)
-        {
-            _amountOfTries = 0;
-            finishedMovement *= -1 * 5;
-        }
         
         Fish.MoveFish(finishedMovement);
     }

@@ -34,7 +34,6 @@ public class Fish : MonoBehaviour, IFishMovable
     private void Awake()
     {
         _water = FindAnyObjectByType<Water>();
-        
         Fsm = new FishStateMachine();
 
         IdleState = new FishIdleState(this, Fsm);
@@ -52,6 +51,7 @@ public class Fish : MonoBehaviour, IFishMovable
         
         waterHeight = _water.GetMeshHeight();
         waterWidth = _water.GetMeshWidth();
+        Debug.Log("water height: " + waterHeight + "water width" + waterWidth);
         waterStartPosX = _water.transform.position.x;
         waterStartPosY = _water.transform.position.y;                
         

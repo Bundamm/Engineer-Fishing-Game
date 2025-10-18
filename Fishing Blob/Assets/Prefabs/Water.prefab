@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2670267346614045348}
   - component: {fileID: 9321820779129051}
   - component: {fileID: 6412313772008503479}
-  - component: {fileID: 5778546829752081044}
   m_Layer: 4
   m_Name: Water
   m_TagString: Untagged
@@ -33,7 +32,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3680357239400472788}
+  - {fileID: 1193483934546388662}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &2670267346614045348
@@ -94,17 +93,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amountOfVerticesOnTop: 100
-  meshHeight: 10
-  meshWidth: 0.5
-  boxCollider: {fileID: 8804448133357985282}
-  playerCollisionRadiusMult: 4.15
-  forceMultiplier: 0.2
+  meshHeight: 5
+  meshWidth: 50
+  playerCollisionRadiusMult: 6
+  forceMultiplier: 0.7
   maxForce: 5
-  springConst: 1.4
-  damping: 0.7
+  springConst: 0.15
+  damping: 0.08
   propagationIterations: 3
-  spread: 0.3
-  speedMultiplier: 5.5
+  spread: 3
+  speedMultiplier: 3
 --- !u!33 &6412313772008503479
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -113,50 +111,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 719622543765691544}
   m_Mesh: {fileID: 0}
---- !u!68 &5778546829752081044
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 719622543765691544}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: -0.5, y: 0}
-  - {x: 0.5, y: 0}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
---- !u!1 &2963655153684628815
+--- !u!1 &7703520307666835197
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,73 +119,43 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3680357239400472788}
-  - component: {fileID: 8804448133357985282}
-  m_Layer: 0
-  m_Name: WaterBoxCollider
+  - component: {fileID: 1193483934546388662}
+  - component: {fileID: 158596270715377266}
+  m_Layer: 4
+  m_Name: FishSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3680357239400472788
+--- !u!4 &1193483934546388662
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2963655153684628815}
+  m_GameObject: {fileID: 7703520307666835197}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2744257835892743254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &8804448133357985282
-BoxCollider2D:
+--- !u!114 &158596270715377266
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2963655153684628815}
+  m_GameObject: {fileID: 7703520307666835197}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a181d3d17dff9c141b66f75171982319, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  water: {fileID: 9321820779129051}
+  fish: {fileID: 6050335575366511820, guid: b59f35bd179e9f14f9d08f0ae43c7bf4, type: 3}
+  maxAmountOfFish: 100
+  waterBoundry: 0.25

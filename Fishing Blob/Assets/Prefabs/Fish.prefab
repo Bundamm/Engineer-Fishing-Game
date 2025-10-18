@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2851455751778572708}
   - component: {fileID: 817715130256368915}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CasterCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +77,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5682269532429118451}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,9 +114,9 @@ GameObject:
   - component: {fileID: 7732574855412925198}
   - component: {fileID: 7606105289221441805}
   - component: {fileID: 2838747321846890359}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fish
-  m_TagString: Untagged
+  m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -237,7 +237,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6050335575366511820}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -269,8 +269,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waterBoundry: 0.02
-  randomMovementSpeed: 0.31
+  waterHeight: 0
+  waterWidth: 0
+  waterStartPosX: 0
+  waterStartPosY: 0
   lengthOfDirectionVector: 2
+  randomMovementSpeed: 0.31
 --- !u!1 &8988517619454522276
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,7 +284,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2376250999593190668}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InterestCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

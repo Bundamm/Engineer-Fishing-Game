@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class Water : MonoBehaviour
@@ -19,17 +20,10 @@ public class Water : MonoBehaviour
     private WaterPoint[]  _waterPoints;
     private float _realMeshWidth;
     #endregion
-    
-    #region Box collider
-    [Header("Box Collider")]
-    [SerializeField]
-    private BoxCollider2D boxCollider;
-    #endregion
-    
     #region Collisions with surface
     [Header("Collision with surface")]
     private EdgeCollider2D _edgeCollider;
-    [SerializeField, UnityEngine.Range(1f, 10f)] 
+    [SerializeField, Range(1f, 10f)] 
     private float playerCollisionRadiusMult = 4.15f;
     [SerializeField]
     public float forceMultiplier = 0.2f;
@@ -50,7 +44,6 @@ public class Water : MonoBehaviour
     [SerializeField]
     private float speedMultiplier = 5.5f;
     #endregion
-    
     
 
     void Awake()
@@ -121,16 +114,11 @@ public class Water : MonoBehaviour
         _waterMesh.triangles = _triangles;
         GetComponent<MeshFilter>().mesh = _waterMesh;  
         CreateWaterPoints();
-        SetUpBoxCollider();
         UpdateColliderAndMesh();
     }
+    
+    
 
-    private void SetUpBoxCollider()
-    {
-        Bounds waterBound = _waterMesh.bounds;
-        boxCollider.offset = waterBound.center;
-        boxCollider.size = waterBound.size;
-    }
     
 
     private void UpdateColliderAndMesh()
@@ -162,6 +150,7 @@ public class Water : MonoBehaviour
         }
     }
     #endregion
+
 
     #region Water Simulation
     private void SimulatePoints()
