@@ -9,6 +9,8 @@ public class FishBitingState : FishState
     public override void EnterState()
     {
         base.EnterState();
+        Debug.Log("Fish Entered Biting State");
+        Fish.fishRB.linearVelocity = Vector3.zero;
     }
 
     public override void ExitState()

@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class Fish : MonoBehaviour, IFishMovable
 {
+    #region Fish Variables
     public Rigidbody2D fishRB { get; set; }
+    
+    #endregion
 
     #region Water Variables
     
     private Water _water;
-    [SerializeField]
-    private float waterBoundry = 0.4f;
+    public float waterBoundry = 0.4f;
     
     public float waterHeight;
     public float waterWidth;
@@ -28,6 +30,10 @@ public class Fish : MonoBehaviour, IFishMovable
     #region Fish Idle Variables
     public float lengthOfDirectionVector = 2f;
     public float randomMovementSpeed = 2f;
+    #endregion
+    
+    #region Fish Approaching Variables
+    public Floater Floater { get; set; }
     #endregion
     
     
@@ -51,7 +57,6 @@ public class Fish : MonoBehaviour, IFishMovable
         
         waterHeight = _water.GetMeshHeight();
         waterWidth = _water.GetMeshWidth();
-        Debug.Log("water height: " + waterHeight + "water width" + waterWidth);
         waterStartPosX = _water.transform.position.x;
         waterStartPosY = _water.transform.position.y;                
         

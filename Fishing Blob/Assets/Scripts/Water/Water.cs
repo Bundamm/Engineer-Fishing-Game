@@ -30,7 +30,7 @@ public class Water : MonoBehaviour
     [SerializeField]
     public float maxForce = 5f;
     #endregion
-    
+     
     #region Springs
     [Header("Spring")] 
     [SerializeField]

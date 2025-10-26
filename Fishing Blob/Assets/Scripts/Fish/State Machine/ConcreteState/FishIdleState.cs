@@ -10,6 +10,7 @@ public class FishIdleState : FishState
 
     private float _waterHeight;
     private float _waterWidth;
+    private float _waterBoundry;
     private int _amountOfTries;
     
     private float _randomMovementSpeed;
@@ -21,7 +22,7 @@ public class FishIdleState : FishState
     public override void EnterState()
     {
         base.EnterState();
-
+        _waterBoundry = Fish.waterBoundry;
         _targetDir = Fish.GetRandomDirectionInWater();
         _startPos = Fish.transform.position;
         _targetPos = _startPos + _targetDir * Fish.lengthOfDirectionVector;
@@ -34,7 +35,6 @@ public class FishIdleState : FishState
     public override void ExitState()
     {
         base.ExitState();
-        
     }
 
     public override void FrameUpdate()
@@ -51,9 +51,15 @@ public class FishIdleState : FishState
         
         Vector2 upperEndPointOfWater = new Vector2(Fish.waterStartPosX + _waterWidth, Fish.waterStartPosY + _waterHeight);
         Vector2 lowerEndPointOfWater = new Vector2(Fish.waterStartPosX + _waterWidth, Fish.waterStartPosY);
-        _targetPos.x = Mathf.Clamp(_targetPos.x, _lowerStartPointOfWater.x, lowerEndPointOfWater.x);
-        _targetPos.y = Mathf.Clamp(_targetPos.y, _lowerStartPointOfWater.y, upperEndPointOfWater.y);
+        _targetPos.x = Mathf.Clamp(_targetPos.x, _lowerStartPointOfWater.x + _waterBoundry, lowerEndPointOfWater.x -  _waterBoundry);
+        _targetPos.y = Mathf.Clamp(_targetPos.y, _lowerStartPointOfWater.y + _waterBoundry, upperEndPointOfWater.y - _waterBoundry);
         Vector2 finishedMovement = movementLeft * _randomMovementSpeed;
+        if (_targetPos.x > lowerEndPointOfWater.x || _targetPos.x < Fish.waterStartPosX ||
+            _targetPos.y > upperEndPointOfWater.y || _targetPos.y < Fish.waterStartPosY)
+        {
+            finishedMovement *= -5;
+        }
+        
         
         Fish.MoveFish(finishedMovement);
     }
@@ -63,14 +69,5 @@ public class FishIdleState : FishState
         base.PhysicsUpdate();
         
     }
-
-    public override void AnimationTriggerEvent(Fish.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-        
-    }
     
-
-    
-
 }

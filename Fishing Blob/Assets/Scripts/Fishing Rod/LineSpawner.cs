@@ -9,7 +9,6 @@ public class LineSpawner : MonoBehaviour
     [Header("Fishing Line")]
     [SerializeField] private LinePool linePool;
     [SerializeField] private int startNumOfLineSegments = 20;
-    [SerializeField] private int maxAmountOfSegments = 50;
     [SerializeField] private float segmentLength = 0.1f;
     private LineRenderer _lineRenderer;
     private List<LinePool.LineSegment> _lineSegments;
