@@ -24,15 +24,12 @@ public class FishApproachingState : FishState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        Vector3 lookAtFloater = Fish.transform.InverseTransformPoint(Fish.Floater.gameObject.transform.position);
-        float angleBetweenFishAndFloater = Mathf.Atan2(lookAtFloater.y, lookAtFloater.x) * Mathf.Rad2Deg - 90;
+        
+        float angleBetweenFishAndFloater = Fish.GetAngleBetweenFishAndFloater();
         Fish.transform.Rotate(0, 0, angleBetweenFishAndFloater);
-        
-        Vector2 targetPosition = Fish.Floater.gameObject.transform.position;
-        Vector2 targetPath = targetPosition - (Vector2)Fish.transform.position;
+
+        Vector2 targetPath = Fish.GetPathToFloater();
         Fish.MoveFish(targetPath);
-        
-        
     }
 
     public override void PhysicsUpdate()

@@ -37,6 +37,7 @@ public class FloaterWaitForBitingState : FloaterState
             Debug.Log("Random fish entered biting state");
             Floater.randomFish.Fsm.ChangeState(Floater.randomFish.BitingState);
             Floater.DisableBitingCollider();
+            Fsm.ChangeState(Floater.WaitForHookedState);
         }
         
     }

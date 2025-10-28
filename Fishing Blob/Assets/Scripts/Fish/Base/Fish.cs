@@ -1,9 +1,12 @@
 using UnityEngine;
 
-public class Fish : MonoBehaviour, IFishMovable
+public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotation
 {
     #region Fish Variables
     public Rigidbody2D fishRB { get; set; }
+
+    [SerializeField]
+    private CircleCollider2D fishFaceCollider; 
     
     #endregion
 
@@ -34,8 +37,10 @@ public class Fish : MonoBehaviour, IFishMovable
     
     #region Fish Approaching Variables
     public Floater Floater { get; set; }
+    public Vector2 StartFishPositionAtBiting { get; set; }
     #endregion
     
+    #region Basic Unity Methods
     
     private void Awake()
     {
@@ -76,6 +81,7 @@ public class Fish : MonoBehaviour, IFishMovable
     {
         Fsm.CurrentFishState.PhysicsUpdate();
     }
+    #endregion
     
     #region Animation Triggers
     
@@ -91,11 +97,16 @@ public class Fish : MonoBehaviour, IFishMovable
     
     #endregion
     
-    #region Movement Functions
+    #region Movement Methods
     public void MoveFish(Vector2 velocity)
     {
         fishRB.linearVelocity = velocity;
         fishRB.transform.up = velocity.normalized;
+    }
+
+    public void MoveFishWithoutRotating(Vector2 velocity)
+    {
+        fishRB.linearVelocity = velocity;
     }
 
     public Vector2 GetRandomDirectionInWater()
@@ -107,4 +118,51 @@ public class Fish : MonoBehaviour, IFishMovable
 
     #endregion
     
+    #region Floater Position And Rotation Methods
+    public Vector2 GetPathToFloater()
+    {
+        Vector2 targetPosition = Floater.gameObject.transform.position;
+        Vector2 targetPath = targetPosition - (Vector2)transform.position;
+        return  targetPath;
+    }
+
+    public Vector2 GetPathToStartPositionOfFish()
+    {
+        Vector2 startPosition = StartFishPositionAtBiting;
+        Vector2 startPath = startPosition - (Vector2)fishRB.transform.position;
+        return startPath;
+    }
+
+    public float GetAngleBetweenFishAndFloater()
+    {
+        Vector3 lookAtFloater = transform.InverseTransformPoint(Floater.gameObject.transform.position);
+        float angleBetweenFishAndFloater = Mathf.Atan2(lookAtFloater.y, lookAtFloater.x) * Mathf.Rad2Deg - 90;
+        return angleBetweenFishAndFloater;
+    }
+
+    public Vector2 GetFloaterPosition()
+    {
+        return Floater.rigidbody2D.position;
+    }
+
+    public Vector2 GetFishPosition()
+    {
+        return fishRB.transform.position;
+    }
+
+    #endregion
+    
+    #region Trigger Methods
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Fsm.CurrentFishState.OnTriggerEnter2D(other);   
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        Fsm.CurrentFishState.OnTriggerExit2D(other);
+    }
+    
+    #endregion
 }

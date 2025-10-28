@@ -17,4 +17,7 @@ public class FishState
     public virtual void PhysicsUpdate() { }
     public virtual void AnimationTriggerEvent(Fish.AnimationTriggerType triggerType) {}
     
+    public virtual void OnTriggerEnter2D(Collider2D other) {}
+    public virtual void OnTriggerExit2D(Collider2D other) {}
+    
 }

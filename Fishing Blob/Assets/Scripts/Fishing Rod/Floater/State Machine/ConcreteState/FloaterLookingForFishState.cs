@@ -55,10 +55,11 @@ public class FloaterLookingForFishState :FloaterState
 
     private IEnumerator WaitForFish()
     {
-        yield return new WaitForSecondsRealtime(Random.Range(10f, 15f));
-        if (Floater.Fishes.Count >= 1)
+        while (Floater.Fishes.Count == 0)
         {
-            Fsm.ChangeState(Floater.ChooseAFishState);
+            yield return new WaitForSecondsRealtime(Random.Range(5f, 10f));
         }
+        yield return new WaitForSecondsRealtime(Random.Range(5f, 10f));
+        Fsm.ChangeState(Floater.ChooseAFishState);
     }
 }
