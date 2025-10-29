@@ -7,7 +7,6 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
 
     [SerializeField]
     private CircleCollider2D fishFaceCollider; 
-    
     #endregion
 
     #region Water Variables
@@ -20,16 +19,7 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
     public float waterStartPosX;
     public float waterStartPosY;
     #endregion
-
-    #region State Machine Variables
-    public FishStateMachine Fsm { get; set; }
-    public FishIdleState IdleState { get; set; }
-    public FishApproachingState ApproachingState { get; set; }
-    public FishBitingState BitingState { get; set; }
-    public FishCaughtState CaughtState { get; set; }
-    public FishSpookedState SpookedState { get; set; }
-    #endregion
-
+    
     #region Fish Idle Variables
     public float lengthOfDirectionVector = 2f;
     public float randomMovementSpeed = 2f;
@@ -38,6 +28,21 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
     #region Fish Approaching Variables
     public Floater Floater { get; set; }
     public Vector2 StartFishPositionAtBiting { get; set; }
+    #endregion
+    
+    #region Hooked State Variables
+
+    public float timeUntilSpooked = 4;
+    #endregion
+
+    #region State Machine Variables
+    public FishStateMachine Fsm { get; set; }
+    public FishIdleState IdleState { get; set; }
+    public FishApproachingState ApproachingState { get; set; }
+    public FishBitingState BitingState { get; set; }
+    public FishCaughtState CaughtState { get; set; }
+    public FishSpookedState SpookedState { get; set; }
+    public FishHookedState HookedState { get; set; }
     #endregion
     
     #region Basic Unity Methods
@@ -52,6 +57,7 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
         BitingState = new FishBitingState(this, Fsm);
         CaughtState = new FishCaughtState(this, Fsm);
         SpookedState = new FishSpookedState(this, Fsm);
+        HookedState = new FishHookedState(this, Fsm);
 
     }
     
@@ -114,6 +120,11 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
         Vector2 randomDirection = Random.insideUnitCircle.normalized;
 
         return randomDirection;
+    }
+
+    public void StickToFloater()
+    {
+        fishFaceCollider.gameObject.transform.position = Floater.transform.position;
     }
 
     #endregion

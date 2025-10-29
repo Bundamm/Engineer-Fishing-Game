@@ -4,6 +4,11 @@ using System.Collections.Generic;
 public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
 {
     #region Variables
+    
+    #region Input
+
+    public InputHandler InputHandler;
+    #endregion
 
     public List<Fish> Fishes = new List<Fish>();
     public Fish randomFish;
@@ -27,7 +32,8 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     public InitialFloaterState InitialState { get; set; }
     public FloaterChooseAFishState ChooseAFishState { get; set; }
     public FloaterWaitForBitingState  WaitForBitingState { get; set; }
-    public FloaterWaitForHookedState  WaitForHookedState { get; set; }
+    public FloaterWaitForCaughtState  WaitForCaughtState { get; set; }
+    public FloaterCaughtState  CaughtState { get; set; }
     #endregion
     #region Basic Unity Void Methods
     private void Awake()
@@ -37,7 +43,8 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
         LookingForFishState = new FloaterLookingForFishState(this, Fsm);
         ChooseAFishState = new FloaterChooseAFishState(this, Fsm);
         WaitForBitingState = new FloaterWaitForBitingState(this, Fsm);
-        WaitForHookedState = new FloaterWaitForHookedState(this, Fsm);
+        WaitForCaughtState = new FloaterWaitForCaughtState(this, Fsm);
+        CaughtState = new FloaterCaughtState(this, Fsm);
         
         Water = FindAnyObjectByType<Water>();
         waterCollider2D = Water.GetComponent<EdgeCollider2D>();

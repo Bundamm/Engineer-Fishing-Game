@@ -25,16 +25,17 @@ public class FishApproachingState : FishState
     {
         base.FrameUpdate();
         
-        float angleBetweenFishAndFloater = Fish.GetAngleBetweenFishAndFloater();
-        Fish.transform.Rotate(0, 0, angleBetweenFishAndFloater);
-
-        Vector2 targetPath = Fish.GetPathToFloater();
-        Fish.MoveFish(targetPath);
     }
 
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+        
+        float angleBetweenFishAndFloater = Fish.GetAngleBetweenFishAndFloater();
+        Fish.transform.Rotate(0, 0, angleBetweenFishAndFloater);
+
+        Vector2 targetPath = Fish.GetPathToFloater();
+        Fish.MoveFish(targetPath);
     }
 
     public override void AnimationTriggerEvent(Fish.AnimationTriggerType triggerType)

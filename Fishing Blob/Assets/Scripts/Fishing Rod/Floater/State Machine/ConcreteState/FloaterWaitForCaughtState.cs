@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class FloaterWaitForHookedState : FloaterState
+public class FloaterWaitForCaughtState : FloaterState
 {
-    public FloaterWaitForHookedState(Floater floater, FloaterStateMachine fsm) : base(floater, fsm)
+    public FloaterWaitForCaughtState(Floater floater, FloaterStateMachine fsm) : base(floater, fsm)
     {
     }
 
@@ -19,6 +19,12 @@ public class FloaterWaitForHookedState : FloaterState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
+        bool fishStateCheck = Floater.randomFish.Fsm.IsInState(Floater.randomFish.HookedState);
+        if (Floater.InputHandler.ReelPerformed() && fishStateCheck)
+        {
+            Floater.randomFish.Fsm.ChangeState(Floater.randomFish.CaughtState);
+            Fsm.ChangeState(Floater.CaughtState);
+        }
     }
 
     public override void PhysicsUpdate()

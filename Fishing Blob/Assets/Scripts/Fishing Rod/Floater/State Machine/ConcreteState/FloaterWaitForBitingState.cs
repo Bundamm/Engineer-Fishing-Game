@@ -10,6 +10,7 @@ public class FloaterWaitForBitingState : FloaterState
         base.EnterState();
         Debug.Log("Entered Waiting for Biting State");
         Floater.DisableApproachingCollider();
+        Floater.EnableBitingCollider();
     }
 
     public override void ExitState()
@@ -37,7 +38,7 @@ public class FloaterWaitForBitingState : FloaterState
             Debug.Log("Random fish entered biting state");
             Floater.randomFish.Fsm.ChangeState(Floater.randomFish.BitingState);
             Floater.DisableBitingCollider();
-            Fsm.ChangeState(Floater.WaitForHookedState);
+            Fsm.ChangeState(Floater.WaitForCaughtState);
         }
         
     }

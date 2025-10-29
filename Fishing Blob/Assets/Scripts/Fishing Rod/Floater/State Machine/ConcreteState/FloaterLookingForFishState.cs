@@ -12,7 +12,6 @@ public class FloaterLookingForFishState :FloaterState
         base.EnterState();
         Debug.Log("Entered LookingForFishState");
         Floater.EnableApproachingCollider();
-        Floater.EnableBitingCollider();
         Floater.StartCoroutine(WaitForFish());
     }
 

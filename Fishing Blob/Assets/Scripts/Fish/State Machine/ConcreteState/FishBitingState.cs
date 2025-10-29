@@ -21,7 +21,9 @@ public class FishBitingState : FishState
         Fish.fishRB.linearVelocity = Vector3.zero;
         Fish.StartFishPositionAtBiting = Fish.fishRB.transform.position;
         _movingTowardsStart = false;
-        _randomAmountOfBitesCounter = Random.Range(2, 8);
+        Random.InitState(System.DateTime.Now.Millisecond);
+        _randomAmountOfBitesCounter = Random.Range(1, 4);
+        Debug.Log(_randomAmountOfBitesCounter);
         
     }
 
@@ -47,19 +49,13 @@ public class FishBitingState : FishState
             CheckDistanceToStartPos();
         }
 
-        if (_currentBiteNumber > _randomAmountOfBitesCounter)
+        if (_currentBiteNumber >= _randomAmountOfBitesCounter)
         {
             Fish.MoveFishWithoutRotating(_pathToFloater);
-            Fsm.ChangeState(Fish.CaughtState);
+            Fsm.ChangeState(Fish.HookedState);
         }
     }
-
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
-    }
     
-
     private IEnumerator WaitAtStart()
     {
         yield return new WaitForSecondsRealtime(Random.Range(1f, 3f));

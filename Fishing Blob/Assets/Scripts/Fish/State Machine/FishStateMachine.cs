@@ -16,4 +16,14 @@ public class FishStateMachine
         CurrentFishState = newState;
         CurrentFishState.EnterState();
     }
+
+    public FishState GetCurrentState()
+    {
+        return CurrentFishState;
+    }
+
+    public bool IsInState(FishState state)
+    {
+        return state == CurrentFishState;
+    }
 }
