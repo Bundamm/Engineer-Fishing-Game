@@ -29,4 +29,17 @@ public class CasterCaughtState : CasterState
     {
         base.PhysicsUpdate();
     }
+
+    public override void OnTriggerEnter2D(Collider2D other)
+    {
+        base.OnTriggerEnter2D(other);
+        if (other.CompareTag("Fish") && Caster.currentFloaterScript.randomFish == other.GetComponent<Fish>())
+        {
+            // TODO: ADD FISH TO INVENTORY BEFORE DESTROYING
+            
+            Caster.currentFloaterScript.ResetAndDestroyFloater();
+            Caster.currentFloaterScript.randomFish.ResetAndDestroyFish();
+            Fsm.ChangeState(Caster.IdleState);
+        } 
+    }
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Floater
   - Fish
+  - Anchor
   layers:
   - Default
   - TransparentFX

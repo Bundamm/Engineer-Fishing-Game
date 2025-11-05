@@ -38,6 +38,7 @@ public class InitialFloaterState : FloaterState
                 float vel = Floater.rigidbody2D.linearVelocity.y * Floater.Water.forceMultiplier;
                 vel = Mathf.Clamp(Mathf.Abs(vel), 0f, Floater.Water.maxForce);
                 Floater.Water.Splash(Floater.GetComponent<Collider2D>(), vel);
+                Floater.FloaterPosition = Floater.transform.position;
                 Fsm.ChangeState(Floater.LookingForFishState);
             }
         }

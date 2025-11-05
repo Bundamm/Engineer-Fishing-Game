@@ -464,9 +464,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3357364c0f64471b9d7a47c04391b23f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Caster
-  floaterPrefab: {fileID: 2807802345222521368, guid: bc1a5c8ee87fc3e4eafbaa6b7db9f766, type: 3}
-  currentFloater: {fileID: 2807802345222521368, guid: bc1a5c8ee87fc3e4eafbaa6b7db9f766, type: 3}
-  currentFloaterScript: {fileID: 0}
   castVector: {x: 0, y: 0}
   rod: {fileID: 1294557776957567643}
   lineSpawner: {fileID: 0}
+  catchTrigger: {fileID: 8219682339176393563}
+  floaterPrefab: {fileID: 2807802345222521368, guid: bc1a5c8ee87fc3e4eafbaa6b7db9f766, type: 3}
+  currentFloater: {fileID: 2807802345222521368, guid: bc1a5c8ee87fc3e4eafbaa6b7db9f766, type: 3}
+  currentFloaterScript: {fileID: 0}

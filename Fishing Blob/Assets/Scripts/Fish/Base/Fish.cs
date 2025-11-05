@@ -176,4 +176,14 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
     }
     
     #endregion
+    
+    #region Reset
+
+    public void ResetAndDestroyFish()
+    {
+        Fsm.ChangeState(IdleState);
+        Destroy(gameObject);
+    }
+    
+    #endregion
 }

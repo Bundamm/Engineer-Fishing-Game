@@ -19,7 +19,7 @@ public class CasterState
     public virtual void FrameUpdate() {}
     public virtual void PhysicsUpdate() {}
     
-    public virtual void OnTriggerEnter2D(Collider2D collision) {}
+    public virtual void OnTriggerEnter2D(Collider2D other) {}
     public virtual void AnimationTriggerEvent(Rod.AnimationTriggerType triggerType) {}
     
 }

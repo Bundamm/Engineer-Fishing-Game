@@ -10,20 +10,36 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     public InputHandler InputHandler;
     #endregion
 
+    
     public List<Fish> Fishes = new List<Fish>();
+    [HideInInspector]
     public Fish randomFish;
     
     public EdgeCollider2D waterCollider2D { get; private set; }
     public Rigidbody2D rigidbody2D { get; private set; }
     public Water Water { get; private set; }
-    public Caster Caster { get; }
+    public Caster Caster { get; private set; }
+
+    public GameObject floaterToCasterAnchor;
 
     [SerializeField]
     private CircleCollider2D approachingCollider;
     [SerializeField]
     private CircleCollider2D bitingCollider;
     
+    #endregion
     
+    #region Positions
+    [Header("Movement")]
+    [HideInInspector]
+    public Vector2 CasterPosition { get; set; }
+    [HideInInspector]
+    public Vector2 FloaterPosition { get; set; }
+    
+    public float maxTime;
+    [HideInInspector]
+    public float elapsedTime;
+
     #endregion
     
     #region State Machine Variables
@@ -35,6 +51,7 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     public FloaterWaitForCaughtState  WaitForCaughtState { get; set; }
     public FloaterCaughtState  CaughtState { get; set; }
     #endregion
+    
     #region Basic Unity Void Methods
     private void Awake()
     {
@@ -43,13 +60,14 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
         LookingForFishState = new FloaterLookingForFishState(this, Fsm);
         ChooseAFishState = new FloaterChooseAFishState(this, Fsm);
         WaitForBitingState = new FloaterWaitForBitingState(this, Fsm);
-        WaitForCaughtState = new FloaterWaitForCaughtState(this, Fsm);
+        WaitForCaughtState = new FloaterWaitForCaughtState(this, Fsm); 
         CaughtState = new FloaterCaughtState(this, Fsm);
 
         InputHandler = FindAnyObjectByType<InputHandler>();
         Water = FindAnyObjectByType<Water>();
         waterCollider2D = Water.GetComponent<EdgeCollider2D>();
         rigidbody2D = GetComponent<Rigidbody2D>();
+        Caster = FindAnyObjectByType<Caster>();
     }
 
     private void Start()
@@ -67,6 +85,7 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
         Fsm.CurrentFloaterState.PhysicsUpdate();
     }
     #endregion
+    
     #region Trigger Methods
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -128,4 +147,25 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
         bitingCollider.enabled = false;
     }
     #endregion
+    
+    #region Movement Methods
+
+    public Vector2 QuadraticMovement(Vector2 startPos, Vector2 anchor, Vector2 endPos, float time)
+    {
+        Vector2 startToAnchor = Vector2.Lerp(startPos, anchor, time);
+        Vector2 anchorToEnd = Vector2.Lerp(anchor, endPos, time);
+        return Vector2.Lerp(startToAnchor, anchorToEnd, time);
+    }
+    
+    #endregion
+
+    #region Reset
+    public void ResetAndDestroyFloater()
+    {
+        Fsm.ChangeState(InitialState);
+        Destroy(gameObject);
+    }
+    #endregion
+    
+     
 }
