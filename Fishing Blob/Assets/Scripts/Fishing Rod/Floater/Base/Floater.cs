@@ -45,6 +45,7 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
         WaitForBitingState = new FloaterWaitForBitingState(this, Fsm);
         WaitForCaughtState = new FloaterWaitForCaughtState(this, Fsm);
         CaughtState = new FloaterCaughtState(this, Fsm);
+
         InputHandler = FindAnyObjectByType<InputHandler>();
         Water = FindAnyObjectByType<Water>();
         waterCollider2D = Water.GetComponent<EdgeCollider2D>();
