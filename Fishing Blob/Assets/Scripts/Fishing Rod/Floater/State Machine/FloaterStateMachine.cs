@@ -16,4 +16,9 @@ public class FloaterStateMachine
         CurrentFloaterState = newState;
         CurrentFloaterState.EnterState();
     }
+    
+    public bool IsInState(FloaterState state)
+    {
+        return state == CurrentFloaterState;
+    }
 }

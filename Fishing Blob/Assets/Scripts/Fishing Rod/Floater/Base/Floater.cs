@@ -6,7 +6,8 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     #region Variables
     
     #region Input
-
+    
+    [HideInInspector]
     public InputHandler InputHandler;
     #endregion
 
@@ -45,7 +46,8 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
         WaitForBitingState = new FloaterWaitForBitingState(this, Fsm);
         WaitForCaughtState = new FloaterWaitForCaughtState(this, Fsm);
         CaughtState = new FloaterCaughtState(this, Fsm);
-        
+
+        InputHandler = FindAnyObjectByType<InputHandler>();
         Water = FindAnyObjectByType<Water>();
         waterCollider2D = Water.GetComponent<EdgeCollider2D>();
         rigidbody2D = GetComponent<Rigidbody2D>();
