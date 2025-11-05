@@ -9,6 +9,7 @@ public class FloaterWaitForCaughtState : FloaterState
     public override void EnterState()
     {
         base.EnterState();
+        Debug.Log("Entered waiting for caught state");
     }
 
     public override void ExitState()
@@ -20,8 +21,10 @@ public class FloaterWaitForCaughtState : FloaterState
     {
         base.FrameUpdate();
         bool fishStateCheck = Floater.randomFish.Fsm.IsInState(Floater.randomFish.HookedState);
-        if (Floater.InputHandler.ReelPerformed() && fishStateCheck)
+        bool reelPerformed = Floater.InputHandler.ReelPerformed();
+        if (reelPerformed && fishStateCheck)
         {
+            Debug.Log("Reeling Fish");
             Floater.randomFish.Fsm.ChangeState(Floater.randomFish.CaughtState);
             Fsm.ChangeState(Floater.CaughtState);
         }

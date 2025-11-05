@@ -16,6 +16,7 @@ public class InputHandler : MonoBehaviour
     {
         _castAction = playerInput.actions["Cast"];
         _reelAction = playerInput.actions["Reel"];
+        Debug.Log($"ReelAction enabled: {_reelAction.enabled}, bindings: {_reelAction.bindings.Count}");
         
         _reelAction.performed += OnReelPerformed;
     }
@@ -35,12 +36,6 @@ public class InputHandler : MonoBehaviour
         _reelTriggered = true;
     }
 
-    private void LateUpdate()
-    {
-        _reelTriggered = false;
-    }
-    
-
     public bool GetCastValue()
     {
         return _cast;
@@ -48,7 +43,12 @@ public class InputHandler : MonoBehaviour
 
     public bool ReelPerformed()
     {
-        return _reelTriggered;
+        if (_reelTriggered)
+        {
+            _reelTriggered = false;
+            return true;
+        }
+        return false;
     }
     
 }

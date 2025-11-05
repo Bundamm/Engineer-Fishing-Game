@@ -10,6 +10,7 @@ public class FishSpookedState : FishState
     public override void EnterState()
     {
         base.EnterState();
+        Debug.Log("Entered FishSpookedState");
     }
 
     public override void ExitState()

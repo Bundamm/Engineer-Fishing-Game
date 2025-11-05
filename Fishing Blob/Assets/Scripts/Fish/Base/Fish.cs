@@ -32,7 +32,7 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
     
     #region Hooked State Variables
 
-    public float timeUntilSpooked = 4;
+    public float timeUntilSpooked = 6;
     #endregion
 
     #region State Machine Variables
@@ -124,7 +124,7 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
 
     public void StickToFloater()
     {
-        fishFaceCollider.gameObject.transform.position = Floater.transform.position;
+        fishFaceCollider.transform.position = Floater.transform.position;
     }
 
     #endregion

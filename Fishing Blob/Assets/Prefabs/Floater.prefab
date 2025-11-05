@@ -238,6 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89be43264367e584c8e00e1c9f4565f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InputHandler: {fileID: 0}
   Fishes: []
   randomFish: {fileID: 0}
   approachingCollider: {fileID: 1756766821352115550}

@@ -9,6 +9,8 @@ public class FishCaughtState : FishState
     public override void EnterState()
     {
         base.EnterState();
+        Debug.Log("Entered FishCaughtState");
+        
     }
 
     public override void ExitState()
@@ -19,6 +21,7 @@ public class FishCaughtState : FishState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
+        Fish.StickToFloater();
     }
 
     public override void PhysicsUpdate()
