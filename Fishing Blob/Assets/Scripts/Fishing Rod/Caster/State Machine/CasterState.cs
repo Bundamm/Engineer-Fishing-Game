@@ -11,7 +11,7 @@ public class CasterState
     {
         Caster = caster;
         Fsm = fsm;
-        Rod = caster.rod;
+        Rod = caster.Rod;
     }
 
     public virtual void EnterState() {}
@@ -20,6 +20,5 @@ public class CasterState
     public virtual void PhysicsUpdate() {}
     
     public virtual void OnTriggerEnter2D(Collider2D other) {}
-    public virtual void AnimationTriggerEvent(Rod.AnimationTriggerType triggerType) {}
     
 }

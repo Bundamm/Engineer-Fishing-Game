@@ -235,7 +235,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6050335575366511820}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -274,5 +274,4 @@ MonoBehaviour:
   waterStartPosY: 0
   lengthOfDirectionVector: 2
   randomMovementSpeed: 0.31
-  shakeSpeed: 2
-  maxAngle: 30
+  timeUntilSpooked: 2

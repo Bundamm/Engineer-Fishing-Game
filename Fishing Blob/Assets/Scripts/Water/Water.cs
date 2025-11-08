@@ -41,8 +41,6 @@ public class Water : MonoBehaviour
     private int propagationIterations = 3;
     [SerializeField] 
     private float spread = 6.5f;
-    [SerializeField]
-    private float speedMultiplier = 5.5f;
     #endregion
     
 

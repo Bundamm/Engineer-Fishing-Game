@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class FishCaughtState : FishState
 {
+    
     public FishCaughtState(Fish fish, FishStateMachine fsm) : base(fish, fsm)
     {
     }
@@ -10,7 +11,9 @@ public class FishCaughtState : FishState
     {
         base.EnterState();
         Debug.Log("Entered FishCaughtState");
-        
+        Fish.StickToFloater();
+        Fish.Floater.Caster.containsFish = true;
+
     }
 
     public override void ExitState()
@@ -20,8 +23,7 @@ public class FishCaughtState : FishState
 
     public override void FrameUpdate()
     {
-        base.FrameUpdate();
-        Fish.StickToFloater();
+        
     }
 
     public override void PhysicsUpdate()
@@ -33,4 +35,8 @@ public class FishCaughtState : FishState
     {
         base.AnimationTriggerEvent(triggerType);
     }
+
+    
+    
+    
 }

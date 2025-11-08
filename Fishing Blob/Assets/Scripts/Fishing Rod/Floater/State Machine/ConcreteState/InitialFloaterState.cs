@@ -9,6 +9,7 @@ public class InitialFloaterState : FloaterState
     {
         base.EnterState();
         Floater.UnstickFromSurface();
+        Floater.rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
         Debug.Log("Entered Initial Floater State");
     }
 

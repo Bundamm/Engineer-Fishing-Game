@@ -19,9 +19,6 @@ public class LineSpawner : MonoBehaviour
     [SerializeField] private Vector2 gravity = new Vector2(0, -3f);
     [SerializeField] private float dampingFactor = 0.2f;
 
-    [Header("Constraints")] [SerializeField]
-    private int numOfConstraintRuns = 50;
-
     private Vector2 _lineStartPoint;
     private Vector2 _lineEndPoint;
 
@@ -47,6 +44,11 @@ public class LineSpawner : MonoBehaviour
 
     private void CheckIfRemoveSegment()
     {
+        if (_lineSegments.Count < 2)
+        {
+            return;
+        }
+        
         var firstSegment = _lineSegments[0];
         var secondSegment = _lineSegments[1];
         if (secondSegment.Active)
@@ -178,6 +180,15 @@ public class LineSpawner : MonoBehaviour
     public void SetLineActive(bool active)
     {
         _lineActive = active;
+    }
+
+    public void DeleteLine()
+    {
+        _lineActive = false;
+        _lineSegments.Clear();
+        linePool.ReturnAllSegments();
+        _lineRenderer.positionCount = 0;
+        floater = null;
     }
 }
 

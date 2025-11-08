@@ -10,6 +10,7 @@ public class CasterIdleState : CasterState
     public override void EnterState()
     {
         base.EnterState();
+        Caster.containsFish = false;
         Debug.Log("Entering Caster Idle State");
     }
 

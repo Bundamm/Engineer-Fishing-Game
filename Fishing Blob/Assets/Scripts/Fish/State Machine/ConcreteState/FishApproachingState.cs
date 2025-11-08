@@ -24,6 +24,10 @@ public class FishApproachingState : FishState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
+        if (Fish.Floater.InputHandler.ReelPerformed())
+        {
+            Fsm.ChangeState(Fish.SpookedState);
+        }
         
     }
 

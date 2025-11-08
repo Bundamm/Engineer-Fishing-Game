@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Rod : MonoBehaviour
 {
-    
-    public RodRotator rodRotator { get; set; }
-    
     #region DO PRZEROBIENIA
     [Header("Scripts")]
     [SerializeField]
@@ -19,8 +16,8 @@ public class Rod : MonoBehaviour
     private float maxCastPower = 400f;
     [SerializeField] 
     private float castPowerIncrease = 5f;
-    [SerializeField]
-    private Caster caster;
+    
+    public Caster caster;
     [HideInInspector]
     public float castPower;
 
@@ -41,7 +38,7 @@ public class Rod : MonoBehaviour
     public RodChargingState ChargingState { get; set; }
 
     public RodRotatingToThrowState CastingState { get; set; }
-    public RodToCasterReleaseFloaterState ToCasterReleaseFloaterState { get; set; }
+    public RodThrowAndWait ThrowAndWait { get; set; }
 
     #endregion
 
@@ -52,7 +49,7 @@ public class Rod : MonoBehaviour
         IdleState = new RodIdleState(this, Fsm);
         ChargingState = new RodChargingState(this, Fsm);
         CastingState = new RodRotatingToThrowState(this, Fsm);
-        ToCasterReleaseFloaterState = new RodToCasterReleaseFloaterState(this, Fsm);
+        ThrowAndWait = new RodThrowAndWait(this, Fsm);
     }
 
     private void Start()
@@ -65,20 +62,6 @@ public class Rod : MonoBehaviour
         Fsm.CurrentRodState.FrameUpdate();
     }
     
-    
-    #region Animation Triggers
-
-    private void AnimationTriggerEvent(AnimationTriggerType triggerType)
-    {
-        
-    }
-
-    public enum AnimationTriggerType
-    {
-        example
-    }
-    
-    #endregion
 
     #region Public Methods
     public void ResetCast()
@@ -98,15 +81,11 @@ public class Rod : MonoBehaviour
     public void CasterThrowFloater()
     {
         Debug.Log("Throwing Floater");
-        if (caster.Fsm.CurrentCasterState == caster.IdleState)
+        Debug.Log(caster);
+        if (caster.Fsm.IsInState(caster.IdleState))
         {
             caster.Fsm.ChangeState(caster.ThrowingState);
         }
-    }
-
-    public void CasterDestroyFloater()
-    {
-        
     }
     #endregion
     

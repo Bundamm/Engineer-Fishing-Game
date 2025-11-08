@@ -21,6 +21,11 @@ public class FloaterWaitForBitingState : FloaterState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
+        if (Floater.InputHandler.ReelPerformed())
+        {
+            Floater.Fsm.ChangeState(Floater.ReturningState);
+            Floater.randomFish.Fsm.ChangeState(Floater.randomFish.SpookedState);
+        }
     }
 
     public override void PhysicsUpdate()

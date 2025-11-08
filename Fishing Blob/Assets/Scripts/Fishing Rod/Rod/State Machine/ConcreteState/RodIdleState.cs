@@ -35,9 +35,5 @@ public class RodIdleState : RodState
     {
         base.PhysicsUpdate();
     }
-
-    public override void AnimationTriggerEvent(Rod.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
+    
 }

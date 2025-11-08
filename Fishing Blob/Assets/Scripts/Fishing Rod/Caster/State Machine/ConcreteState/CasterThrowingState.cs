@@ -9,8 +9,9 @@ public class CasterThrowingState : CasterState
     {
         base.EnterState();
         Debug.Log("Entering Caster Throwing State");
+        Debug.Log(Caster);
         Caster.CreateFloater();
-        Caster.castVector = new Vector2(Caster.rod.castPower / 2, Caster.rod.castPower / 3);
+        Caster.castVector = new Vector2(Caster.Rod.castPower / 2, Caster.Rod.castPower / 3);
         Caster.currentFloater.GetComponent<Rigidbody2D>().AddForce(Caster.castVector,  ForceMode2D.Impulse);
         Caster.lineSpawner.InitLine(Caster.currentFloater);
         Caster.lineSpawner.SetLineActive(true);

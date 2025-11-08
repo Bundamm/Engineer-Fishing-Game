@@ -124,7 +124,8 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
 
     public void StickToFloater()
     {
-        fishFaceCollider.transform.position = Floater.transform.position;
+        transform.SetParent(Floater.transform);
+        fishRB.angularVelocity = 0f;
     }
 
     #endregion

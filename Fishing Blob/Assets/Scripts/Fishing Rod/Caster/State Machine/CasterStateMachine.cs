@@ -15,5 +15,10 @@ public class CasterStateMachine
         CurrentCasterState = newState;
         CurrentCasterState.EnterState();
     }
+
+    public bool IsInState(CasterState state)
+    {
+        return CurrentCasterState == state;
+    } 
     
 }

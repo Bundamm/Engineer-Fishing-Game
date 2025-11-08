@@ -15,4 +15,9 @@ public class RodStateMachine
         CurrentRodState = newState;
         CurrentRodState.EnterState();
     }
+
+    public bool IsInState(RodState state)
+    {
+        return CurrentRodState == state;
+    }
 }

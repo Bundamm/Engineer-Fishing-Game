@@ -29,6 +29,10 @@ public class FloaterLookingForFishState :FloaterState
     {
         base.PhysicsUpdate();
         Floater.StickToSurface();
+        if (Floater.InputHandler.ReelPerformed())
+        {
+            Fsm.ChangeState(Floater.ReturningState);
+        }
     }
 
     public override void OnTriggerEnter2D(Collider2D other)

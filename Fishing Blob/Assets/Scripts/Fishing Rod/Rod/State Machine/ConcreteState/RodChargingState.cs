@@ -46,11 +46,6 @@ public class RodChargingState : RodState
         base.PhysicsUpdate();
     }
 
-    public override void AnimationTriggerEvent(Rod.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
-
     private void ChargeCast()
     {
         RodRotator.RotateRod(Rod.targetRotation, Rod.chargeRotationSpeed);

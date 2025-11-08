@@ -243,6 +243,9 @@ MonoBehaviour:
   randomFish: {fileID: 0}
   approachingCollider: {fileID: 1756766821352115550}
   bitingCollider: {fileID: 7553958073672416328}
+  maxTime: 0.6
+  anchorPointPositionMultiplier: 3
+  elapsedTime: 0
 --- !u!1 &8778653152472379407
 GameObject:
   m_ObjectHideFlags: 0

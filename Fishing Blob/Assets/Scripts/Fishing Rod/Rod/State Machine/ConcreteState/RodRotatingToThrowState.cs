@@ -25,7 +25,7 @@ public class RodRotatingToThrowState : RodState
         Rod.StartCoroutine(RotateBack());
         if (RodRotator.GetIsRotated())
         {
-            Fsm.ChangeState(Rod.ToCasterReleaseFloaterState);
+            Fsm.ChangeState(Rod.ThrowAndWait);
         }
 
     }
@@ -33,11 +33,6 @@ public class RodRotatingToThrowState : RodState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-    }
-
-    public override void AnimationTriggerEvent(Rod.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
     }
 
     private IEnumerator RotateBack()

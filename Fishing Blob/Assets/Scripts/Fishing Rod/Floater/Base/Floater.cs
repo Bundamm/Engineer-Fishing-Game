@@ -20,8 +20,6 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     public Water Water { get; private set; }
     public Caster Caster { get; private set; }
 
-    public GameObject floaterToCasterAnchor;
-
     [SerializeField]
     private CircleCollider2D approachingCollider;
     [SerializeField]
@@ -36,7 +34,8 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     [HideInInspector]
     public Vector2 FloaterPosition { get; set; }
     
-    public float maxTime;
+    public float maxTime = 3;
+    public float anchorPointPositionMultiplier = 3;
     [HideInInspector]
     public float elapsedTime;
 
@@ -49,7 +48,7 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     public FloaterChooseAFishState ChooseAFishState { get; set; }
     public FloaterWaitForBitingState  WaitForBitingState { get; set; }
     public FloaterWaitForCaughtState  WaitForCaughtState { get; set; }
-    public FloaterCaughtState  CaughtState { get; set; }
+    public FloaterReturningState  ReturningState { get; set; }
     #endregion
     
     #region Basic Unity Void Methods
@@ -61,7 +60,7 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
         ChooseAFishState = new FloaterChooseAFishState(this, Fsm);
         WaitForBitingState = new FloaterWaitForBitingState(this, Fsm);
         WaitForCaughtState = new FloaterWaitForCaughtState(this, Fsm); 
-        CaughtState = new FloaterCaughtState(this, Fsm);
+        ReturningState = new FloaterReturningState(this, Fsm);
 
         InputHandler = FindAnyObjectByType<InputHandler>();
         Water = FindAnyObjectByType<Water>();
@@ -155,6 +154,16 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
         Vector2 startToAnchor = Vector2.Lerp(startPos, anchor, time);
         Vector2 anchorToEnd = Vector2.Lerp(anchor, endPos, time);
         return Vector2.Lerp(startToAnchor, anchorToEnd, time);
+    }
+    
+    public Vector2 CalculateMidPointBetweenFloaterAndCaster()
+    {
+        Vector2 midPointPosition = CasterPosition + (FloaterPosition - CasterPosition) / 2;
+        Vector2 midPointDirection = CasterPosition - FloaterPosition;
+        Vector2 perpendicularToMidPointDirection = new Vector2(midPointDirection.y, -midPointDirection.x).normalized;
+        Vector2 pointAboveMidPoint = midPointPosition + (perpendicularToMidPointDirection * anchorPointPositionMultiplier);
+        // floaterToCasterAnchor.transform.position = pointAboveMidPoint;
+        return pointAboveMidPoint;
     }
     
     #endregion

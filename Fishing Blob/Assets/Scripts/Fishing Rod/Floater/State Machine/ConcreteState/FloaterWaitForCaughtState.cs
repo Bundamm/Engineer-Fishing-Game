@@ -26,7 +26,13 @@ public class FloaterWaitForCaughtState : FloaterState
         {
             Debug.Log("Reeling Fish");
             Floater.randomFish.Fsm.ChangeState(Floater.randomFish.CaughtState);
-            Fsm.ChangeState(Floater.CaughtState);
+            Fsm.ChangeState(Floater.ReturningState);
+        }
+        else if (reelPerformed)
+        {
+            Debug.Log("FISH ESCAPED");
+            Floater.randomFish.Fsm.ChangeState(Floater.randomFish.SpookedState);
+            Fsm.ChangeState(Floater.ReturningState);
         }
     }
 
@@ -34,15 +40,5 @@ public class FloaterWaitForCaughtState : FloaterState
     {
         base.PhysicsUpdate();
         Floater.StickToSurface();
-    }
-
-    public override void OnTriggerEnter2D(Collider2D other)
-    {
-        base.OnTriggerEnter2D(other);
-    }
-
-    public override void OnTriggerExit2D(Collider2D other)
-    {
-        base.OnTriggerExit2D(other);
     }
 }

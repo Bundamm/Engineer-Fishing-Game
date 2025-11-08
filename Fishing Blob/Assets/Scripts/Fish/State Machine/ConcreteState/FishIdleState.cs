@@ -22,6 +22,7 @@ public class FishIdleState : FishState
     public override void EnterState()
     {
         base.EnterState();
+        Fish.fishRB.linearVelocity = Vector2.zero;
         _waterBoundry = Fish.waterBoundry;
         _targetDir = Fish.GetRandomDirectionInWater();
         _startPos = Fish.transform.position;

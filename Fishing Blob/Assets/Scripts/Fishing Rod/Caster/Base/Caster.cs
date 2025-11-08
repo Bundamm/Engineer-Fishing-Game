@@ -8,11 +8,13 @@ public class Caster : MonoBehaviour, ICastAndDestroyFloater
     public float CastPowerIncrease { get; set; }
     [HideInInspector] 
     public Vector2 castVector;
+
+    public bool containsFish;
     #endregion
     
     #region Other Objects
     [Header("Rod")] 
-    public Rod rod;
+    public Rod Rod;
     [Header("Fishing Line")] 
     public LineSpawner lineSpawner;
     [Header("Catch Trigger")]
@@ -67,10 +69,10 @@ public class Caster : MonoBehaviour, ICastAndDestroyFloater
 
     public void DestroyFloater()
     {
-        Destroy(gameObject);
+        Destroy(currentFloater);
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         Fsm.CurrentCasterState.OnTriggerEnter2D(collision);
     }
