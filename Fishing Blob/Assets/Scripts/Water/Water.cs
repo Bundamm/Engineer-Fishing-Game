@@ -43,6 +43,10 @@ public class Water : MonoBehaviour
     private float spread = 6.5f;
     #endregion
     
+    #region
+    [SerializeField]
+    private Camera waterCamera;
+    #endregion
 
     void Awake()
     {
@@ -113,6 +117,7 @@ public class Water : MonoBehaviour
         GetComponent<MeshFilter>().mesh = _waterMesh;  
         CreateWaterPoints();
         UpdateColliderAndMesh();
+        
     }
     
     
@@ -146,6 +151,12 @@ public class Water : MonoBehaviour
                 TargetPos = pos.y
             };
         }
+    }
+
+    private void SetWaterCamera()
+    {
+        waterCamera.transform.position = _waterMesh.bounds.center;
+        waterCamera.orthographicSize = _waterMesh.bounds.extents.magnitude;
     }
     #endregion
 

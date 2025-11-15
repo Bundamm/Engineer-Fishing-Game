@@ -16,27 +16,8 @@ public class FishCaughtState : FishState
 
     }
 
-    public override void ExitState()
-    {
-        base.ExitState();
-    }
-
     public override void FrameUpdate()
     {
         
     }
-
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
-    }
-    
-    public override void AnimationTriggerEvent(Fish.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
-
-    
-    
-    
 }

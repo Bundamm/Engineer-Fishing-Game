@@ -27,7 +27,7 @@ public class FishIdleState : FishState
         _targetDir = Fish.GetRandomDirectionInWater();
         _startPos = Fish.transform.position;
         _targetPos = _startPos + _targetDir * Fish.lengthOfDirectionVector;
-        _randomMovementSpeed = Random.Range(1f, Fish.randomMovementSpeed);
+        _randomMovementSpeed = Random.Range(1f, Fish.fishType.MovementSpeed);
         _lowerStartPointOfWater = new Vector2(Fish.waterStartPosX, Fish.waterStartPosY);
         _waterHeight = Fish.waterHeight;
         _waterWidth = Fish.waterWidth;
@@ -47,7 +47,7 @@ public class FishIdleState : FishState
             _targetDir = Fish.GetRandomDirectionInWater();
             _startPos = Fish.transform.position;
             _targetPos = _startPos + _targetDir * Fish.lengthOfDirectionVector;
-            _randomMovementSpeed = Random.Range(1f, Fish.randomMovementSpeed);
+            _randomMovementSpeed = Random.Range(1f, Fish.fishType.MovementSpeed);
         }
         
         Vector2 upperEndPointOfWater = new Vector2(Fish.waterStartPosX + _waterWidth, Fish.waterStartPosY + _waterHeight);

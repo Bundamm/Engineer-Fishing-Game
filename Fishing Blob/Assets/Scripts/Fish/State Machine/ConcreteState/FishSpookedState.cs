@@ -20,11 +20,6 @@ public class FishSpookedState : FishState
         Fish.StartCoroutine(WaitUntilIdle());
     }
 
-    public override void ExitState()
-    {
-        base.ExitState();
-    }
-
     public override void FrameUpdate()
     {
         base.FrameUpdate();
@@ -37,7 +32,7 @@ public class FishSpookedState : FishState
 
     private IEnumerator WaitUntilIdle()
     {
-        yield return new WaitForSecondsRealtime(1.5f);
+        yield return new WaitForSecondsRealtime(Fish.fishType.WaitUntilIdleTime);
         movingAwayFromFloater = false;
     }
 

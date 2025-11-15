@@ -3,46 +3,47 @@ using UnityEngine;
 public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotation
 {
     #region Fish Variables
-    public Rigidbody2D fishRB { get; set; }
 
+    public Rigidbody2D fishRB {get; set;}
+    public FishTypes fishType;
     [SerializeField]
-    private CircleCollider2D fishFaceCollider; 
+    private CircleCollider2D fishFaceCollider;
+
+    private SpriteRenderer _spriteRenderer;
     #endregion
 
     #region Water Variables
-    
     private Water _water;
     public float waterBoundry = 0.4f;
-    
+    [HideInInspector]
     public float waterHeight;
+    [HideInInspector]
     public float waterWidth;
+    [HideInInspector]
     public float waterStartPosX;
+    [HideInInspector]
     public float waterStartPosY;
     #endregion
     
     #region Fish Idle Variables
     public float lengthOfDirectionVector = 2f;
-    public float randomMovementSpeed = 2f;
     #endregion
     
     #region Fish Approaching Variables
     public Floater Floater { get; set; }
+    [HideInInspector]
     public Vector2 StartFishPositionAtBiting { get; set; }
     #endregion
     
-    #region Hooked State Variables
-
-    public float timeUntilSpooked = 6;
-    #endregion
 
     #region State Machine Variables
-    public FishStateMachine Fsm { get; set; }
-    public FishIdleState IdleState { get; set; }
-    public FishApproachingState ApproachingState { get; set; }
-    public FishBitingState BitingState { get; set; }
-    public FishCaughtState CaughtState { get; set; }
-    public FishSpookedState SpookedState { get; set; }
-    public FishHookedState HookedState { get; set; }
+    public FishStateMachine Fsm { get; private set; }
+    public FishIdleState IdleState { get; private set; }
+    public FishApproachingState ApproachingState { get; private set; }
+    public FishBitingState BitingState { get; private set; }
+    public FishCaughtState CaughtState { get; private set; }
+    public FishSpookedState SpookedState { get; private set; }
+    public FishHookedState HookedState { get; private set; }
     #endregion
     
     #region Basic Unity Methods
@@ -50,6 +51,7 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
     private void Awake()
     {
         _water = FindAnyObjectByType<Water>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         Fsm = new FishStateMachine();
 
         IdleState = new FishIdleState(this, Fsm);
@@ -69,11 +71,9 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
         waterHeight = _water.GetMeshHeight();
         waterWidth = _water.GetMeshWidth();
         waterStartPosX = _water.transform.position.x;
-        waterStartPosY = _water.transform.position.y;                
-        
+        waterStartPosY = _water.transform.position.y;
+        _spriteRenderer.sprite = fishType.Sprite;
         Fsm.Initialize(IdleState);
-        
-        
     }
 
     private void Update()

@@ -43,7 +43,7 @@ public class FishHookedState : FishState
 
     private IEnumerator WaitForUntilSpookedState()
     {
-        yield return new WaitForSecondsRealtime(Fish.timeUntilSpooked);
+        yield return new WaitForSecondsRealtime(Fish.fishType.TimeUntilSpooked);
         Fsm.ChangeState(Fish.SpookedState);
     }
     

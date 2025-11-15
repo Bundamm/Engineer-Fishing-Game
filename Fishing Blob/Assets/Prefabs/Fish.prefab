@@ -178,7 +178,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -266,6 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85743db1facd03049b01e90fa6504113, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fishType: {fileID: 11400000, guid: 2588d00768e9d4c1bb8fc8d41ff1ce17, type: 2}
   fishFaceCollider: {fileID: 817715130256368915}
   waterBoundry: 0.4
   waterHeight: 0
@@ -273,5 +274,3 @@ MonoBehaviour:
   waterStartPosX: 0
   waterStartPosY: 0
   lengthOfDirectionVector: 2
-  randomMovementSpeed: 0.31
-  timeUntilSpooked: 2

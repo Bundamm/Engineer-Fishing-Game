@@ -22,7 +22,7 @@ public class FishBitingState : FishState
         Fish.StartFishPositionAtBiting = Fish.fishRB.transform.position;
         _movingTowardsStart = false;
         Random.InitState(System.DateTime.Now.Millisecond);
-        _randomAmountOfBitesCounter = Random.Range(1, 4);
+        _randomAmountOfBitesCounter = Random.Range(1, Fish.fishType.MaxAmountOfBites);
         Debug.Log(_randomAmountOfBitesCounter);
         
     }
@@ -58,7 +58,7 @@ public class FishBitingState : FishState
     
     private IEnumerator WaitAtStart()
     {
-        yield return new WaitForSecondsRealtime(Random.Range(1f, 3f));
+        yield return new WaitForSecondsRealtime(Random.Range(1f, Fish.fishType.WaitAtStartMaxTime));
         _movingTowardsStart = false;
         _currentBiteNumber++;
         _waitCoroutine = null;
