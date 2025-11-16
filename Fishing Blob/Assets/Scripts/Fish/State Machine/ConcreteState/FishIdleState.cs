@@ -23,10 +23,10 @@ public class FishIdleState : FishState
     {
         base.EnterState();
         Fish.fishRB.linearVelocity = Vector2.zero;
-        _waterBoundry = Fish.waterBoundry;
+        _waterBoundry = Fish.fishType.WaterBorder;
         _targetDir = Fish.GetRandomDirectionInWater();
         _startPos = Fish.transform.position;
-        _targetPos = _startPos + _targetDir * Fish.lengthOfDirectionVector;
+        _targetPos = _startPos + _targetDir * Fish.fishType.DirectionVectorLength;
         _randomMovementSpeed = Random.Range(1f, Fish.fishType.MovementSpeed);
         _lowerStartPointOfWater = new Vector2(Fish.waterStartPosX, Fish.waterStartPosY);
         _waterHeight = Fish.waterHeight;
@@ -46,7 +46,7 @@ public class FishIdleState : FishState
         {
             _targetDir = Fish.GetRandomDirectionInWater();
             _startPos = Fish.transform.position;
-            _targetPos = _startPos + _targetDir * Fish.lengthOfDirectionVector;
+            _targetPos = _startPos + _targetDir * Fish.fishType.DirectionVectorLength;
             _randomMovementSpeed = Random.Range(1f, Fish.fishType.MovementSpeed);
         }
         

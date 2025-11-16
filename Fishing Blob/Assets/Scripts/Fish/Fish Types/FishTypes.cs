@@ -5,6 +5,10 @@ public class FishTypes : ScriptableObject
 {
     [SerializeField] 
     private float movementSpeed;
+    [SerializeField] 
+    private float directionVectorLength;
+    [SerializeField] 
+    private float waterBorder;
     [SerializeField]
     private float timeUntilSpooked;
     [SerializeField]
@@ -13,13 +17,15 @@ public class FishTypes : ScriptableObject
     private float waitAtStartMaxTime;
     [SerializeField]
     private float waitUntilIdleTime;
-    [SerializeField]
-    private Sprite sprite;
+    
+
+    
 
     public float MovementSpeed => movementSpeed;
     public float TimeUntilSpooked => timeUntilSpooked;
     public int MaxAmountOfBites => maxAmountOfBites;
     public float WaitAtStartMaxTime => waitAtStartMaxTime;
     public float WaitUntilIdleTime => waitUntilIdleTime;
-    public Sprite Sprite => sprite;
+    public float DirectionVectorLength => directionVectorLength;
+    public float WaterBorder => waterBorder;
 }

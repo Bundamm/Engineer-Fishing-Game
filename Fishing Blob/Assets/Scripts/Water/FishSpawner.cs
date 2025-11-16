@@ -6,7 +6,7 @@ public class FishSpawner : MonoBehaviour
     [SerializeField]
     private Water water;
     [SerializeField] 
-    private GameObject fish;
+    private GameObject[] fishies;
     [SerializeField]
     private int maxAmountOfFish = 20;
     [SerializeField] 
@@ -35,7 +35,7 @@ public class FishSpawner : MonoBehaviour
     private void SpawnFish()
     {
         Vector2 randPosition = RandomPointInWater(_waterWidth, _waterHeight);
-        Instantiate(fish, randPosition, Quaternion.identity).transform.SetParent(transform, true);
+        Instantiate(fishies[Random.Range(0, fishies.Length)], randPosition, Quaternion.identity).transform.SetParent(transform, true);
         
         _curAmountOfFish++;
 

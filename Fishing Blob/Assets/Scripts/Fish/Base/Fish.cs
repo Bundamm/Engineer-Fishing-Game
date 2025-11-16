@@ -8,13 +8,10 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
     public FishTypes fishType;
     [SerializeField]
     private CircleCollider2D fishFaceCollider;
-
-    private SpriteRenderer _spriteRenderer;
     #endregion
 
     #region Water Variables
     private Water _water;
-    public float waterBoundry = 0.4f;
     [HideInInspector]
     public float waterHeight;
     [HideInInspector]
@@ -23,10 +20,6 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
     public float waterStartPosX;
     [HideInInspector]
     public float waterStartPosY;
-    #endregion
-    
-    #region Fish Idle Variables
-    public float lengthOfDirectionVector = 2f;
     #endregion
     
     #region Fish Approaching Variables
@@ -51,7 +44,6 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
     private void Awake()
     {
         _water = FindAnyObjectByType<Water>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
         Fsm = new FishStateMachine();
 
         IdleState = new FishIdleState(this, Fsm);
@@ -72,7 +64,6 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
         waterWidth = _water.GetMeshWidth();
         waterStartPosX = _water.transform.position.x;
         waterStartPosY = _water.transform.position.y;
-        _spriteRenderer.sprite = fishType.Sprite;
         Fsm.Initialize(IdleState);
     }
 

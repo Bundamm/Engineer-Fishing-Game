@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9575e54bbcdaf4bea962b703a0a43d55, type: 3}
-  m_Name: Pike
+  m_Name: AblatSO
   m_EditorClassIdentifier: Assembly-CSharp::FishTypes
-  movementSpeed: 4
-  timeUntilSpooked: 2
-  maxAmountOfBites: 5
-  waitAtStartMaxTime: 5
-  waitUntilIdleTime: 2
-  sprite: {fileID: -8666195133947277587, guid: bcd6bc6b6a9d04cb88371f3f7204bf7e, type: 3}
+  movementSpeed: 1
+  directionVectorLength: 2
+  waterBorder: 0.4
+  timeUntilSpooked: 7
+  maxAmountOfBites: 2
+  waitAtStartMaxTime: 1
+  waitUntilIdleTime: 4

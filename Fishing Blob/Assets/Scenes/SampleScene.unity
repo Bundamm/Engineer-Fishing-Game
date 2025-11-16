@@ -1398,7 +1398,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 359605237
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_SortAtRoot: 0
 --- !u!1 &976683911
 GameObject:
@@ -2836,8 +2836,8 @@ MonoBehaviour:
   caster: {fileID: 1417201570}
   castPower: 0
   targetRotation: {x: 0, y: 0, z: 0.5, w: 0.8660254}
-  chargeRotationSpeed: 1
-  castRotationSpeed: 2
+  chargeRotationSpeed: 4
+  castRotationSpeed: 8
 --- !u!114 &1906297173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3157,8 +3157,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 158596270715377266, guid: cbbb2c628dc0b6c439be3e11c8cdaee9, type: 3}
       propertyPath: maxAmountOfFish
-      value: 50
+      value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 158596270715377266, guid: cbbb2c628dc0b6c439be3e11c8cdaee9, type: 3}
+      propertyPath: fishies.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 158596270715377266, guid: cbbb2c628dc0b6c439be3e11c8cdaee9, type: 3}
+      propertyPath: 'fishies.Array.data[0]'
+      value: 
+      objectReference: {fileID: 6050335575366511820, guid: beb27d434f47d3c449dff7b322826ec7, type: 3}
+    - target: {fileID: 158596270715377266, guid: cbbb2c628dc0b6c439be3e11c8cdaee9, type: 3}
+      propertyPath: 'fishies.Array.data[1]'
+      value: 
+      objectReference: {fileID: 6050335575366511820, guid: f2b3e0dfe8039a04191dc0b378abfc26, type: 3}
+    - target: {fileID: 158596270715377266, guid: cbbb2c628dc0b6c439be3e11c8cdaee9, type: 3}
+      propertyPath: 'fishies.Array.data[2]'
+      value: 
+      objectReference: {fileID: 6050335575366511820, guid: 6933fbfeab5c3c240b659bf6a70f4053, type: 3}
+    - target: {fileID: 158596270715377266, guid: cbbb2c628dc0b6c439be3e11c8cdaee9, type: 3}
+      propertyPath: 'fishies.Array.data[3]'
+      value: 
+      objectReference: {fileID: 6050335575366511820, guid: d26f595ee6ece8147b7beb29e6f822f6, type: 3}
+    - target: {fileID: 158596270715377266, guid: cbbb2c628dc0b6c439be3e11c8cdaee9, type: 3}
+      propertyPath: 'fishies.Array.data[4]'
+      value: 
+      objectReference: {fileID: 6050335575366511820, guid: 24e7421e3b95575438b6d35a161c0886, type: 3}
+    - target: {fileID: 158596270715377266, guid: cbbb2c628dc0b6c439be3e11c8cdaee9, type: 3}
+      propertyPath: 'fishies.Array.data[5]'
+      value: 
+      objectReference: {fileID: 6050335575366511820, guid: b59f35bd179e9f14f9d08f0ae43c7bf4, type: 3}
     - target: {fileID: 719622543765691544, guid: cbbb2c628dc0b6c439be3e11c8cdaee9, type: 3}
       propertyPath: m_Name
       value: Water
