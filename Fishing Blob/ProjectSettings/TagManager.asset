@@ -47,6 +47,12 @@ TagManager:
   - name: Water
     uniqueID: 359605237
     locked: 0
+  - name: Character
+    uniqueID: 271103977
+    locked: 0
+  - name: Item
+    uniqueID: 823674895
+    locked: 0
   m_RenderingLayers:
   - Default
   - Water

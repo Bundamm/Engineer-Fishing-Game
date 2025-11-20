@@ -21,7 +21,7 @@ public class FloaterWaitForCaughtState : FloaterState
     {
         base.FrameUpdate();
         bool fishStateCheck = Floater.randomFish.Fsm.IsInState(Floater.randomFish.HookedState);
-        bool reelPerformed = Floater.InputHandler.ReelPerformed();
+        bool reelPerformed = Floater.InputHandler.GetReelValue();
         if (reelPerformed && fishStateCheck)
         {
             Debug.Log("Reeling Fish");

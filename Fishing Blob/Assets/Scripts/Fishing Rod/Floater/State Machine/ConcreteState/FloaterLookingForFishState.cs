@@ -29,7 +29,7 @@ public class FloaterLookingForFishState :FloaterState
     {
         base.PhysicsUpdate();
         Floater.StickToSurface();
-        if (Floater.InputHandler.ReelPerformed())
+        if (Floater.InputHandler.GetReelValue())
         {
             Fsm.ChangeState(Floater.ReturningState);
         }

@@ -28,7 +28,7 @@ public class FloaterChooseAFishState : FloaterState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        if (Floater.InputHandler.ReelPerformed())
+        if (Floater.InputHandler.GetReelValue())
         {
             Floater.randomFish.Fsm.ChangeState(Floater.randomFish.SpookedState);
         }

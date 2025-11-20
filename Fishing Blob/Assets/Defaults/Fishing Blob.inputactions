@@ -8,9 +8,9 @@
             "actions": [
                 {
                     "name": "Move",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "27ddfbdf-20af-477e-a01c-2600f74a642e",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -37,6 +37,15 @@
                     "name": "Reel",
                     "type": "Button",
                     "id": "cab82472-506f-4708-825c-52d040f1f5d1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Item1",
+                    "type": "Button",
+                    "id": "191f32fe-9496-4acc-b44b-a08b02c420a0",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -228,6 +237,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Reel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "70c57f08-4ad0-4974-9af3-0c46fff04bef",
+                    "path": "<Keyboard>/1",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Item1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

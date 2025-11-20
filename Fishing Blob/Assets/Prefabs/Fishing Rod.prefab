@@ -102,12 +102,12 @@ GameObject:
   - component: {fileID: 7220039269087364829}
   - component: {fileID: 1535977450375918461}
   - component: {fileID: 1815614848100865472}
-  - component: {fileID: 2855979351209280708}
-  - component: {fileID: 1294557776957567643}
-  - component: {fileID: 4611902481195233343}
-  - component: {fileID: 195546711796699349}
+  - component: {fileID: 6137349973123980084}
+  - component: {fileID: 635665040308447028}
+  - component: {fileID: 5718025014988072144}
+  - component: {fileID: 3552981648217057638}
   m_Layer: 0
-  m_Name: Rod Pivot
+  m_Name: Fishing Rod
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,14 +121,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1393757718550480328}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.0102475155, w: 0.9999475}
+  m_LocalRotation: {x: 0, y: 0, z: -0.010244835, w: 0.99994755}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 999066382201501954}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -5.5}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1.174}
 --- !u!212 &1535977450375918461
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9ff088f7655418b88fa2e43d658fcfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2855979351209280708
+--- !u!114 &6137349973123980084
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -224,12 +224,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
-  m_SplitScreenIndex: 0
+  m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1294557776957567643
+--- !u!114 &635665040308447028
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -241,16 +241,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fed80ff6d78f424e8a201541a30f7d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Rod
-  InputHandler: {fileID: 224732680341208754, guid: cf9530e18903f064f901ecb1237d96a3, type: 3}
+  InputHandler: {fileID: 0}
   RodRotator: {fileID: 1815614848100865472}
-  maxCastPower: 5
-  castPowerIncrease: 1
-  Caster: {fileID: 2734055186217589487}
-  castPower: 4.2204595
+  maxCastPower: 20
+  castPowerIncrease: 15
+  caster: {fileID: 1206921120986440062}
+  castPower: 0
   targetRotation: {x: 0, y: 0, z: 0.5, w: 0.8660254}
-  chargeRotationSpeed: 1
-  castRotationSpeed: 2
---- !u!50 &4611902481195233343
+  chargeRotationSpeed: 4
+  castRotationSpeed: 8
+--- !u!50 &5718025014988072144
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -277,7 +277,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &195546711796699349
+--- !u!114 &3552981648217057638
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -369,7 +369,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3711422273355694070}
-  - component: {fileID: 2734055186217589487}
+  - component: {fileID: 1206921120986440062}
+  - component: {fileID: 3753178341814650540}
   m_Layer: 0
   m_Name: Caster
   m_TagString: Untagged
@@ -393,7 +394,7 @@ Transform:
   - {fileID: 4483072529488975069}
   m_Father: {fileID: 999066382201501954}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2734055186217589487
+--- !u!114 &1206921120986440062
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -407,9 +408,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Caster
   castVector: {x: 0, y: 0}
   containsFish: 0
-  rod: {fileID: 1294557776957567643}
+  Rod: {fileID: 635665040308447028}
   lineSpawner: {fileID: 0}
   catchTrigger: {fileID: 8219682339176393563}
   floaterPrefab: {fileID: 2807802345222521368, guid: bc1a5c8ee87fc3e4eafbaa6b7db9f766, type: 3}
   currentFloater: {fileID: 0}
   currentFloaterScript: {fileID: 0}
+--- !u!50 &3753178341814650540
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6800046412904973135}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
