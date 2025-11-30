@@ -12,7 +12,6 @@ public class FollowMainCamera : MonoBehaviour
     }
     void LateUpdate()
     {
-        Debug.Log(thisCamera);
         if (mainCameraToFollow == null) return;
 
         transform.position = mainCameraToFollow.transform.position;

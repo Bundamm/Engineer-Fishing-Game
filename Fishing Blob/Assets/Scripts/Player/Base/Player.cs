@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
     public Rigidbody2D playerRB;
     [HideInInspector]
     public CircleCollider2D playerCollider;
+    public InputHandler InputHandler;
     #endregion
     
     #region State Machine Variables
@@ -28,7 +29,16 @@ public class Player : MonoBehaviour
         DisableMovementState = new PlayerDisableMovementState(this, Fsm);
     }
 
+    private void Start()
+    {
+        Fsm.Initialize(idleState);
+    }
 
+    private void Update()
+    {
+        Fsm.CurrentPlayerState.FrameUpdate();
+    }
+    
     private void AnimationTriggerEvent(AnimationTriggerType triggerType)
     {
         Fsm.CurrentPlayerState.AnimationTriggerEvent(triggerType);

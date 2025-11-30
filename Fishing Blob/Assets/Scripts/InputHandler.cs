@@ -37,7 +37,7 @@ public class InputHandler : MonoBehaviour
     private void Update()
     {
         _cast = _castAction.IsPressed();
-        _reelTriggered = _reelAction.WasPerformedThisFrame();
+        _reelTriggered = _reelAction.WasPerformedThisFrame();          
         _manageItem1 = _manageItem1Action.WasPerformedThisFrame();
         
     }

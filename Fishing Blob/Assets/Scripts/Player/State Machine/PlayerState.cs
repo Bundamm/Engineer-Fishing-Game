@@ -4,11 +4,13 @@ public class PlayerState
 {
     protected Player Player;
     protected PlayerStateMachine Fsm;
+    protected InputHandler InputHandler;
 
     public PlayerState(Player player, PlayerStateMachine fsm)
     {
         Player = player;
         Fsm = fsm;
+        InputHandler = Player.InputHandler;
     }
     
     public virtual void EnterState() {}
