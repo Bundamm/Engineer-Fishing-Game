@@ -2,6 +2,7 @@
 using UnityEngine;
 public class PlayerMovingState : PlayerState
 {
+    private Vector2 playerPosition;
     public PlayerMovingState(Player player, PlayerStateMachine fsm) : base(player, fsm)
     {
     }
@@ -9,6 +10,7 @@ public class PlayerMovingState : PlayerState
     public override void EnterState()
     {
         base.EnterState();
+        playerPosition = Player.playerRB.transform.position;
         Debug.Log("Entering PlayerMovingState");
     }
 
@@ -22,7 +24,13 @@ public class PlayerMovingState : PlayerState
         base.FrameUpdate();
         if (Mathf.Abs(InputHandler.GetMoveValue().x) > Mathf.Epsilon)
         {
-            Player.playerRB.linearVelocity = new Vector2(InputHandler.GetMoveValue().x, 0f);
+            Vector2 movementVector = new Vector2(InputHandler.GetMoveValue().x * Time.deltaTime * Player.movementSpeed * Player.speedMultiplier, 0f);
+            playerPosition += movementVector;
+            Player.playerRB.transform.position = playerPosition;
+            if (InputHandler.GetMoveValue().x != 0)
+            {
+                Player.transform.localScale = new Vector2(InputHandler.GetMoveValue().x * 0.8f, 0.8f);
+            }
         }
         else
         {

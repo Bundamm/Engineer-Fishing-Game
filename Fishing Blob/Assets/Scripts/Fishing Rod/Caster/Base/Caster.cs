@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.Cinemachine;
+using UnityEngine;
 
 public class Caster : MonoBehaviour, ICastAndDestroyFloater
 {
@@ -8,7 +9,7 @@ public class Caster : MonoBehaviour, ICastAndDestroyFloater
     public float CastPowerIncrease { get; set; }
     [HideInInspector] 
     public Vector2 castVector;
-
+    [HideInInspector]
     public bool containsFish;
     #endregion
     
@@ -26,6 +27,15 @@ public class Caster : MonoBehaviour, ICastAndDestroyFloater
     public GameObject currentFloater;
     [HideInInspector] 
     public Floater currentFloaterScript;
+    [Header("Player")] [SerializeField] 
+    public Transform playerCharacter;
+    [Header("Camera")]
+    [SerializeField]
+    public CameraManager cameraManager;
+    [SerializeField]
+    public CinemachineCamera playerCamera;
+    [SerializeField] 
+    public CinemachineCamera floaterCamera;
     #endregion
     
     #region State Machine Variables

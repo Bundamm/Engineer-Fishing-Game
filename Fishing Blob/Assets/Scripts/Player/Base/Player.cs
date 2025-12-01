@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public CircleCollider2D playerCollider;
     public InputHandler InputHandler;
+    public float movementSpeed = 10f;
+    public float speedMultiplier = 10f;
     #endregion
     
     #region State Machine Variables

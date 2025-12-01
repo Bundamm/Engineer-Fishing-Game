@@ -28,6 +28,9 @@ public class Rod : MonoBehaviour
     
     public float castRotationSpeed = 2;
 
+    [Header("Player Transform")] 
+    public Transform playerTransform;
+
     
     #endregion
     
@@ -60,8 +63,22 @@ public class Rod : MonoBehaviour
     private void Update()
     {
         Fsm.CurrentRodState.FrameUpdate();
+        
     }
-    
+
+    public void CheckPlayerFacingDirection()
+    {
+        float rotationMagnitude = Mathf.Abs(targetRotation.z);
+        if (playerTransform.localScale.x >= 0f)
+        {
+            targetRotation.z = rotationMagnitude;
+        }
+        else
+        {
+            targetRotation.z = -rotationMagnitude;
+        }
+    }
+     
 
     #region Public Methods
     public void ResetCast()

@@ -36,7 +36,6 @@ public class CasterCaughtState : CasterState
         base.OnTriggerEnter2D(other);
         if (other.CompareTag("Floater"))
         {
-            Debug.Log("BLEEEEEE");
             // TODO: ADD FISH TO INVENTORY BEFORE DESTROYING
             Caster.currentFloaterScript.ResetAndDestroyFloater();
             if (Caster.Rod.Fsm.IsInState(Caster.Rod.ThrowAndWait))
@@ -48,6 +47,7 @@ public class CasterCaughtState : CasterState
                 Caster.currentFloaterScript.randomFish.ResetAndDestroyFish();
             }
             Caster.lineSpawner.DeleteLine();
+            Caster.cameraManager.ChangeCamera(Caster.playerCamera, Caster.playerCharacter);
             Fsm.ChangeState(Caster.IdleState);
         }
     }
