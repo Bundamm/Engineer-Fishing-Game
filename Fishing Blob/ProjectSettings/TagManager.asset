@@ -47,14 +47,14 @@ TagManager:
   - name: Character
     uniqueID: 271103977
     locked: 0
+  - name: Fish
+    uniqueID: 3391586145
+    locked: 0
   - name: Bridge
     uniqueID: 3624560637
     locked: 0
   - name: Water
     uniqueID: 359605237
-    locked: 0
-  - name: Fish
-    uniqueID: 3391586145
     locked: 0
   - name: Item
     uniqueID: 823674895

@@ -23,8 +23,14 @@ public class RodRotatingToThrowState : RodState
     {
         base.FrameUpdate();
         Rod.StartCoroutine(RotateBack());
+        
         if (RodRotator.GetIsRotated())
         {
+            if (Rod.playerTransform.localScale.x < 0)
+            {
+                Rod.castPower = -Rod.castPower;
+                Debug.Log(Rod.castPower);
+            }
             Fsm.ChangeState(Rod.ThrowAndWait);
         }
 

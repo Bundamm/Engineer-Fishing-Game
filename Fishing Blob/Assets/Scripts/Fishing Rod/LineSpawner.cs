@@ -55,7 +55,7 @@ public class LineSpawner : MonoBehaviour
         {
             Vector2 casterV2 = caster.transform.position;
             float distanceToFirst = (casterV2 - firstSegment.CurPosition).magnitude;
-            if (distanceToFirst < segmentLength * 0.5f && _lineSegments.Count >= startNumOfLineSegments)
+            if (distanceToFirst < segmentLength * 0.8f && _lineSegments.Count >= startNumOfLineSegments)
             {
             
                 linePool.ReturnSegment(secondSegment);
@@ -133,7 +133,7 @@ public class LineSpawner : MonoBehaviour
             
             lineSegment.PreviousPosition = lineSegment.CurPosition;
             lineSegment.CurPosition += velocity;
-            lineSegment.CurPosition += gravity * Time.deltaTime;
+            lineSegment.CurPosition += gravity * (Mathf.Pow(Time.fixedDeltaTime,2));
         }
     }
 

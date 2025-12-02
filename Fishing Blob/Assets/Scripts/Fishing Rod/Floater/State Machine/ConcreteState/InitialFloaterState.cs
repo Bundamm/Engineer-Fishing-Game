@@ -44,4 +44,14 @@ public class InitialFloaterState : FloaterState
             }
         }
     }
+
+    public override void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            Floater.FloaterPosition = Floater.transform.position;
+            Floater.rigidbody2D.linearVelocity = Vector2.zero;
+            Fsm.ChangeState(Floater.ReturningState);
+        }
+    }
 }

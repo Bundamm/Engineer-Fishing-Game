@@ -49,10 +49,12 @@ public class RodChargingState : RodState
     private void ChargeCast()
     {
         Rod.CheckPlayerFacingDirection();
+        
         RodRotator.RotateRod(Rod.targetRotation, Rod.chargeRotationSpeed);
         if (RodRotator.GetIsRotated())
         {
             Rod.CalculateCastPower();
         }
+        
     }
 }

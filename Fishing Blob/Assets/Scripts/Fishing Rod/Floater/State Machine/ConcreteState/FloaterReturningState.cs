@@ -34,6 +34,7 @@ public class FloaterReturningState : FloaterState
         Floater.CasterPosition = Floater.Caster.transform.position;
         Floater.elapsedTime += Time.fixedDeltaTime;
         percentageToCaster = Floater.elapsedTime / Floater.maxTime;
+        Debug.Log(Floater.FloaterPosition);
         Floater.rigidbody2D.transform.position= Floater.QuadraticMovement(Floater.FloaterPosition, floaterToAnchorPos, Floater.CasterPosition, percentageToCaster);
     }
 }

@@ -28,7 +28,7 @@ public class Rod : MonoBehaviour
     
     public float castRotationSpeed = 2;
 
-    [Header("Player Transform")] 
+    [Header("Player")] 
     public Transform playerTransform;
 
     
@@ -69,13 +69,13 @@ public class Rod : MonoBehaviour
     public void CheckPlayerFacingDirection()
     {
         float rotationMagnitude = Mathf.Abs(targetRotation.z);
-        if (playerTransform.localScale.x >= 0f)
+        if (playerTransform.localScale.x < 0f)
         {
-            targetRotation.z = rotationMagnitude;
+            targetRotation.z = -rotationMagnitude;
         }
         else
         {
-            targetRotation.z = -rotationMagnitude;
+            targetRotation.z = Mathf.Abs(rotationMagnitude);
         }
     }
      

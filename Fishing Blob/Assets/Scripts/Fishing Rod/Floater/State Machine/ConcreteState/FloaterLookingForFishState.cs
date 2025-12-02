@@ -29,6 +29,7 @@ public class FloaterLookingForFishState :FloaterState
     {
         base.PhysicsUpdate();
         Floater.StickToSurface();
+        Debug.Log(Floater.InputHandler.GetReelValue());
         if (Floater.InputHandler.GetReelValue())
         {
             Fsm.ChangeState(Floater.ReturningState);
@@ -40,9 +41,9 @@ public class FloaterLookingForFishState :FloaterState
         base.OnTriggerEnter2D(other);
         if (other.CompareTag("Fish"))
         {
-            if (!Floater.Fishes.Contains(other.gameObject.GetComponent<Fish>()))
+            if (!Floater.Fishies.Contains(other.gameObject.GetComponent<Fish>()))
             {
-                Floater.Fishes.Add(other.gameObject.GetComponent<Fish>());
+                Floater.Fishies.Add(other.gameObject.GetComponent<Fish>());
             }
         }
     }
@@ -50,15 +51,15 @@ public class FloaterLookingForFishState :FloaterState
     public override void OnTriggerExit2D(Collider2D other)
     {
         base.OnTriggerExit2D(other);
-        if (Floater.Fishes.Contains(other.gameObject.GetComponent<Fish>()))
+        if (Floater.Fishies.Contains(other.gameObject.GetComponent<Fish>()))
         {
-            Floater.Fishes.Remove(other.gameObject.GetComponent<Fish>());
+            Floater.Fishies.Remove(other.gameObject.GetComponent<Fish>());
         }
     }
 
     private IEnumerator WaitForFish()
     {
-        while (Floater.Fishes.Count == 0)
+        while (Floater.Fishies.Count == 0)
         {
             yield return new WaitForSecondsRealtime(Random.Range(5f, 10f));
         }

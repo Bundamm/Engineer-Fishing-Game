@@ -19,4 +19,6 @@ public class FloaterState
     public virtual void PhysicsUpdate() {}
     public virtual void OnTriggerEnter2D(Collider2D other) {}
     public virtual void OnTriggerExit2D(Collider2D other) {}
+    
+    public virtual void OnCollisionEnter2D(Collision2D collision) {}
 } 

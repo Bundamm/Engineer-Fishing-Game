@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[ExecuteAlways]
 public class FollowMainCamera : MonoBehaviour
 {
     [SerializeField]

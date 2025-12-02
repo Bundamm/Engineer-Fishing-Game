@@ -7,8 +7,6 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public CircleCollider2D playerCollider;
     public InputHandler InputHandler;
-    public float movementSpeed = 10f;
-    public float speedMultiplier = 10f;
     #endregion
     
     #region State Machine Variables
@@ -18,6 +16,12 @@ public class Player : MonoBehaviour
     public PlayerPrepareState prepareState { get; private set; }
     public PlayerDisableMovementState DisableMovementState { get; private set; }
     
+    #endregion
+    
+    #region Movement Variables
+    public float movementSpeed = 10f;
+    public float speedMultiplier = 10f;
+    public Transform leftLimit, rightLimit;
     #endregion
 
     private void Awake()
@@ -39,6 +43,11 @@ public class Player : MonoBehaviour
     private void Update()
     {
         Fsm.CurrentPlayerState.FrameUpdate();
+    }
+
+    private void FixedUpdate()
+    {
+        Fsm.CurrentPlayerState.PhysicsUpdate();
     }
     
     private void AnimationTriggerEvent(AnimationTriggerType triggerType)

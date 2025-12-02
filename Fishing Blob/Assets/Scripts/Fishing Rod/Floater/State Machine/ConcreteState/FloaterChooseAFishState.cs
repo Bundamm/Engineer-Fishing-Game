@@ -12,8 +12,8 @@ public class FloaterChooseAFishState : FloaterState
         base.EnterState();
         Debug.Log("Entered Choose A Fish State");
 
-        Floater.randomFish = Floater.Fishes[Random.Range(0, Floater.Fishes.Count - 1)];
-        Debug.Log("Fish Chosen: " + Floater.randomFish + "Index in Fishes List" + Floater.Fishes.IndexOf(Floater.randomFish));
+        Floater.randomFish = Floater.Fishies[Random.Range(0, Floater.Fishies.Count)];
+        Debug.Log("Fish Chosen: " + Floater.randomFish + "Index in Fishes List" + Floater.Fishies.IndexOf(Floater.randomFish));
         Floater.randomFish.Floater = Floater;
         Floater.randomFish.Fsm.ChangeState(Floater.randomFish.ApproachingState);
         

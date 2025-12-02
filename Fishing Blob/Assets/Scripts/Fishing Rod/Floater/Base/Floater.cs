@@ -9,9 +9,8 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     [HideInInspector]
     public InputHandler InputHandler;
     #endregion
-
     
-    public List<Fish> Fishes = new List<Fish>();
+    public List<Fish> Fishies = new List<Fish>();
     [HideInInspector]
     public Fish randomFish;
     
@@ -89,24 +88,19 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     private void OnTriggerEnter2D(Collider2D other)
     {
         Fsm.CurrentFloaterState.OnTriggerEnter2D(other);
-
- 
-        //         int multiplier = 1;
-        //         if (rigidbody2D.linearVelocity.y < 0)
-        //         {
-        //             multiplier = -1;
-        //         }
-        //         else
-        //         {
-        //             multiplier = 1;
-        //         }
-        //         vel *= multiplier;
-        //         
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         Fsm.CurrentFloaterState.OnTriggerExit2D(other);
+    }
+    #endregion
+    
+    #region Collision Methods
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Fsm.CurrentFloaterState.OnCollisionEnter2D(collision);
     }
     #endregion
     

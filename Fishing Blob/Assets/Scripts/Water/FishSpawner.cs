@@ -11,6 +11,11 @@ public class FishSpawner : MonoBehaviour
     private int maxAmountOfFish = 20;
     [SerializeField] 
     private float waterBoundry = 0.2f;
+    [SerializeField] 
+    private Transform fishContainer;
+
+    [SerializeField] 
+    private float fishDepth = 5f;
     
     private int _curAmountOfFish;
 
@@ -35,7 +40,15 @@ public class FishSpawner : MonoBehaviour
     private void SpawnFish()
     {
         Vector2 randPosition = RandomPointInWater(_waterWidth, _waterHeight);
-        Instantiate(fishies[Random.Range(0, fishies.Length)], randPosition, Quaternion.identity).transform.SetParent(transform, true);
+        
+        Vector3 spawnPosition = new Vector3(randPosition.x, randPosition.y, fishDepth);
+        
+        GameObject newFish = Instantiate(fishies[Random.Range(0, fishies.Length)], spawnPosition, Quaternion.identity);
+        
+        newFish.transform.SetParent(fishContainer, true);
+        
+        
+        
         
         _curAmountOfFish++;
 

@@ -48,6 +48,7 @@ public class CasterCaughtState : CasterState
             }
             Caster.lineSpawner.DeleteLine();
             Caster.cameraManager.ChangeCamera(Caster.playerCamera, Caster.playerCharacter);
+            Caster.Rod.CheckPlayerFacingDirection();
             Fsm.ChangeState(Caster.IdleState);
         }
     }
