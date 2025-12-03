@@ -29,7 +29,6 @@ public class FloaterLookingForFishState :FloaterState
     {
         base.PhysicsUpdate();
         Floater.StickToSurface();
-        Debug.Log(Floater.InputHandler.GetReelValue());
         if (Floater.InputHandler.GetReelValue())
         {
             Fsm.ChangeState(Floater.ReturningState);
@@ -61,9 +60,13 @@ public class FloaterLookingForFishState :FloaterState
     {
         while (Floater.Fishies.Count == 0)
         {
-            yield return new WaitForSecondsRealtime(Random.Range(5f, 10f));
+            yield return new WaitForSecondsRealtime(Random.Range(0.5f, 5f));
         }
-        yield return new WaitForSecondsRealtime(Random.Range(5f, 10f));
-        Fsm.ChangeState(Floater.ChooseAFishState);
+        yield return new WaitForSecondsRealtime(Random.Range(0.5f, 5f));
+        if (Floater.Fishies.Count > 0)
+        {
+            Fsm.ChangeState(Floater.ChooseAFishState);
+        }
+        
     }
 }

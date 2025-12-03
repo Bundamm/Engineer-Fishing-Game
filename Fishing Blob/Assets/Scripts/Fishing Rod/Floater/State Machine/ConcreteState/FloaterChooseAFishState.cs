@@ -10,9 +10,10 @@ public class FloaterChooseAFishState : FloaterState
     public override void EnterState()
     {
         base.EnterState();
-        Debug.Log("Entered Choose A Fish State");
-
+        Debug.Log("Entered Choose A Fish State Amount of fishies: " + Floater.Fishies.Count );
+        
         Floater.randomFish = Floater.Fishies[Random.Range(0, Floater.Fishies.Count)];
+        Floater.randomFish.fishRB.linearVelocity = Vector2.zero;
         Debug.Log("Fish Chosen: " + Floater.randomFish + "Index in Fishes List" + Floater.Fishies.IndexOf(Floater.randomFish));
         Floater.randomFish.Floater = Floater;
         Floater.randomFish.Fsm.ChangeState(Floater.randomFish.ApproachingState);

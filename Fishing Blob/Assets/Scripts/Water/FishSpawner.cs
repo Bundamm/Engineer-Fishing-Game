@@ -47,9 +47,6 @@ public class FishSpawner : MonoBehaviour
         
         newFish.transform.SetParent(fishContainer, true);
         
-        
-        
-        
         _curAmountOfFish++;
 
     }
