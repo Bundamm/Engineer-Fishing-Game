@@ -36,14 +36,15 @@ public class CasterCaughtState : CasterState
         base.OnTriggerEnter2D(other);
         if (other.CompareTag("Floater"))
         {
-            // TODO: ADD FISH TO INVENTORY BEFORE DESTROYING
             Caster.currentFloaterScript.ResetAndDestroyFloater();
             if (Caster.Rod.Fsm.IsInState(Caster.Rod.ThrowAndWait))
             {
                 Caster.Rod.Fsm.ChangeState(Caster.Rod.IdleState);
+                Caster.Rod.playerObject.Fsm.ChangeState(Caster.Rod.playerObject.IdleState);
             }
             if (Caster.containsFish)
             {
+                Caster.inventory.IncreaseAmountOfFish(Caster.currentFloaterScript.randomFish, 1);
                 Caster.currentFloaterScript.randomFish.ResetAndDestroyFish();
             }
             Caster.lineSpawner.DeleteLine();

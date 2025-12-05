@@ -31,6 +31,7 @@ public class Rod : MonoBehaviour
     [Header("Player")] 
     public Transform playerTransform;
 
+    public Player playerObject;
     
     #endregion
     
@@ -53,6 +54,8 @@ public class Rod : MonoBehaviour
         ChargingState = new RodChargingState(this, Fsm);
         CastingState = new RodRotatingToThrowState(this, Fsm);
         ThrowAndWait = new RodThrowAndWait(this, Fsm);
+        
+        playerObject = playerTransform.GetComponent<Player>();
     }
 
     private void Start()

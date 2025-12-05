@@ -26,7 +26,7 @@ public class PlayerIdleState : PlayerState
         if (Mathf.Abs(InputHandler.GetMoveValue().x) > Mathf.Epsilon)
         {
             Debug.Log(InputHandler.GetMoveValue().x);
-            Fsm.ChangeState(Player.movingState);
+            Fsm.ChangeState(Player.MovingState);
         }
     }
 

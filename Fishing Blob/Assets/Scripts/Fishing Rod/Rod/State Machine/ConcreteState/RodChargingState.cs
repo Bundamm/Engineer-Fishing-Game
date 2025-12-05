@@ -2,6 +2,7 @@
 
 public class RodChargingState : RodState
 {
+    
     public RodChargingState(Rod rod, RodStateMachine fsm) : base(rod, fsm)
     {
     }
@@ -11,6 +12,7 @@ public class RodChargingState : RodState
         base.EnterState();
         Debug.Log("Entering RodChargingState");
         Rod.RodRotator.SetIsRotated(false);
+        Rod.playerObject.Fsm.ChangeState(Rod.playerObject.PrepareState);
     }
 
     public override void ExitState()
@@ -37,6 +39,7 @@ public class RodChargingState : RodState
             {
                 RodRotator.RotateRod(RodRotator.GetStartRotation(), Rod.chargeRotationSpeed);
                 Fsm.ChangeState(Rod.IdleState);
+                Rod.playerObject.Fsm.ChangeState(Rod.playerObject.IdleState);
             }
         }
     }

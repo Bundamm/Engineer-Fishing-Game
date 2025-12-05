@@ -17,6 +17,10 @@ public class FishTypes : ScriptableObject
     private float waitAtStartMaxTime;
     [SerializeField]
     private float waitUntilIdleTime;
+    [SerializeField] 
+    private FishTypeEnum fishTypeEnum;
+    [SerializeField] 
+    private int fishValue;
     
 
     
@@ -28,4 +32,15 @@ public class FishTypes : ScriptableObject
     public float WaitUntilIdleTime => waitUntilIdleTime;
     public float DirectionVectorLength => directionVectorLength;
     public float WaterBorder => waterBorder;
+    public FishTypeEnum FishTypeEnum => fishTypeEnum;
 }
+public enum FishTypeEnum
+{
+    Ablat,
+    Bluegill,
+    Crucian,
+    Goldfish,
+    Perch,
+    Pike
+}
+

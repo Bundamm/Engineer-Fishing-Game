@@ -28,9 +28,4 @@ public class CasterThrowingState : CasterState
         base.ExitState();
         Rod.castPower = 0f;
     }
-
-    public override void FrameUpdate()
-    {
-        base.FrameUpdate();
-    }
 }

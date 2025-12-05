@@ -1,6 +1,7 @@
-﻿
+﻿using UnityEngine;
 public class PlayerPrepareState : PlayerState
 {
+    private Vector2 playerPosition;
     public PlayerPrepareState(Player player, PlayerStateMachine fsm) : base(player, fsm)
     {
     }
@@ -8,6 +9,8 @@ public class PlayerPrepareState : PlayerState
     public override void EnterState()
     {
         base.EnterState();
+        playerPosition = Player.playerRB.transform.position;
+        Debug.Log("Entering PlayerPrepareState");
     }
 
     public override void ExitState()
@@ -23,6 +26,10 @@ public class PlayerPrepareState : PlayerState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+        if (Mathf.Abs(InputHandler.GetMoveValue().x) > Mathf.Epsilon)
+        {
+            Player.MovePlayer(Player.movementSpeedWhileCharging, InputHandler.GetMoveValue().x);
+        }
     }
 
     public override void AnimationTriggerEvent(Player.AnimationTriggerType triggerType)
@@ -30,3 +37,4 @@ public class PlayerPrepareState : PlayerState
         base.AnimationTriggerEvent(triggerType);
     }
 }
+ 

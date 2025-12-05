@@ -36,6 +36,8 @@ public class Caster : MonoBehaviour, ICastAndDestroyFloater
     public CinemachineCamera playerCamera;
     [SerializeField] 
     public CinemachineCamera floaterCamera;
+    [Header("Inventory")]
+    public InventoryManager inventory;
     #endregion
     
     #region State Machine Variables
