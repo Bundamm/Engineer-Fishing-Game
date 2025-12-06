@@ -19,5 +19,5 @@ MonoBehaviour:
   maxAmountOfBites: 2
   waitAtStartMaxTime: 2
   waitUntilIdleTime: 3
-  fishTypeEnum: 0
+  fishTypeEnum: 2
   fishValue: 10
