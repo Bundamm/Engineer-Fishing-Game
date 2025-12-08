@@ -26,6 +26,10 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     
     #endregion
     
+    #region Time Manager
+    private TimeManager _timeManager;
+    #endregion
+    
     #region Positions
     [Header("Movement")]
     [HideInInspector]
@@ -66,6 +70,7 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
         waterCollider2D = Water.GetComponent<EdgeCollider2D>();
         rigidbody2D = GetComponent<Rigidbody2D>();
         Caster = FindAnyObjectByType<Caster>();
+        _timeManager = FindAnyObjectByType<TimeManager>();
     }
 
     private void Start()
@@ -75,11 +80,13 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
 
     private void Update()
     {
+        if (_timeManager.Fsm.IsInState(_timeManager.PausedState)) return;
         Fsm.CurrentFloaterState.FrameUpdate();
     }
     
     private void FixedUpdate()
     {
+        if (_timeManager.Fsm.IsInState(_timeManager.PausedState)) return;
         Fsm.CurrentFloaterState.PhysicsUpdate();
     }
     #endregion

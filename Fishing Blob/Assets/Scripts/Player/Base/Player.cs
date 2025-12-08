@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public CircleCollider2D playerCollider;
     public InputHandler InputHandler;
+    private bool _currentInteractionValue;
     #endregion
     
     #region State Machine Variables
@@ -25,7 +26,12 @@ public class Player : MonoBehaviour
     public Transform leftLimit, rightLimit;
     public Vector2 playerPosition;
     #endregion
-
+    
+    #region Time Manager
+    [Header("Time Manager")]
+    public TimeManager timeManager;
+    #endregion
+    
     private void Awake()
     {
         playerRB = GetComponent<Rigidbody2D>();
@@ -44,12 +50,14 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (timeManager.Fsm.IsInState(timeManager.PausedState)) return;
+        _currentInteractionValue =  InputHandler.GetInteractValue();
         Fsm.CurrentPlayerState.FrameUpdate();
-        
     }
 
     private void FixedUpdate()
     {
+        if (timeManager.Fsm.IsInState(timeManager.PausedState)) return;
         Fsm.CurrentPlayerState.PhysicsUpdate();
         playerPosition = playerRB.transform.position;
     }
@@ -71,8 +79,51 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (timeManager.Fsm.IsInState(timeManager.PausedState)) return;
+        Fsm.CurrentPlayerState.OnTriggerEnter2D(collision);
+    }
+
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        if (timeManager.Fsm.IsInState(timeManager.PausedState)) return;
+        Fsm.CurrentPlayerState.OnTriggerExit2D(collision);
+    }
+
+    public void OnTriggerStay2D(Collider2D collision)
+    {
+        if (timeManager.Fsm.IsInState(timeManager.PausedState)) return;
+        Fsm.CurrentPlayerState.OnTriggerStay2D(collision);
+    }
+    
     public enum AnimationTriggerType
     {
         Example
+    }
+
+    public enum InteractionType
+    {
+        Sleep,
+        Market
+    }
+
+    public void InteractionTriggerEvent(InteractionType interactionType)
+    {
+        Debug.Log(_currentInteractionValue);
+        if (_currentInteractionValue)
+        {
+            Fsm.ChangeState(DisableMovementState);
+            
+            if (interactionType == InteractionType.Sleep)
+            {
+                Debug.Log("INTERACTION COMPLETED");
+                timeManager.Fsm.ChangeState(timeManager.TransitionDaysState);
+            }
+            else if (interactionType == InteractionType.Market)
+            {
+                //TODO: IMPLEMENT MARKET INTERACTION
+            }
+        }
     }
 }

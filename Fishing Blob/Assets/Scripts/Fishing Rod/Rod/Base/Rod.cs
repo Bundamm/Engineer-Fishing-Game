@@ -16,8 +16,7 @@ public class Rod : MonoBehaviour
     private float maxCastPower = 400f;
     [SerializeField] 
     private float castPowerIncrease = 5f;
-    
-    public Caster caster;
+    public Caster Caster;
     [HideInInspector]
     public float castPower;
 
@@ -33,16 +32,20 @@ public class Rod : MonoBehaviour
 
     public Player playerObject;
     
+    [Header("Time Manager")]
+    public TimeManager timeManager;
+    
     #endregion
     
     #region State Machine Variables
-    
     public RodStateMachine Fsm { get; set; }
     public RodIdleState IdleState { get; set; }
     public RodChargingState ChargingState { get; set; }
 
     public RodRotatingToThrowState CastingState { get; set; }
     public RodThrowAndWait ThrowAndWait { get; set; }
+    
+    public RodDisabledState DisabledState { get; set; }
 
     #endregion
 
@@ -54,6 +57,7 @@ public class Rod : MonoBehaviour
         ChargingState = new RodChargingState(this, Fsm);
         CastingState = new RodRotatingToThrowState(this, Fsm);
         ThrowAndWait = new RodThrowAndWait(this, Fsm);
+        DisabledState = new RodDisabledState(this, Fsm);
         
         playerObject = playerTransform.GetComponent<Player>();
     }
@@ -65,6 +69,8 @@ public class Rod : MonoBehaviour
     
     private void Update()
     {
+        if (timeManager.Fsm.IsInState(timeManager.PausedState)) return;
+        
         Fsm.CurrentRodState.FrameUpdate();
         
     }
@@ -101,10 +107,10 @@ public class Rod : MonoBehaviour
     public void CasterThrowFloater()
     {
         Debug.Log("Throwing Floater");
-        Debug.Log(caster);
-        if (caster.Fsm.IsInState(caster.IdleState))
+        Debug.Log(Caster);
+        if (Caster.Fsm.IsInState(Caster.IdleState))
         {
-            caster.Fsm.ChangeState(caster.ThrowingState);
+            Caster.Fsm.ChangeState(Caster.ThrowingState);
         }
     }
     #endregion

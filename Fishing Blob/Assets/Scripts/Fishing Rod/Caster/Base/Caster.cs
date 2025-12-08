@@ -38,19 +38,18 @@ public class Caster : MonoBehaviour, ICastAndDestroyFloater
     public CinemachineCamera floaterCamera;
     [Header("Inventory")]
     public InventoryManager inventory;
+    [Header("Time Manager")]
+    public TimeManager timeManager;
     #endregion
     
     #region State Machine Variables
-    [HideInInspector]
-    public CasterStateMachine Fsm;
-    [HideInInspector]
-    public CasterIdleState IdleState;
-    [HideInInspector]
-    public CasterThrowingState ThrowingState;
-    [HideInInspector]
-    public CasterWaitingForReturnState WaitingForReturnState;
-    [HideInInspector]
-    public CasterCaughtState CaughtState;
+
+    public CasterStateMachine Fsm { get; set; }
+    public CasterIdleState IdleState { get; set; }
+    public CasterThrowingState ThrowingState { get; set; }
+    public CasterWaitingForReturnState WaitingForReturnState { get; set; }
+    public CasterCaughtState CaughtState { get; set; }
+    public CasterDisabledState DisabledState { get; set; }
     #endregion
 
     private void Awake()
@@ -60,6 +59,7 @@ public class Caster : MonoBehaviour, ICastAndDestroyFloater
         ThrowingState = new CasterThrowingState(this, Fsm);
         WaitingForReturnState = new CasterWaitingForReturnState(this, Fsm);
         CaughtState = new CasterCaughtState(this, Fsm);
+        DisabledState = new CasterDisabledState(this, Fsm);
     }
 
     private void Start()
@@ -69,6 +69,7 @@ public class Caster : MonoBehaviour, ICastAndDestroyFloater
 
     private void Update()
     {
+        if (timeManager.Fsm.IsInState(timeManager.PausedState)) return;
         Fsm.CurrentCasterState.FrameUpdate();
     }
     

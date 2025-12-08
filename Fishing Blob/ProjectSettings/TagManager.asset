@@ -19,8 +19,8 @@ TagManager:
   - FishingLine
   - Ground
   - InvisWall
-  - 
-  - 
+  - House
+  - CatMarket
   - 
   - 
   - 
@@ -41,8 +41,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BackgroundObjects
+    uniqueID: 494631307
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: PlayerItems
+    uniqueID: 824367629
     locked: 0
   - name: Character
     uniqueID: 271103977

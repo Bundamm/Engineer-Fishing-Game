@@ -28,7 +28,9 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
     public Vector2 StartFishPositionAtBiting { get; set; }
     #endregion
     
-
+    #region Time Manager
+    private TimeManager _timeManager;
+    #endregion
     #region State Machine Variables
     public FishStateMachine Fsm { get; private set; }
     public FishIdleState IdleState { get; private set; }
@@ -44,6 +46,7 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
     private void Awake()
     {
         _water = FindAnyObjectByType<Water>();
+        _timeManager = FindAnyObjectByType<TimeManager>();
         Fsm = new FishStateMachine();
 
         IdleState = new FishIdleState(this, Fsm);
@@ -69,6 +72,11 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
 
     private void Update()
     {
+        if (_timeManager.Fsm.IsInState(_timeManager.PausedState))
+        {
+            fishRB.linearVelocity = Vector2.zero;
+            return;
+        }
         waterHeight = _water.GetMeshHeight();
         waterWidth = _water.GetMeshWidth();
         Fsm.CurrentFishState.FrameUpdate();
@@ -76,6 +84,7 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
 
     private void FixedUpdate()
     {
+        if (_timeManager.Fsm.IsInState(_timeManager.PausedState)) return;
         Fsm.CurrentFishState.PhysicsUpdate();
     }
     #endregion

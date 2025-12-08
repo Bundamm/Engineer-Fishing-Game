@@ -37,6 +37,9 @@ public class CasterCaughtState : CasterState
         if (other.CompareTag("Floater"))
         {
             Caster.currentFloaterScript.ResetAndDestroyFloater();
+            Caster.lineSpawner.DeleteLine();
+            Caster.cameraManager.ChangeCamera(Caster.playerCamera, Caster.playerCharacter);
+            Caster.Rod.CheckPlayerFacingDirection();
             if (Caster.Rod.Fsm.IsInState(Caster.Rod.ThrowAndWait))
             {
                 Caster.Rod.Fsm.ChangeState(Caster.Rod.IdleState);
@@ -47,10 +50,8 @@ public class CasterCaughtState : CasterState
                 Caster.inventory.IncreaseAmountOfFish(Caster.currentFloaterScript.randomFish, 1);
                 Caster.currentFloaterScript.randomFish.ResetAndDestroyFish();
             }
-            Caster.lineSpawner.DeleteLine();
-            Caster.cameraManager.ChangeCamera(Caster.playerCamera, Caster.playerCharacter);
-            Caster.Rod.CheckPlayerFacingDirection();
             Fsm.ChangeState(Caster.IdleState);
+            
         }
     }
 }
