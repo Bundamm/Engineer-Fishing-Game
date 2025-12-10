@@ -10,6 +10,7 @@ public class TimeDayActiveState : TimeState
     public override void EnterState()
     {
         base.EnterState();
+        Debug.Log("Entered Time Active State");
         
     }
 
@@ -22,7 +23,10 @@ public class TimeDayActiveState : TimeState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        TimeManager.PauseUnpause();
+        if (TimeManager.inputHandler.GetPauseValue())
+        {
+            TimeManager.PauseUnpause();
+        }
         if (!TimeManager.timerPaused)
         {
             TimeManager.minutesValue += (decimal)Time.deltaTime * TimeManager.tickValue;

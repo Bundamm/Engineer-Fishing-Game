@@ -9,6 +9,7 @@ public class TimePausedState : TimeState
     public override void EnterState()
     {
         base.EnterState();
+        Debug.Log("Entered Time Paused State");
         //TODO: UI MANAGER ENABLE PAUSE UI
     }
 
@@ -21,10 +22,18 @@ public class TimePausedState : TimeState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        TimeManager.PauseUnpause();
-        if (!TimeManager.timerPaused)
+        if (TimeManager.inputHandler.GetPauseValue())
         {
-            Fsm.ChangeState(TimeManager.DayActiveState);
+            TimeManager.PauseUnpause();
+            if (TimeManager.timerPaused == false)
+            {
+                if (TimeManager.marketUIManager.GetCurrentMarketUIValue())
+                {
+                    TimeManager.marketUIManager.ToggleMarketUI();
+                }
+                Fsm.ChangeState(TimeManager.DayActiveState);
+            }
         }
+        
     }
 }

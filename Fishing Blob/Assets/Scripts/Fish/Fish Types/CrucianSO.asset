@@ -21,3 +21,4 @@ MonoBehaviour:
   waitUntilIdleTime: 3
   fishTypeEnum: 2
   fishValue: 10
+  constantFishValue: 10

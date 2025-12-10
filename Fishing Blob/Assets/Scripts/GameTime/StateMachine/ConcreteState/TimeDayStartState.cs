@@ -13,6 +13,7 @@ public class TimeDayStartState : TimeState
         TimeManager.volumeWeight = 0.3f;
         TimeManager.timeVolume.weight = TimeManager.volumeWeight;
         TimeManager.timeText.text = $"{TimeManager.hoursValue:00}:{TimeManager.minutesValue:00}";
+        TimeManager.gameUICanvas.gameObject.SetActive(true);
     }
 
     public override void ExitState()

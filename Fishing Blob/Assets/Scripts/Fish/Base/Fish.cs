@@ -154,7 +154,7 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
 
     public Vector2 GetFloaterPosition()
     {
-        return Floater.rigidbody2D.position;
+        return Floater.FloaterRb.position;
     }
 
     public Vector2 GetFishPosition()

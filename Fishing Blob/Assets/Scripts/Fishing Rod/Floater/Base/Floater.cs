@@ -14,8 +14,8 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     [HideInInspector]
     public Fish randomFish;
     
-    public EdgeCollider2D waterCollider2D { get; private set; }
-    public Rigidbody2D rigidbody2D { get; private set; }
+    public EdgeCollider2D WaterCollider2D { get; private set; }
+    public Rigidbody2D FloaterRb { get; private set; }
     public Water Water { get; private set; }
     public Caster Caster { get; private set; }
 
@@ -67,8 +67,8 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
 
         InputHandler = FindAnyObjectByType<InputHandler>();
         Water = FindAnyObjectByType<Water>();
-        waterCollider2D = Water.GetComponent<EdgeCollider2D>();
-        rigidbody2D = GetComponent<Rigidbody2D>();
+        WaterCollider2D = Water.GetComponent<EdgeCollider2D>();
+        FloaterRb = GetComponent<Rigidbody2D>();
         Caster = FindAnyObjectByType<Caster>();
         _timeManager = FindAnyObjectByType<TimeManager>();
     }
@@ -114,15 +114,15 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     #region Surface Sticking
     public void StickToSurface()
     {
-        Vector2 closestPoint = waterCollider2D.ClosestPoint(rigidbody2D.position);
-        rigidbody2D.gravityScale = 0;
-        rigidbody2D.angularVelocity = 0;
-        rigidbody2D.MovePosition(Vector2.Lerp(rigidbody2D.position, closestPoint, Time.fixedDeltaTime));
+        Vector2 closestPoint = WaterCollider2D.ClosestPoint(FloaterRb.position);
+        FloaterRb.gravityScale = 0;
+        FloaterRb.angularVelocity = 0;
+        FloaterRb.MovePosition(Vector2.Lerp(FloaterRb.position, closestPoint, Time.fixedDeltaTime));
     }
 
     public void UnstickFromSurface()
     {
-        rigidbody2D.gravityScale = 1;
+        FloaterRb.gravityScale = 1;
     }
     #endregion
     

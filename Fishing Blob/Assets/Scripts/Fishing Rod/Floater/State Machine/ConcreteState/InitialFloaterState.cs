@@ -9,7 +9,7 @@ public class InitialFloaterState : FloaterState
     {
         base.EnterState();
         Floater.UnstickFromSurface();
-        Floater.rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
+        Floater.FloaterRb.bodyType = RigidbodyType2D.Dynamic;
         Debug.Log("Entered Initial Floater State");
     }
 
@@ -36,7 +36,7 @@ public class InitialFloaterState : FloaterState
         {
             if (other is EdgeCollider2D)
             {
-                float vel = Floater.rigidbody2D.linearVelocity.y * Floater.Water.forceMultiplier;
+                float vel = Floater.FloaterRb.linearVelocity.y * Floater.Water.forceMultiplier;
                 vel = Mathf.Clamp(Mathf.Abs(vel), 0f, Floater.Water.maxForce);
                 Floater.Water.Splash(Floater.GetComponent<Collider2D>(), vel);
                 Floater.FloaterPosition = Floater.transform.position;
@@ -50,7 +50,7 @@ public class InitialFloaterState : FloaterState
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             Floater.FloaterPosition = Floater.transform.position;
-            Floater.rigidbody2D.linearVelocity = Vector2.zero;
+            Floater.FloaterRb.linearVelocity = Vector2.zero;
             Fsm.ChangeState(Floater.ReturningState);
         }
     }

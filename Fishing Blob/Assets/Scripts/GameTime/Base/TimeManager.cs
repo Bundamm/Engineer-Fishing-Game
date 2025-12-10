@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 public class TimeManager : MonoBehaviour
 {
@@ -11,13 +12,30 @@ public class TimeManager : MonoBehaviour
     public Volume timeVolume;
     public GameObject localLights;
     public Rod fishingRod;
+    public MarketManager marketManager;
+    public MarketUIManager marketUIManager;
+    #endregion
+    
+    #region Transition Elements
+    [Header("Transition Elements")]
+    public Image transitionFadeImage;
+    public Canvas gameUICanvas;
+    public TextMeshProUGUI dayTransitionText;
+    public TextMeshProUGUI moneyEarnedTransitionText;
+    
+    public float transitionTick = 0.05f;
+    #endregion
+    
+    #region PauseElements 
+    //TODO: IMPORTANT ADD PAUSE UI
+    [Header("Pause Elements")]
+    public Canvas pauseCanvas;
     #endregion
     
     #region Other Objects Values
     [Header("Other Objects Values")]
     public float volumeWeight;
     public float volumeWeightTick = 0.00001f;
-    
     #endregion
     
     #region TimerValues
@@ -29,9 +47,7 @@ public class TimeManager : MonoBehaviour
     
     [HideInInspector]
     public bool timerPaused;
-    [HideInInspector]
-    public int dayCounterValue;
-    [HideInInspector]
+    public int dayCounterValue = 1;
     public decimal minutesValue;
     [HideInInspector]
     public int hoursValue;
@@ -63,19 +79,19 @@ public class TimeManager : MonoBehaviour
     
     private void Start()
     {
+        marketManager.SetStartingValues();
+        marketUIManager.UpdateValueTexts();
         Fsm.Initialize(DayStartState);
     }
     
     private void Update()
     {
         Fsm.CurrentTimeState.FrameUpdate();
+        
     }
     
     public void PauseUnpause()
     {
-        if (inputHandler.GetPauseValue())
-        {
-            timerPaused = !timerPaused;
-        }
+        timerPaused = !timerPaused;
     }
 }

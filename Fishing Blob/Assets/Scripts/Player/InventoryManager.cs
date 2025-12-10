@@ -103,4 +103,9 @@ public class InventoryManager : MonoBehaviour
             //TODO: ADD SCORE TO THE SCORE MANAGER
         }
     }
+
+    public FishSlot GetFishSlots(int index)
+    {
+        return fishSlots[index];
+    }
 }

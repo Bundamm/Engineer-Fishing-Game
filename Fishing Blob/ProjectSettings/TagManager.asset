@@ -20,7 +20,7 @@ TagManager:
   - Ground
   - InvisWall
   - House
-  - CatMarket
+  - Market
   - 
   - 
   - 
@@ -67,6 +67,9 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 577331887
+    locked: 0
+  - name: Market
+    uniqueID: 1584255683
     locked: 0
   m_RenderingLayers:
   - Default

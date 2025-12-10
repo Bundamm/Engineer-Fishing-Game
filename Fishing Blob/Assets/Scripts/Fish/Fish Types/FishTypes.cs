@@ -19,8 +19,10 @@ public class FishTypes : ScriptableObject
     private float waitUntilIdleTime;
     [SerializeField] 
     private FishTypeEnum fishTypeEnum;
+    [SerializeField]
+    private float fishValue;
     [SerializeField] 
-    private int fishValue;
+    private float constantFishValue;
     
 
     
@@ -33,6 +35,12 @@ public class FishTypes : ScriptableObject
     public float DirectionVectorLength => directionVectorLength;
     public float WaterBorder => waterBorder;
     public FishTypeEnum FishTypeEnum => fishTypeEnum;
+    public decimal FishValue
+    {
+        get => (decimal)fishValue;
+        set => fishValue = (float)value;
+    }
+    public decimal ConstantFishValue => (decimal)constantFishValue;
 }
 public enum FishTypeEnum
 {
