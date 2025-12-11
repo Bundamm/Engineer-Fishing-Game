@@ -36,5 +36,7 @@ public class TimeNightStoppedState : TimeState
             TimeManager.fishingRod.Caster.Fsm.ChangeState(TimeManager.fishingRod.Caster.DisabledState);
             TimeManager.fishingRod.playerObject.Fsm.ChangeState(TimeManager.fishingRod.playerObject.IdleState);
         }
+        
+        
     }
 }

@@ -13,8 +13,6 @@ public class MarketUIManager : MonoBehaviour
     private InventoryManager inventoryManager;
     [SerializeField]
     private MarketManager marketManager;
-    [SerializeField] 
-    private FishSpawner fishSpawner;
     #endregion
     
     #region UI Elements
@@ -100,7 +98,8 @@ public class MarketUIManager : MonoBehaviour
     #region Button Wrappers
     public void ClickFeedButtonWrapper(int index)
     {
-        StartCoroutine(ClickFeedButtonCoroutine(index));
+        FishTypeEnum fishType = (FishTypeEnum)index;
+        StartCoroutine(ClickFeedButtonCoroutine(index, fishType));
     }
 
     public void ClickCloseButtonWrapper()
@@ -114,7 +113,7 @@ public class MarketUIManager : MonoBehaviour
     }
     #endregion
 
-    public IEnumerator ClickFeedButtonCoroutine(int index)
+    public IEnumerator ClickFeedButtonCoroutine(int index, FishTypeEnum fishType)
     {
         if (feedButtonsObjects[index].fishTypeEnum == inventoryManager.GetFishSlots(index).fishType)
         {
@@ -123,8 +122,7 @@ public class MarketUIManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(0.1f);
             feedButtonsObjects[index].mainButtonImage.sprite = temp;
             yield return new WaitForSecondsRealtime(0.1f);
-            //TODO: FEED
-            
+            marketManager.PayAndFeedFish(fishType);
         }
     }
 

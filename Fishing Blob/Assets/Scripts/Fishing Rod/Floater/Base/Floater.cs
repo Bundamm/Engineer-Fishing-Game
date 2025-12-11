@@ -7,22 +7,26 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     
     #region Input
     [HideInInspector]
-    public InputHandler InputHandler;
+    public InputHandler inputHandler;
     #endregion
     
-    public List<Fish> Fishies = new List<Fish>();
-    [HideInInspector]
-    public Fish randomFish;
-    
-    public EdgeCollider2D WaterCollider2D { get; private set; }
-    public Rigidbody2D FloaterRb { get; private set; }
-    public Water Water { get; private set; }
-    public Caster Caster { get; private set; }
-
     [SerializeField]
     private CircleCollider2D approachingCollider;
     [SerializeField]
     private CircleCollider2D bitingCollider;
+    [SerializeField]
+    private FishSpawner fishSpawner;
+    
+    [HideInInspector]
+    public List<Fish> fishies;
+    [HideInInspector]
+    public Fish randomFish;
+    public EdgeCollider2D waterCollider2D { get; private set; }
+    public Rigidbody2D floaterRb { get; private set; }
+    public Water water { get; private set; }
+    public Caster caster { get; private set; }
+
+    
     
     #endregion
     
@@ -32,10 +36,8 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     
     #region Positions
     [Header("Movement")]
-    [HideInInspector]
-    public Vector2 CasterPosition { get; set; }
-    [HideInInspector]
-    public Vector2 FloaterPosition { get; set; }
+    public Vector2 casterPosition { get; set; }
+    public Vector2 floaterPosition { get; set; }
     
     public float maxTime = 3;
     public float anchorPointPositionMultiplier = 3;
@@ -45,61 +47,62 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     #endregion
     
     #region State Machine Variables
-    public FloaterStateMachine Fsm { get; set; }
-    public FloaterLookingForFishState LookingForFishState { get; set; }
-    public InitialFloaterState InitialState { get; set; }
-    public FloaterChooseAFishState ChooseAFishState { get; set; }
-    public FloaterWaitForBitingState  WaitForBitingState { get; set; }
-    public FloaterWaitForCaughtState  WaitForCaughtState { get; set; }
-    public FloaterReturningState  ReturningState { get; set; }
+    public FloaterStateMachine floaterStateMachine { get; set; }
+    public FloaterLookingForFishState lookingForFishState { get; set; }
+    public InitialFloaterState initialState { get; set; }
+    public FloaterChooseAFishState chooseAFishState { get; set; }
+    public FloaterWaitForBitingState  waitForBitingState { get; set; }
+    public FloaterWaitForCaughtState  waitForCaughtState { get; set; }
+    public FloaterReturningState  returningState { get; set; }
     #endregion
     
     #region Basic Unity Void Methods
     private void Awake()
     {
-        Fsm = new FloaterStateMachine();
-        InitialState = new InitialFloaterState(this, Fsm);
-        LookingForFishState = new FloaterLookingForFishState(this, Fsm);
-        ChooseAFishState = new FloaterChooseAFishState(this, Fsm);
-        WaitForBitingState = new FloaterWaitForBitingState(this, Fsm);
-        WaitForCaughtState = new FloaterWaitForCaughtState(this, Fsm); 
-        ReturningState = new FloaterReturningState(this, Fsm);
+        floaterStateMachine = new FloaterStateMachine();
+        initialState = new InitialFloaterState(this, floaterStateMachine);
+        lookingForFishState = new FloaterLookingForFishState(this, floaterStateMachine);
+        chooseAFishState = new FloaterChooseAFishState(this, floaterStateMachine);
+        waitForBitingState = new FloaterWaitForBitingState(this, floaterStateMachine);
+        waitForCaughtState = new FloaterWaitForCaughtState(this, floaterStateMachine); 
+        returningState = new FloaterReturningState(this, floaterStateMachine);
 
-        InputHandler = FindAnyObjectByType<InputHandler>();
-        Water = FindAnyObjectByType<Water>();
-        WaterCollider2D = Water.GetComponent<EdgeCollider2D>();
-        FloaterRb = GetComponent<Rigidbody2D>();
-        Caster = FindAnyObjectByType<Caster>();
+        fishies = new List<Fish>();
+        inputHandler = FindAnyObjectByType<InputHandler>();
+        water = FindAnyObjectByType<Water>();
+        waterCollider2D = water.GetComponent<EdgeCollider2D>();
+        floaterRb = GetComponent<Rigidbody2D>();
+        caster = FindAnyObjectByType<Caster>();
         _timeManager = FindAnyObjectByType<TimeManager>();
     }
 
     private void Start()
     {
-        Fsm.Initialize(InitialState);
+        floaterStateMachine.Initialize(initialState);
     }
 
     private void Update()
     {
         if (_timeManager.Fsm.IsInState(_timeManager.PausedState)) return;
-        Fsm.CurrentFloaterState.FrameUpdate();
+        floaterStateMachine.CurrentFloaterState.FrameUpdate();
     }
     
     private void FixedUpdate()
     {
         if (_timeManager.Fsm.IsInState(_timeManager.PausedState)) return;
-        Fsm.CurrentFloaterState.PhysicsUpdate();
+        floaterStateMachine.CurrentFloaterState.PhysicsUpdate();
     }
     #endregion
     
     #region Trigger Methods
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Fsm.CurrentFloaterState.OnTriggerEnter2D(other);
+        floaterStateMachine.CurrentFloaterState.OnTriggerEnter2D(other);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        Fsm.CurrentFloaterState.OnTriggerExit2D(other);
+        floaterStateMachine.CurrentFloaterState.OnTriggerExit2D(other);
     }
     #endregion
     
@@ -107,22 +110,22 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Fsm.CurrentFloaterState.OnCollisionEnter2D(collision);
+        floaterStateMachine.CurrentFloaterState.OnCollisionEnter2D(collision);
     }
     #endregion
     
     #region Surface Sticking
     public void StickToSurface()
     {
-        Vector2 closestPoint = WaterCollider2D.ClosestPoint(FloaterRb.position);
-        FloaterRb.gravityScale = 0;
-        FloaterRb.angularVelocity = 0;
-        FloaterRb.MovePosition(Vector2.Lerp(FloaterRb.position, closestPoint, Time.fixedDeltaTime));
+        Vector2 closestPoint = waterCollider2D.ClosestPoint(floaterRb.position);
+        floaterRb.gravityScale = 0;
+        floaterRb.angularVelocity = 0;
+        floaterRb.MovePosition(Vector2.Lerp(floaterRb.position, closestPoint, Time.fixedDeltaTime));
     }
 
     public void UnstickFromSurface()
     {
-        FloaterRb.gravityScale = 1;
+        floaterRb.gravityScale = 1;
     }
     #endregion
     
@@ -159,8 +162,8 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     
     public Vector2 CalculateMidPointBetweenFloaterAndCaster()
     {
-        Vector2 midPointPosition = CasterPosition + (FloaterPosition - CasterPosition) / 2;
-        Vector2 midPointDirection = CasterPosition - FloaterPosition;
+        Vector2 midPointPosition = casterPosition + (floaterPosition - casterPosition) / 2;
+        Vector2 midPointDirection = casterPosition - floaterPosition;
         Vector2 perpendicularToMidPointDirection = new Vector2(midPointDirection.y, -midPointDirection.x).normalized;
         Vector2 pointAboveMidPoint = midPointPosition + (perpendicularToMidPointDirection * anchorPointPositionMultiplier);
         // floaterToCasterAnchor.transform.position = pointAboveMidPoint;
@@ -172,7 +175,8 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     #region Reset
     public void ResetAndDestroyFloater()
     {
-        Fsm.ChangeState(InitialState);
+        floaterStateMachine.ChangeState(initialState);
+        // remove fish from list here
         Destroy(gameObject);
     }
     #endregion

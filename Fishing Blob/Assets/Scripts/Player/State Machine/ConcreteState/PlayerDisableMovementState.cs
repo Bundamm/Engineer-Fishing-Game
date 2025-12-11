@@ -13,13 +13,23 @@ public class PlayerDisableMovementState : PlayerState
         Debug.Log("Entered PlayerDisableMovementState");
     }
 
-    public override void PhysicsUpdate()
+    public override void FrameUpdate()
     {
-        base.PhysicsUpdate();
-        //TODO: ADD QUITTING FROM MARKET WINDOW
+        base.FrameUpdate();
         if (Player.interactionType == Player.InteractionType.Market)
         {
-            Fsm.ChangeState(Player.IdleState);
+            if (Player.timeManager.hoursValue >= 22)
+            {
+                if (Player.InputHandler.GetPauseValue())
+                {
+                    Fsm.ChangeState(Player.IdleState);
+                    Player.timeManager.marketUIManager.ToggleMarketUI();
+                }
+            }
+            else
+            {
+                Fsm.ChangeState(Player.IdleState);
+            }
         }
         if (Player.timeManager.Fsm.IsInState(Player.timeManager.DayStartState))
         {

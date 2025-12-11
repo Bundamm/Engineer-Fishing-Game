@@ -13,7 +13,7 @@ public class FishApproachingState : FishState
         Debug.Log("Entering Fish Approaching State");
         Fish.fishRB.angularVelocity = 0f;
         Fish.fishRB.linearVelocity = Vector2.zero;
-        Fish.Floater.Fsm.ChangeState(Fish.Floater.WaitForBitingState);
+        Fish.Floater.floaterStateMachine.ChangeState(Fish.Floater.waitForBitingState);
     }
 
     public override void ExitState()
@@ -24,7 +24,7 @@ public class FishApproachingState : FishState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        if (Fish.Floater.InputHandler.GetReelValue())
+        if (Fish.Floater.inputHandler.GetReelValue())
         {
             Fsm.ChangeState(Fish.SpookedState);
         }

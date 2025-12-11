@@ -21,9 +21,9 @@ public class FloaterWaitForBitingState : FloaterState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        if (Floater.InputHandler.GetReelValue())
+        if (Floater.inputHandler.GetReelValue())
         {
-            Floater.Fsm.ChangeState(Floater.ReturningState);
+            Floater.floaterStateMachine.ChangeState(Floater.returningState);
             Floater.randomFish.Fsm.ChangeState(Floater.randomFish.SpookedState);
         }
     }
@@ -43,7 +43,7 @@ public class FloaterWaitForBitingState : FloaterState
             Debug.Log("Random fish entered biting state");
             Floater.randomFish.Fsm.ChangeState(Floater.randomFish.BitingState);
             Floater.DisableBitingCollider();
-            Fsm.ChangeState(Floater.WaitForCaughtState);
+            Fsm.ChangeState(Floater.waitForCaughtState);
         }
         
     }

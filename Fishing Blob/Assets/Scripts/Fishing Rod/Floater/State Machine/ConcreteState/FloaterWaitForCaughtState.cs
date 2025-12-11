@@ -21,19 +21,19 @@ public class FloaterWaitForCaughtState : FloaterState
     {
         base.FrameUpdate();
         bool fishStateCheck = Floater.randomFish.Fsm.IsInState(Floater.randomFish.HookedState);
-        bool reelPerformed = Floater.InputHandler.GetReelValue();
+        bool reelPerformed = Floater.inputHandler.GetReelValue();
         
         if (reelPerformed && fishStateCheck)
         {
             Debug.Log("Reeling Fish");
             Floater.randomFish.Fsm.ChangeState(Floater.randomFish.CaughtState);
-            Fsm.ChangeState(Floater.ReturningState);
+            Fsm.ChangeState(Floater.returningState);
         }
         else if (reelPerformed)
         {
             Debug.Log("FISH ESCAPED");
             Floater.randomFish.Fsm.ChangeState(Floater.randomFish.SpookedState);
-            Fsm.ChangeState(Floater.ReturningState);
+            Fsm.ChangeState(Floater.returningState);
         }
     }
 

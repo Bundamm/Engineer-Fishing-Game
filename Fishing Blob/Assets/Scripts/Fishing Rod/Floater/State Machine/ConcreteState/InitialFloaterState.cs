@@ -9,7 +9,7 @@ public class InitialFloaterState : FloaterState
     {
         base.EnterState();
         Floater.UnstickFromSurface();
-        Floater.FloaterRb.bodyType = RigidbodyType2D.Dynamic;
+        Floater.floaterRb.bodyType = RigidbodyType2D.Dynamic;
         Debug.Log("Entered Initial Floater State");
     }
 
@@ -36,11 +36,11 @@ public class InitialFloaterState : FloaterState
         {
             if (other is EdgeCollider2D)
             {
-                float vel = Floater.FloaterRb.linearVelocity.y * Floater.Water.forceMultiplier;
-                vel = Mathf.Clamp(Mathf.Abs(vel), 0f, Floater.Water.maxForce);
-                Floater.Water.Splash(Floater.GetComponent<Collider2D>(), vel);
-                Floater.FloaterPosition = Floater.transform.position;
-                Fsm.ChangeState(Floater.LookingForFishState);
+                float vel = Floater.floaterRb.linearVelocity.y * Floater.water.forceMultiplier;
+                vel = Mathf.Clamp(Mathf.Abs(vel), 0f, Floater.water.maxForce);
+                Floater.water.Splash(Floater.GetComponent<Collider2D>(), vel);
+                Floater.floaterPosition = Floater.transform.position;
+                Fsm.ChangeState(Floater.lookingForFishState);
             }
         }
     }
@@ -49,9 +49,9 @@ public class InitialFloaterState : FloaterState
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            Floater.FloaterPosition = Floater.transform.position;
-            Floater.FloaterRb.linearVelocity = Vector2.zero;
-            Fsm.ChangeState(Floater.ReturningState);
+            Floater.floaterPosition = Floater.transform.position;
+            Floater.floaterRb.linearVelocity = Vector2.zero;
+            Fsm.ChangeState(Floater.returningState);
         }
     }
 }

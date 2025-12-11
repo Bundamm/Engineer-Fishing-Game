@@ -119,7 +119,15 @@ public class Player : MonoBehaviour
                 else if (interactionTypeEnum == InteractionType.Market)
                 {
                     //TODO: IMPLEMENT MARKET INTERACTION
-                    timeManager.PauseUnpause();
+                    if (timeManager.hoursValue <= 22)
+                    {
+                        timeManager.PauseUnpause();
+                    }
+                    else
+                    {
+                        Fsm.ChangeState(DisableMovementState);
+                    }
+                    
                     timeManager.marketUIManager.ToggleMarketUI();
                 }
             }

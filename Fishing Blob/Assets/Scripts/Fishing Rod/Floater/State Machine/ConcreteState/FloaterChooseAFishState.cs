@@ -10,11 +10,11 @@ public class FloaterChooseAFishState : FloaterState
     public override void EnterState()
     {
         base.EnterState();
-        Debug.Log("Entered Choose A Fish State Amount of fishies: " + Floater.Fishies.Count );
+        Debug.Log("Entered Choose A Fish State Amount of fishies: " + Floater.fishies.Count );
         
-        Floater.randomFish = Floater.Fishies[Random.Range(0, Floater.Fishies.Count)];
+        Floater.randomFish = Floater.fishies[Random.Range(0, Floater.fishies.Count)];
         Floater.randomFish.fishRB.linearVelocity = Vector2.zero;
-        Debug.Log("Fish Chosen: " + Floater.randomFish + "Index in Fishes List" + Floater.Fishies.IndexOf(Floater.randomFish));
+        Debug.Log("Fish Chosen: " + Floater.randomFish + "Index in Fishes List" + Floater.fishies.IndexOf(Floater.randomFish));
         Floater.randomFish.Floater = Floater;
         Floater.randomFish.Fsm.ChangeState(Floater.randomFish.ApproachingState);
         
@@ -29,7 +29,7 @@ public class FloaterChooseAFishState : FloaterState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        if (Floater.InputHandler.GetReelValue())
+        if (Floater.inputHandler.GetReelValue())
         {
             Floater.randomFish.Fsm.ChangeState(Floater.randomFish.SpookedState);
         }

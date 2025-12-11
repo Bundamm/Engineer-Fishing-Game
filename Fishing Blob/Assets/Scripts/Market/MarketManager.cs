@@ -1,44 +1,48 @@
 using System.Collections.Generic;
-using System.Numerics;
-using TMPro;
 using UnityEngine;
 
 public class MarketManager : MonoBehaviour
 {
     #region Other Objects
+    [Header("Other Objects")]
     [SerializeField]
     private List<FishTypes> fishTypes;
-    public List<FishTypes> FishTypes => fishTypes;
     [SerializeField]
     private InventoryManager inventoryManager;
+    [SerializeField] 
+    private FishSpawner fishSpawner;
     #endregion
     
-    private int inventoryValue = 0;
-    public int InventoryValue => inventoryValue;
-    private int moneyOwnedValue = 0;
-    public int MoneyOwnedValue => moneyOwnedValue;
-    private int overallMoneyValue = 0;
-    public int OverallMoneyValue => overallMoneyValue;
+    #region Money Value Helpers
+    private int _inventoryValue = 0;
+    private int _moneyOwnedValue = 0;
+    private int _overallMoneyValue = 0;
+    private float _rentPriceIncrease = 0;
+    private float _feedPriceIncrease = 0;
+    #endregion
 
+    #region Rent And Feed Values
+    [Header("Rent And Feed Values")]
     [SerializeField]
     private float rentValue = 200;
-
-    public float RentValue => rentValue;
-    
     [SerializeField]
     private float feedPrice = 100;
-
-    public float FeedPrice => feedPrice;
-    
-
-    private float rentPriceIncrease = 0;
-    private float feedPriceIncrease = 0;
     [SerializeField]
     private float feedPriceMultiplier = 0.01f;
     [SerializeField]
     private float rentPriceMultiplier = 0.2f;
     [SerializeField]
     private float moneyOwnedRentMultiplier = 0.3f;
+    #endregion
+    
+    #region Properties
+    public List<FishTypes> FishTypes => fishTypes;
+    public int MoneyOwnedValue => _moneyOwnedValue;
+    public int OverallMoneyValue => _overallMoneyValue;
+    public int InventoryValue => _inventoryValue;
+    public float RentValue => rentValue;
+    public float FeedPrice => feedPrice;
+    #endregion
 
     public void SetStartingValues()
     {
@@ -53,7 +57,8 @@ public class MarketManager : MonoBehaviour
         List<decimal> multiplierValues = new List<decimal>();
         for (int i = 1; i <= fishTypes.Count; i++)
         {
-            multiplierValues.Add(i / 2);
+            var item = i / 2;
+            multiplierValues.Add(item);
         }
 
         foreach (FishTypes fishType in fishTypes)
@@ -69,43 +74,52 @@ public class MarketManager : MonoBehaviour
     {
         for (int i = 0; i < fishTypes.Count; i++)
         {
-            inventoryValue += inventoryManager.GetFishSlots(i).fishAmount * (int)fishTypes[i].FishValue;
+            _inventoryValue += inventoryManager.GetFishSlots(i).fishAmount * (int)fishTypes[i].FishValue;
         }
-        return inventoryValue;
+        return _inventoryValue;
     }
     
     public void ResetInventoryValue()
     {
-        inventoryValue = 0;
+        _inventoryValue = 0;
     }
 
     public void ResetMoneyOwnedValue()
     {
-        moneyOwnedValue = 0;
+        _moneyOwnedValue = 0;
     }
 
     public void SellAllFish()
     {
-        moneyOwnedValue += inventoryValue;
+        _moneyOwnedValue += _inventoryValue;
         ResetInventoryValue();
     }
 
     public void UpdateMoneyOverallOwnedValue()
     {
-        overallMoneyValue += moneyOwnedValue;
+        _overallMoneyValue += _moneyOwnedValue;
         ResetMoneyOwnedValue();
     }
 
     public void UpdateFeedPrice()
     {
-        feedPriceIncrease = overallMoneyValue * feedPriceMultiplier;
-        feedPrice += feedPriceIncrease;
+        _feedPriceIncrease = _overallMoneyValue * feedPriceMultiplier;
+        feedPrice += _feedPriceIncrease;
         
     }
 
     public void UpdateRentValue()
     {
-        rentPriceIncrease = overallMoneyValue * moneyOwnedRentMultiplier / (rentValue *  rentPriceMultiplier);
-        rentValue *= rentPriceIncrease;
+        _rentPriceIncrease = _overallMoneyValue * moneyOwnedRentMultiplier / (rentValue *  rentPriceMultiplier);
+        rentValue *= _rentPriceIncrease;
+    }
+
+    public void PayAndFeedFish(FishTypeEnum fishType)
+    {
+        if (_moneyOwnedValue >= feedPrice)
+        {
+            _moneyOwnedValue -= (int)feedPrice;
+            fishSpawner.FeedFish(fishType);   
+        }
     }
 }
