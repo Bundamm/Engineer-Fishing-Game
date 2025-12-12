@@ -94,13 +94,12 @@ public class InventoryManager : MonoBehaviour
         return fishSlots.Find(x => x.fishType == fishTypeEnum);
     }
 
-    public void SellAllFish()
+    public void ClearInventory()
     {
         foreach (var fishSlot in fishSlots)
         {
             fishSlot.fishAmount = 0;
             UpdateInventorySlot(fishSlot.fishType);
-            //TODO: ADD SCORE TO THE SCORE MANAGER
         }
     }
 

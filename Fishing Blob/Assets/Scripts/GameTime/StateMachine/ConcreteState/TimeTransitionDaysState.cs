@@ -33,8 +33,6 @@ public class TimeTransitionDaysState : TimeState
         if (TimeManager.transitionFadeImage.color.a >= 1f)
         {
             fadingIn = false;
-            
-            
         }
     }
 
@@ -48,10 +46,17 @@ public class TimeTransitionDaysState : TimeState
         }
         TimeManager.dayTransitionText.text = $"Day: {TimeManager.dayCounterValue}";
         TimeManager.dayCounterText.text = $"Day: {TimeManager.dayCounterValue}";
+        TimeManager.marketManager.UpdateMoneyOverallOwnedValue();
+        TimeManager.marketManager.UpdateRentValue();
+        TimeManager.marketManager.UpdateFishValues();
+        TimeManager.marketUIManager.UpdateRentValueText();
+        TimeManager.marketUIManager.UpdateFeedPriceText();
+        TimeManager.marketUIManager.UpdateValueTexts();
+        TimeManager.marketUIManager.UpdateMoneyOwnedText();
+        TimeManager.marketUIManager.UpdateMoneyOverallText();
         TimeManager.dayTransitionText.gameObject.SetActive(true);
         TimeManager.moneyEarnedTransitionText.gameObject.SetActive(true);
-        TimeManager.marketManager.GenerateFishValues();
-        TimeManager.marketUIManager.UpdateValueTexts();
+        
         yield return new WaitForSecondsRealtime(3f);
         TimeManager.StartCoroutine(FadeOutTransitionScreen());
     }

@@ -67,9 +67,9 @@ public class FishSpawner : MonoBehaviour
         Vector3 spawnPosition = new Vector3(randPosition.x, randPosition.y, fishDepth);
         GameObject newFish = Instantiate(fishiesToSpawn[Random.Range(0, fishiesToSpawn.Length)], spawnPosition, Quaternion.identity);
         newFish.transform.SetParent(fishContainer, true);
+        newFish.GetComponent<Fish>().FishSpawner = this;
         //TODO: NEED TO GET ALL FISH CURRENTLY IN THE WATER
-        GameObject newFishCopy = newFish;
-        spawnedFish.Add(newFishCopy);
+        spawnedFish.Add(newFish);
         _curAmountOfFish++;
     }
     
@@ -82,17 +82,18 @@ public class FishSpawner : MonoBehaviour
     }
     
 
-    public void DespawnFish()
+    public void DespawnFish(GameObject fish)
     {
-        foreach (GameObject fish in spawnedFish)
-        {
-            Destroy(fish);
-        }
+        spawnedFish.Remove(fish);
+        Destroy(fish);
     }
+    
+    
 
     public void FeedFish(FishTypeEnum fishType)
     {
         GameObject fishToReplaceWith = new GameObject();
+        GameObject tempFish = new GameObject();
         // GameObject tempFish = new GameObject();
         for (int i = 0; i < fishiesToSpawn.Length; i++)
         {
@@ -107,7 +108,9 @@ public class FishSpawner : MonoBehaviour
             {
                 // spawnedFish[i] = Instantiate(fishToReplaceWith, spawnedFish[i].transform.position, Quaternion.identity);
                 // Destroy(tempFish);
-                
+                tempFish =  spawnedFish[i];
+                spawnedFish[i] = Instantiate(fishToReplaceWith, spawnedFish[i].transform.position, Quaternion.identity);
+                DespawnFish(tempFish);
             }
         }
     }

@@ -3,7 +3,6 @@ using UnityEngine;
 public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotation
 {
     #region Fish Variables
-
     public Rigidbody2D fishRB {get; set;}
     public FishTypes fishType;
     [SerializeField]
@@ -24,12 +23,13 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
     
     #region Fish Approaching Variables
     public Floater Floater { get; set; }
-    [HideInInspector]
     public Vector2 StartFishPositionAtBiting { get; set; }
     #endregion
     
-    #region Time Manager
+    #region Other Objects And Properties
     private TimeManager _timeManager;
+    public FishSpawner FishSpawner { get; set; }
+
     #endregion
     #region State Machine Variables
     public FishStateMachine Fsm { get; private set; }
@@ -183,7 +183,7 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
     public void ResetAndDestroyFish()
     {
         Fsm.ChangeState(IdleState);
-        Destroy(gameObject);
+        FishSpawner.DespawnFish(gameObject);
     }
     
     #endregion

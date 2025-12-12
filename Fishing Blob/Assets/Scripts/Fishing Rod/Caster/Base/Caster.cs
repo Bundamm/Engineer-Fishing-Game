@@ -26,7 +26,7 @@ public class Caster : MonoBehaviour, ICastAndDestroyFloater
     [HideInInspector]
     public GameObject currentFloater;
     [HideInInspector] 
-    public Floater currentFloaterScript;
+    public Floater currentFloaterObject;
     [Header("Player")] [SerializeField] 
     public Transform playerCharacter;
     [Header("Camera")]
@@ -77,7 +77,7 @@ public class Caster : MonoBehaviour, ICastAndDestroyFloater
     {
         currentFloater = floaterPrefab;
         currentFloater = Instantiate(currentFloater, transform.position, Quaternion.identity);
-        currentFloaterScript = currentFloater.GetComponent<Floater>();
+        currentFloaterObject = currentFloater.GetComponent<Floater>();
     }
 
     public void DestroyFloater()

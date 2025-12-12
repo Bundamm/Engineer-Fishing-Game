@@ -52,7 +52,7 @@ public class MarketManager : MonoBehaviour
         }
     }
 
-    public void GenerateFishValues()
+    public void UpdateFishValues()
     {
         List<decimal> multiplierValues = new List<decimal>();
         for (int i = 1; i <= fishTypes.Count; i++)
@@ -70,13 +70,12 @@ public class MarketManager : MonoBehaviour
         }
     }
 
-    public int UpdateValueOfInventory()
+    public void UpdateValueOfInventory()
     {
         for (int i = 0; i < fishTypes.Count; i++)
         {
             _inventoryValue += inventoryManager.GetFishSlots(i).fishAmount * (int)fishTypes[i].FishValue;
         }
-        return _inventoryValue;
     }
     
     public void ResetInventoryValue()
@@ -86,13 +85,14 @@ public class MarketManager : MonoBehaviour
 
     public void ResetMoneyOwnedValue()
     {
-        _moneyOwnedValue = 0;
+        _moneyOwnedValue /= 3;
     }
 
-    public void SellAllFish()
+    public void SellFish()
     {
         _moneyOwnedValue += _inventoryValue;
         ResetInventoryValue();
+        inventoryManager.ClearInventory();
     }
 
     public void UpdateMoneyOverallOwnedValue()
@@ -105,6 +105,7 @@ public class MarketManager : MonoBehaviour
     {
         _feedPriceIncrease = _overallMoneyValue * feedPriceMultiplier;
         feedPrice += _feedPriceIncrease;
+        feedPrice = (int)feedPrice;
         
     }
 
@@ -112,6 +113,7 @@ public class MarketManager : MonoBehaviour
     {
         _rentPriceIncrease = _overallMoneyValue * moneyOwnedRentMultiplier / (rentValue *  rentPriceMultiplier);
         rentValue *= _rentPriceIncrease;
+        rentValue = (int)rentValue;
     }
 
     public void PayAndFeedFish(FishTypeEnum fishType)

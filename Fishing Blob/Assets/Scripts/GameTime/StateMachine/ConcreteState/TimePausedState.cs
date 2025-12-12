@@ -25,15 +25,21 @@ public class TimePausedState : TimeState
         if (TimeManager.inputHandler.GetPauseValue())
         {
             TimeManager.PauseUnpause();
-            if (TimeManager.timerPaused == false)
+        }
+        if (!TimeManager.timerPaused)
+        {
+            if (TimeManager.marketUIManager.GetCurrentMarketUIValue())
             {
-                if (TimeManager.marketUIManager.GetCurrentMarketUIValue())
-                {
-                    TimeManager.marketUIManager.ToggleMarketUI();
-                }
+                TimeManager.marketUIManager.ToggleMarketUI();
+            }
+            if (TimeManager.hoursValue < 22)
+            {
                 Fsm.ChangeState(TimeManager.DayActiveState);
             }
+            else
+            {
+                Fsm.ChangeState(TimeManager.NightStoppedState);
+            }
         }
-        
     }
 }

@@ -25,6 +25,10 @@ public class PlayerDisableMovementState : PlayerState
                     Fsm.ChangeState(Player.IdleState);
                     Player.timeManager.marketUIManager.ToggleMarketUI();
                 }
+                if (!Player.timeManager.timerPaused)
+                {
+                    Fsm.ChangeState(Player.IdleState);
+                }
             }
             else
             {
@@ -35,10 +39,5 @@ public class PlayerDisableMovementState : PlayerState
         {
             Fsm.ChangeState(Player.IdleState);
         }
-    }
-
-    public override void AnimationTriggerEvent(Player.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
     }
 }

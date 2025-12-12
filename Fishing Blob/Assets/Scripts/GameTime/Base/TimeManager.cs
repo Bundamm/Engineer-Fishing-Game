@@ -47,6 +47,7 @@ public class TimeManager : MonoBehaviour
     
     [HideInInspector]
     public bool timerPaused;
+    [HideInInspector]
     public int dayCounterValue = 1;
     public decimal minutesValue;
     [HideInInspector]
@@ -81,6 +82,7 @@ public class TimeManager : MonoBehaviour
     {
         marketManager.SetStartingValues();
         marketUIManager.UpdateValueTexts();
+        marketUIManager.UpdateRentValueText();
         Fsm.Initialize(DayStartState);
     }
     

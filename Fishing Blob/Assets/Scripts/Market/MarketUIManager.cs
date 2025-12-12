@@ -13,6 +13,8 @@ public class MarketUIManager : MonoBehaviour
     private InventoryManager inventoryManager;
     [SerializeField]
     private MarketManager marketManager;
+    [SerializeField]
+    private TimeManager timeManager;
     #endregion
     
     #region UI Elements
@@ -38,6 +40,8 @@ public class MarketUIManager : MonoBehaviour
     private TextMeshProUGUI predictedValueText;
     [SerializeField] 
     private TextMeshProUGUI moneyOwnedText;
+    [SerializeField]
+    private TextMeshProUGUI moneyOverallText;
     [SerializeField] 
     private TextMeshProUGUI feedPriceText;
     #endregion
@@ -52,13 +56,11 @@ public class MarketUIManager : MonoBehaviour
     
     public class MainButton
     {
-        public Button mainButton;
         public Image mainButtonImage;
         public Image buttonClickedImage;
         public FishTypeEnum? fishTypeEnum;
-        public MainButton(Button mainButton, Image mainButtonImage, Image buttonClickedImage)
+        public MainButton(Image mainButtonImage, Image buttonClickedImage)
         {
-            this.mainButton = mainButton;
             this.mainButtonImage = mainButtonImage;
             this.buttonClickedImage = buttonClickedImage;
         }
@@ -78,15 +80,15 @@ public class MarketUIManager : MonoBehaviour
             Button mainButton = feedButtons[i];
             Image mainButtonImage = mainButton.GetComponent<Image>();
             Image buttonClickedImage = clickedButton;
-            MainButton newFeedButton = new MainButton(mainButton, mainButtonImage, buttonClickedImage)
+            MainButton newFeedButton = new MainButton(mainButtonImage, buttonClickedImage)
             {
                     fishTypeEnum = inventoryManager.GetFishSlots(i).fishType
             };
             feedButtonsObjects.Add(newFeedButton);
         }
 
-        sellButtonObject = new MainButton(sellButton, sellButton.GetComponent<Image>(), clickedButton);
-        closeButtonObject = new MainButton(closeButton, closeButton.GetComponent<Image>(), clickedCloseButton);
+        sellButtonObject = new MainButton(sellButton.GetComponent<Image>(), clickedButton);
+        closeButtonObject = new MainButton(closeButton.GetComponent<Image>(), clickedCloseButton);
     }
 
     private void Update()
@@ -123,10 +125,11 @@ public class MarketUIManager : MonoBehaviour
             feedButtonsObjects[index].mainButtonImage.sprite = temp;
             yield return new WaitForSecondsRealtime(0.1f);
             marketManager.PayAndFeedFish(fishType);
+            UpdateMoneyOwnedText();
         }
     }
 
-    private void UpdateMoneyOwnedText()
+    public void UpdateMoneyOwnedText()
     {
         moneyOwnedText.text = $"Money: {marketManager.MoneyOwnedValue}$";
     }
@@ -136,10 +139,23 @@ public class MarketUIManager : MonoBehaviour
         predictedValueText.text = $"Predicted Value: {marketManager.InventoryValue}$";
     }
 
-    private void UpdateFeedPriceText()
+    public void UpdateMoneyOverallText()
     {
+        moneyOverallText.text = $"Money Earned Overall: {marketManager.OverallMoneyValue}";
+    }
+    
+    public void UpdateRentValueText()
+    {
+        
+        rentValueText.text = $"Today's Rent: {marketManager.RentValue}$";
+    }
+
+    public void UpdateFeedPriceText()
+    {
+        marketManager.UpdateFeedPrice();
         feedPriceText.text = $"Cost: {marketManager.FeedPrice}$";
     }
+    
 
 
     
@@ -150,7 +166,8 @@ public class MarketUIManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1f);
         closeButtonObject.mainButtonImage.sprite = temp;
         yield return new WaitForSecondsRealtime(0.1f);
-        
+        timeManager.PauseUnpause();
+        ToggleMarketUI();
     }
 
     public IEnumerator ClickSellButton()
@@ -160,7 +177,7 @@ public class MarketUIManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1f);
         sellButtonObject.mainButtonImage.sprite = temp;
         yield return new WaitForSecondsRealtime(0.1f);
-        marketManager.SellAllFish();
+        marketManager.SellFish();
         UpdateMoneyOwnedText();
         UpdatePredictedValueText();
     }
