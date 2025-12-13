@@ -27,13 +27,13 @@ public class FloaterWaitForCaughtState : FloaterState
         {
             Debug.Log("Reeling Fish");
             Floater.randomFish.Fsm.ChangeState(Floater.randomFish.CaughtState);
-            Fsm.ChangeState(Floater.returningState);
+            Fsm.ChangeState(Floater.ReturningState);
         }
         else if (reelPerformed)
         {
             Debug.Log("FISH ESCAPED");
             Floater.randomFish.Fsm.ChangeState(Floater.randomFish.SpookedState);
-            Fsm.ChangeState(Floater.returningState);
+            Fsm.ChangeState(Floater.ReturningState);
         }
     }
 

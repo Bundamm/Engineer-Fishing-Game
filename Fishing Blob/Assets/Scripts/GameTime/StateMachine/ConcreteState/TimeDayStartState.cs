@@ -8,17 +8,12 @@ public class TimeDayStartState : TimeState
     public override void EnterState()
     {
         base.EnterState();
-        TimeManager.minutesValue = 0;
-        TimeManager.hoursValue = 6;
+        TimeManager.MinutesValue = 0;
+        TimeManager.HoursValue = 6;
         TimeManager.volumeWeight = 0.3f;
         TimeManager.timeVolume.weight = TimeManager.volumeWeight;
-        TimeManager.timeText.text = $"{TimeManager.hoursValue:00}:{TimeManager.minutesValue:00}";
+        TimeManager.TimeText.text = $"{TimeManager.HoursValue:00}:{TimeManager.MinutesValue:00}";
         TimeManager.gameUICanvas.gameObject.SetActive(true);
-    }
-
-    public override void ExitState()
-    {
-        base.ExitState();
     }
 
     public override void FrameUpdate()

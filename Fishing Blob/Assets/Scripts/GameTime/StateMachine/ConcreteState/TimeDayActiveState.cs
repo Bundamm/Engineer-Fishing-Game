@@ -27,33 +27,33 @@ public class TimeDayActiveState : TimeState
         {
             TimeManager.PauseUnpause();
         }
-        if (!TimeManager.timerPaused)
+        if (!TimeManager.TimerPaused)
         {
-            TimeManager.minutesValue += (decimal)Time.deltaTime * TimeManager.tickValue;
-            if (TimeManager.minutesValue >= 60)
+            TimeManager.MinutesValue += (decimal)Time.deltaTime * TimeManager.TickValue;
+            if (TimeManager.MinutesValue >= 59)
             {
-                TimeManager.minutesValue = 0;
-                TimeManager.hoursValue += 1;
+                TimeManager.MinutesValue = 0;
+                TimeManager.HoursValue += 1;
             }
 
-            if (TimeManager.hoursValue < TimeManager.timeOfNoon)
+            if (TimeManager.HoursValue < TimeManager.TimeOfNoon)
             {
                 TimeManager.volumeWeight -= Time.deltaTime * TimeManager.volumeWeightTick;
             }
-            else if(TimeManager.hoursValue >= TimeManager.timeOfAfternoon)
+            else if(TimeManager.HoursValue >= TimeManager.TimeOfAfternoon)
             {
                 TimeManager.volumeWeight += Time.deltaTime * TimeManager.volumeWeightTick;
             }
 
             TimeManager.timeVolume.weight = TimeManager.volumeWeight;
-            TimeManager.timeText.text = $"{TimeManager.hoursValue:00}:{TimeManager.minutesValue:00}";
+            TimeManager.TimeText.text = $"{TimeManager.HoursValue:00}:{TimeManager.MinutesValue:00}";
         }
         else
         {
             Fsm.ChangeState(TimeManager.PausedState);
         }
 
-        if (TimeManager.hoursValue >= 22)
+        if (TimeManager.HoursValue >= 22)
         {
             Fsm.ChangeState(TimeManager.NightStoppedState);
         }

@@ -12,7 +12,8 @@ public class PlayerIdleState : PlayerState
     {
         base.EnterState();
         Debug.Log("Entering PlayerIdleState");
-        Player.playerRB.linearVelocity = Vector2.zero;
+        
+        Player.playerRb.linearVelocity = Vector2.zero;
     }
 
     public override void ExitState()
@@ -23,17 +24,13 @@ public class PlayerIdleState : PlayerState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
+        Player.PlayerAnimator.SetTrigger("Idle");
         Player.InteractionTriggerEvent(Player.interactionType);
         if (Mathf.Abs(InputHandler.GetMoveValue().x) > Mathf.Epsilon)
         {
             Debug.Log(InputHandler.GetMoveValue().x);
             Fsm.ChangeState(Player.MovingState);
         }
-    }
-
-    public override void AnimationTriggerEvent(Player.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
     }
 
     public override void OnTriggerEnter2D(Collider2D other)
@@ -43,16 +40,16 @@ public class PlayerIdleState : PlayerState
         {
             Player.interactionType = Player.InteractionType.Sleep;
 
-            if (Player.timeManager.hoursValue >= 22)
+            if (Player.timeManager.HoursValue >= 22)
             {
                 
-                Player.currentInteractionValue = true;
+                Player.CurrentInteractionValue = true;
             }
         }
         else if (LayerMask.LayerToName(other.gameObject.layer) == "Market")
         {
             Player.interactionType = Player.InteractionType.Market;
-            Player.currentInteractionValue = true;
+            Player.CurrentInteractionValue = true;
         }
     }
     
@@ -61,7 +58,7 @@ public class PlayerIdleState : PlayerState
         base.OnTriggerExit2D(other);
         if (LayerMask.LayerToName(other.gameObject.layer) == "House" || LayerMask.LayerToName(other.gameObject.layer) == "Market")
         {
-            Player.currentInteractionValue = false;
+            Player.CurrentInteractionValue = false;
             Player.interactionType = Player.InteractionType.None;
         }
     }

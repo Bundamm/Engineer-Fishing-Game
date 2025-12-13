@@ -54,10 +54,25 @@ public class FishSpawner : MonoBehaviour
     
     private void Update()
     {
-        if (timeManager.timerPaused) return;
-        if (_curAmountOfFish < maxAmountOfFish && timeManager.Fsm.IsInState(timeManager.DayActiveState))
+        SpawnMenuGame();
+    }
+
+    private void SpawnMenuGame()
+    {
+        if (timeManager != null)
         {
-            SpawnFish();    
+            if (timeManager.TimerPaused) return;
+            if (_curAmountOfFish < maxAmountOfFish && timeManager.Fsm.IsInState(timeManager.DayActiveState))
+            {
+                SpawnFish();    
+            }
+        }
+        else
+        {
+            if (_curAmountOfFish < maxAmountOfFish)
+            {
+                SpawnFish();
+            }
         }
     }
 
@@ -87,6 +102,24 @@ public class FishSpawner : MonoBehaviour
         spawnedFish.Remove(fish);
         Destroy(fish);
     }
+
+    public void DespawnAllFish()
+    {
+        for (int i = spawnedFish.Count - 1; i >= 0; i--)
+        {
+            Debug.Log(spawnedFish[i]);
+            if (spawnedFish[i] != null)
+            {
+                spawnedFish[i].GetComponent<Fish>().FishSpawner = null;
+                DespawnFish(spawnedFish[i]);
+            }
+            else
+            {
+                spawnedFish.RemoveAt(i);
+            }
+        }
+        _curAmountOfFish = 0;
+    }
     
     
 
@@ -94,7 +127,6 @@ public class FishSpawner : MonoBehaviour
     {
         GameObject fishToReplaceWith = new GameObject();
         GameObject tempFish = new GameObject();
-        // GameObject tempFish = new GameObject();
         for (int i = 0; i < fishiesToSpawn.Length; i++)
         {
             if (fishiesToSpawnObjects[i].fishType.FishTypeEnum == fishType)
@@ -106,8 +138,6 @@ public class FishSpawner : MonoBehaviour
         {
             if (i % fishReplaceTick == 0)
             {
-                // spawnedFish[i] = Instantiate(fishToReplaceWith, spawnedFish[i].transform.position, Quaternion.identity);
-                // Destroy(tempFish);
                 tempFish =  spawnedFish[i];
                 spawnedFish[i] = Instantiate(fishToReplaceWith, spawnedFish[i].transform.position, Quaternion.identity);
                 DespawnFish(tempFish);

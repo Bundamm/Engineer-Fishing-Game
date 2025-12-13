@@ -10,13 +10,19 @@ public class TimePausedState : TimeState
     {
         base.EnterState();
         Debug.Log("Entered Time Paused State");
-        //TODO: UI MANAGER ENABLE PAUSE UI
+        if (!TimeManager.marketUIManager.GetCurrentMarketUIValue())
+        {
+            TimeManager.pauseCanvas.gameObject.SetActive(true);
+        }
     }
 
     public override void ExitState()
     {
         base.ExitState();
-        //TODO: UI MANAGER DISABLE PAUSE UI, ENABLE GAME UI
+        if (TimeManager.pauseCanvas.gameObject.activeInHierarchy)
+        {
+            TimeManager.pauseCanvas.gameObject.SetActive(false);
+        }
     }
 
     public override void FrameUpdate()
@@ -26,13 +32,13 @@ public class TimePausedState : TimeState
         {
             TimeManager.PauseUnpause();
         }
-        if (!TimeManager.timerPaused)
+        if (!TimeManager.TimerPaused)
         {
             if (TimeManager.marketUIManager.GetCurrentMarketUIValue())
             {
                 TimeManager.marketUIManager.ToggleMarketUI();
             }
-            if (TimeManager.hoursValue < 22)
+            if (TimeManager.HoursValue < 22)
             {
                 Fsm.ChangeState(TimeManager.DayActiveState);
             }

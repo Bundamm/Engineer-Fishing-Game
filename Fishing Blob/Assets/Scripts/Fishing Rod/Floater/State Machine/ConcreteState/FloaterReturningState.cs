@@ -12,8 +12,9 @@ public class FloaterReturningState : FloaterState
     public override void EnterState()
     {
         base.EnterState();
-        Floater.floaterRb.bodyType = RigidbodyType2D.Kinematic;
+        Floater.FloaterRb.bodyType = RigidbodyType2D.Kinematic;
         floaterToAnchorPos = Floater.CalculateMidPointBetweenFloaterAndCaster();
+        Floater.Water.Splash(Floater.GetComponent<Collider2D>(), 5f);
         percentageToCaster = 0f;
     }
 
@@ -30,10 +31,11 @@ public class FloaterReturningState : FloaterState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+        if (Floater.timeManager.Fsm.IsInState(Floater.timeManager.PausedState)) return;
         
-        Floater.casterPosition = Floater.caster.transform.position;
+        Floater.CasterPosition = Floater.Caster.transform.position;
         Floater.elapsedTime += Time.fixedDeltaTime;
         percentageToCaster = Floater.elapsedTime / Floater.maxTime;
-        Floater.floaterRb.transform.position= Floater.QuadraticMovement(Floater.floaterPosition, floaterToAnchorPos, Floater.casterPosition, percentageToCaster);
+        Floater.FloaterRb.transform.position= Floater.QuadraticMovement(Floater.FloaterPosition, floaterToAnchorPos, Floater.CasterPosition, percentageToCaster);
     }
 }

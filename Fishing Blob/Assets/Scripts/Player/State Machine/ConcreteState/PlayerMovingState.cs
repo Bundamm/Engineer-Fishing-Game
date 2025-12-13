@@ -2,7 +2,6 @@
 using UnityEngine;
 public class PlayerMovingState : PlayerState
 {
-    
     public PlayerMovingState(Player player, PlayerStateMachine fsm) : base(player, fsm)
     {
     }
@@ -10,6 +9,7 @@ public class PlayerMovingState : PlayerState
     public override void EnterState()
     {
         base.EnterState();
+        
         Debug.Log("Entering PlayerMovingState");
     }
 
@@ -21,6 +21,7 @@ public class PlayerMovingState : PlayerState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
+        Player.PlayerAnimator.SetTrigger("Move");
         Player.InteractionTriggerEvent(Player.interactionType);
         
     }
@@ -38,26 +39,21 @@ public class PlayerMovingState : PlayerState
         }
     }
 
-    public override void AnimationTriggerEvent(Player.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
-
     public override void OnTriggerEnter2D(Collider2D other)
     {
         if (LayerMask.LayerToName(other.gameObject.layer) == "House")
         {
             //TODO: ADD CHECK IF FISH SOLD
             Player.interactionType = Player.InteractionType.Sleep;
-            if (Player.timeManager.hoursValue >= 22)
+            if (Player.timeManager.HoursValue >= 22)
             {
-                Player.currentInteractionValue = true;
+                Player.CurrentInteractionValue = true;
             }
         }
         else if (LayerMask.LayerToName(other.gameObject.layer) == "Market")
         {
             Player.interactionType = Player.InteractionType.Market;
-            Player.currentInteractionValue = true;
+            Player.CurrentInteractionValue = true;
         }
     }
 
@@ -66,7 +62,7 @@ public class PlayerMovingState : PlayerState
         base.OnTriggerExit2D(other);
         if (LayerMask.LayerToName(other.gameObject.layer) == "House" || LayerMask.LayerToName(other.gameObject.layer) == "Market")
         {
-            Player.currentInteractionValue = false;
+            Player.CurrentInteractionValue = false;
             Player.interactionType = Player.InteractionType.None;
         }
     }

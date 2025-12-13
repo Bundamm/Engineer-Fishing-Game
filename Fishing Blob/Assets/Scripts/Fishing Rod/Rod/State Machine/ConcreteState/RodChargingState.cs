@@ -12,7 +12,7 @@ public class RodChargingState : RodState
         base.EnterState();
         Debug.Log("Entering RodChargingState");
         Rod.RodRotator.SetIsRotated(false);
-        Rod.playerObject.Fsm.ChangeState(Rod.playerObject.PrepareState);
+        Rod.playerObject.Fsm.ChangeState(Rod.playerObject.ChargeState);
     }
 
     public override void ExitState()

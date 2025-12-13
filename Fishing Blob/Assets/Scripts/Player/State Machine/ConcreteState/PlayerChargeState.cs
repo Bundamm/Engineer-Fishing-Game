@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
-public class PlayerPrepareState : PlayerState
+public class PlayerChargeState : PlayerState
 {
-    private Vector2 playerPosition;
-    public PlayerPrepareState(Player player, PlayerStateMachine fsm) : base(player, fsm)
+    public PlayerChargeState(Player player, PlayerStateMachine fsm) : base(player, fsm)
     {
     }
 
     public override void EnterState()
     {
         base.EnterState();
-        playerPosition = Player.playerRB.transform.position;
+        
         Debug.Log("Entering PlayerPrepareState");
     }
 
@@ -21,6 +20,7 @@ public class PlayerPrepareState : PlayerState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
+        Player.PlayerAnimator.SetTrigger("Charge");
     }
 
     public override void PhysicsUpdate()
@@ -30,11 +30,6 @@ public class PlayerPrepareState : PlayerState
         {
             Player.MovePlayer(Player.movementSpeedWhileCharging, InputHandler.GetMoveValue().x);
         }
-    }
-
-    public override void AnimationTriggerEvent(Player.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
     }
 }
  

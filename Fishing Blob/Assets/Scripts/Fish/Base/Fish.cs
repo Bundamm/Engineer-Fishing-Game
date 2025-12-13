@@ -72,10 +72,13 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
 
     private void Update()
     {
-        if (_timeManager.Fsm.IsInState(_timeManager.PausedState))
+        if (_timeManager != null)
         {
-            fishRB.linearVelocity = Vector2.zero;
-            return;
+            if (_timeManager.Fsm.IsInState(_timeManager.PausedState))
+            {
+                fishRB.linearVelocity = Vector2.zero;
+                return;
+            }
         }
         waterHeight = _water.GetMeshHeight();
         waterWidth = _water.GetMeshWidth();
@@ -84,7 +87,10 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
 
     private void FixedUpdate()
     {
-        if (_timeManager.Fsm.IsInState(_timeManager.PausedState)) return;
+        if (_timeManager != null)
+        {
+            if (_timeManager.Fsm.IsInState(_timeManager.PausedState)) return;
+        }
         Fsm.CurrentFishState.PhysicsUpdate();
     }
     #endregion
@@ -154,7 +160,7 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
 
     public Vector2 GetFloaterPosition()
     {
-        return Floater.floaterRb.position;
+        return Floater.FloaterRb.position;
     }
 
     public Vector2 GetFishPosition()

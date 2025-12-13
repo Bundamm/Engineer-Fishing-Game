@@ -46,7 +46,7 @@ public class MarketUIManager : MonoBehaviour
     private TextMeshProUGUI feedPriceText;
     #endregion
     
-    #region Helpers
+    #region Helper Parameters
     private List<MainButton> feedButtonsObjects;
     private MainButton sellButtonObject;
     private MainButton closeButtonObject;
@@ -90,11 +90,6 @@ public class MarketUIManager : MonoBehaviour
         sellButtonObject = new MainButton(sellButton.GetComponent<Image>(), clickedButton);
         closeButtonObject = new MainButton(closeButton.GetComponent<Image>(), clickedCloseButton);
     }
-
-    private void Update()
-    {
-        //TODO: UPDATE PREDICTED VALUE OF INVENTORY
-    }
     #endregion
 
     #region Button Wrappers
@@ -115,20 +110,9 @@ public class MarketUIManager : MonoBehaviour
     }
     #endregion
 
-    public IEnumerator ClickFeedButtonCoroutine(int index, FishTypeEnum fishType)
-    {
-        if (feedButtonsObjects[index].fishTypeEnum == inventoryManager.GetFishSlots(index).fishType)
-        {
-            Sprite temp = feedButtonsObjects[index].mainButtonImage.sprite;
-            feedButtonsObjects[index].mainButtonImage.sprite =  feedButtonsObjects[index].buttonClickedImage.sprite;
-            yield return new WaitForSecondsRealtime(0.1f);
-            feedButtonsObjects[index].mainButtonImage.sprite = temp;
-            yield return new WaitForSecondsRealtime(0.1f);
-            marketManager.PayAndFeedFish(fishType);
-            UpdateMoneyOwnedText();
-        }
-    }
-
+    
+    
+    #region Update Text
     public void UpdateMoneyOwnedText()
     {
         moneyOwnedText.text = $"Money: {marketManager.MoneyOwnedValue}$";
@@ -136,7 +120,7 @@ public class MarketUIManager : MonoBehaviour
 
     private void UpdatePredictedValueText()
     {
-        predictedValueText.text = $"Predicted Value: {marketManager.InventoryValue}$";
+        predictedValueText.text = $"Value Of Fish In Inventory: {marketManager.InventoryValue}$";
     }
 
     public void UpdateMoneyOverallText()
@@ -152,12 +136,41 @@ public class MarketUIManager : MonoBehaviour
 
     public void UpdateFeedPriceText()
     {
-        marketManager.UpdateFeedPrice();
         feedPriceText.text = $"Cost: {marketManager.FeedPrice}$";
     }
     
+    public void UpdateValueTexts()
+    {
+        for (int i = 0; i < valueTexts.Count; i++)
+        {
+            valueTexts[i].text = $"{marketManager.FishTypes[i].FishValue}$";
+        }
+    }
 
-
+    public void UpdateAllTexts()
+    {
+        UpdateMoneyOwnedText();
+        UpdateMoneyOverallText();
+        UpdateRentValueText();
+        UpdateFeedPriceText();
+        UpdateValueTexts();
+    }
+    #endregion
+    
+    #region Button Clicking Coroutines
+    public IEnumerator ClickFeedButtonCoroutine(int index, FishTypeEnum fishType)
+    {
+        if (feedButtonsObjects[index].fishTypeEnum == inventoryManager.GetFishSlots(index).fishType)
+        {
+            Sprite temp = feedButtonsObjects[index].mainButtonImage.sprite;
+            feedButtonsObjects[index].mainButtonImage.sprite =  feedButtonsObjects[index].buttonClickedImage.sprite;
+            yield return new WaitForSecondsRealtime(0.1f);
+            feedButtonsObjects[index].mainButtonImage.sprite = temp;
+            yield return new WaitForSecondsRealtime(0.1f);
+            marketManager.PayAndFeedFish(fishType);
+            UpdateMoneyOwnedText();
+        }
+    }
     
     public IEnumerator ClickCloseButton()
     {
@@ -180,16 +193,18 @@ public class MarketUIManager : MonoBehaviour
         marketManager.SellFish();
         UpdateMoneyOwnedText();
         UpdatePredictedValueText();
-    }
-    
-    public void UpdateValueTexts()
-    {
-        for (int i = 0; i < valueTexts.Count; i++)
+        if (timeManager.HoursValue >= 22 && marketManager.MoneyOwnedValue < marketManager.RentValue)
         {
-            valueTexts[i].text = $"{marketManager.FishTypes[i].FishValue}$";
+            ToggleMarketUI();
+            timeManager.PauseUnpause();
+            yield return new WaitForSecondsRealtime(0.1f);
+            timeManager.Fsm.ChangeState(timeManager.TransitionDaysState);
         }
     }
+    #endregion
     
+    
+    #region Helper Methods
     public void ToggleMarketUI()
     {
         currentMarketUIValue = !currentMarketUIValue;
@@ -203,4 +218,5 @@ public class MarketUIManager : MonoBehaviour
     {
         return currentMarketUIValue;
     }
+    #endregion
 }

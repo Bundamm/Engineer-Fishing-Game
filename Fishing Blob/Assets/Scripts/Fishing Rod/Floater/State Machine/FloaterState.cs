@@ -10,7 +10,7 @@ public class FloaterState
     {
         Floater = floater;
         Fsm = fsm;
-        Caster = floater.caster;
+        Caster = floater.Caster;
     }
     
     public virtual void EnterState() {}

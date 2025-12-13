@@ -7,8 +7,6 @@ public class TimeNightStoppedState : TimeState
 
     public override void EnterState()
     {
-        //TODO: FIX THE ROD GETTING STUCK IN CHARGING STATE
-        
         base.EnterState();
         if (!TimeManager.fishingRod.Caster.Fsm.IsInState(TimeManager.fishingRod.Caster.CaughtState) && 
             !TimeManager.fishingRod.Fsm.IsInState(TimeManager.fishingRod.ThrowAndWait))
@@ -37,9 +35,11 @@ public class TimeNightStoppedState : TimeState
             TimeManager.fishingRod.playerObject.Fsm.ChangeState(TimeManager.fishingRod.playerObject.IdleState);
         }
 
-        if (!TimeManager.timerPaused)
+        if (TimeManager.inputHandler.GetPauseValue())
         {
-            
+            TimeManager.PauseUnpause();
+            TimeManager.Fsm.ChangeState(TimeManager.PausedState);
         }
+        
     }
 }

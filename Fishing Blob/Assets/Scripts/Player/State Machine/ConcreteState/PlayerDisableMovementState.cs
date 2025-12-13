@@ -16,16 +16,17 @@ public class PlayerDisableMovementState : PlayerState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
+        Player.PlayerAnimator.SetTrigger("Idle");
         if (Player.interactionType == Player.InteractionType.Market)
         {
-            if (Player.timeManager.hoursValue >= 22)
+            if (Player.timeManager.HoursValue >= 22)
             {
-                if (Player.InputHandler.GetPauseValue())
+                if (Player.inputHandler.GetPauseValue())
                 {
                     Fsm.ChangeState(Player.IdleState);
                     Player.timeManager.marketUIManager.ToggleMarketUI();
                 }
-                if (!Player.timeManager.timerPaused)
+                if (!Player.timeManager.TimerPaused)
                 {
                     Fsm.ChangeState(Player.IdleState);
                 }

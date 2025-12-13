@@ -12,7 +12,7 @@ public class FishCaughtState : FishState
         base.EnterState();
         Debug.Log("Entered FishCaughtState");
         Fish.StickToFloater();
-        Fish.Floater.caster.containsFish = true;
+        Fish.Floater.Caster.containsFish = true;
 
     }
 

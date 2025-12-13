@@ -19,7 +19,7 @@ public class CasterWaitingForReturnState : CasterState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        bool checkIfCaughtState = Caster.currentFloaterObject.floaterStateMachine.IsInState(Caster.currentFloaterObject.returningState);
+        bool checkIfCaughtState = Caster.currentFloaterObject.FloaterStateMachine.IsInState(Caster.currentFloaterObject.ReturningState);
         if (checkIfCaughtState)
         {
             Fsm.ChangeState(Caster.CaughtState);

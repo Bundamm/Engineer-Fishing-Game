@@ -29,6 +29,7 @@ public class FloaterChooseAFishState : FloaterState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
+
         if (Floater.inputHandler.GetReelValue())
         {
             Floater.randomFish.Fsm.ChangeState(Floater.randomFish.SpookedState);
@@ -40,6 +41,7 @@ public class FloaterChooseAFishState : FloaterState
     {
         base.PhysicsUpdate();
         Floater.StickToSurface();
+
     }
 
     public override void OnTriggerEnter2D(Collider2D other)

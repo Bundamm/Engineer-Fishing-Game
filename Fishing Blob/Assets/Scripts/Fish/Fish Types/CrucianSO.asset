@@ -20,5 +20,6 @@ MonoBehaviour:
   waitAtStartMaxTime: 2
   waitUntilIdleTime: 3
   fishTypeEnum: 2
-  fishValue: 10
+  fishValue: 15
   constantFishValue: 10
+  maxFishValue: 300

@@ -1,11 +1,18 @@
 ﻿
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TimeTransitionDaysState : TimeState
 {
     private bool fadingIn;
     private bool fadingOut;
+
+    private bool trackEscInput;
+    private bool trackLmbInput;
+
+    private bool enableChecks;
+    
 
     private float alphaTransitionValue;
     
@@ -17,11 +24,11 @@ public class TimeTransitionDaysState : TimeState
     {
         base.EnterState();
         Debug.Log("Entered TimeTransitionDaysState");
-        
+        enableChecks = false;
         fadingIn = true;
         fadingOut = false;
         alphaTransitionValue = 0f;
-        TimeManager.dayCounterValue += 1;
+        TimeManager.DayCounterValue += 1;
         TimeManager.gameUICanvas.gameObject.SetActive(false);
         TimeManager.StartCoroutine(FadeInTransitionScreen());
         
@@ -34,6 +41,12 @@ public class TimeTransitionDaysState : TimeState
         {
             fadingIn = false;
         }
+        trackEscInput = TimeManager.inputHandler.GetPauseValue();
+        trackLmbInput = TimeManager.inputHandler.GetReelValue();
+        if (enableChecks)
+        {
+            InputChecks();
+        }
     }
 
     private IEnumerator FadeInTransitionScreen()
@@ -43,29 +56,110 @@ public class TimeTransitionDaysState : TimeState
             alphaTransitionValue += TimeManager.transitionTick;
             TimeManager.transitionFadeImage.color = new Color(0, 0, 0, alphaTransitionValue);
             yield return new WaitForSecondsRealtime(0.05f);
+            
         }
-        TimeManager.dayTransitionText.text = $"Day: {TimeManager.dayCounterValue}";
-        TimeManager.dayCounterText.text = $"Day: {TimeManager.dayCounterValue}";
-        TimeManager.marketManager.UpdateMoneyOverallOwnedValue();
-        TimeManager.marketManager.UpdateRentValue();
-        TimeManager.marketManager.UpdateFishValues();
-        TimeManager.marketUIManager.UpdateRentValueText();
-        TimeManager.marketUIManager.UpdateFeedPriceText();
-        TimeManager.marketUIManager.UpdateValueTexts();
-        TimeManager.marketUIManager.UpdateMoneyOwnedText();
-        TimeManager.marketUIManager.UpdateMoneyOverallText();
+        if (TimeManager.DayCounterValue < 25 && TimeManager.marketManager.MoneyOwnedValue >= TimeManager.marketManager.RentValue)
+        {
+            NextDay();
+            yield return new WaitForSecondsRealtime(3f);
+            TimeManager.StartCoroutine(FadeOutTransitionScreen());
+        }
+        else if (TimeManager.marketManager.MoneyOwnedValue < TimeManager.marketManager.RentValue)
+        {
+            GameOver();
+            enableChecks = true;
+        }
+        else if(TimeManager.DayCounterValue >= 25)
+        {
+            GameCompleted();
+            enableChecks = true;
+            
+        }
+        
+    }
+
+    private void InputChecks()
+    {
+        if (trackEscInput)
+        {
+            TimeManager.saveSystem.Save(TimeManager.marketManager.HighScore, TimeManager.HighScoreDayValue, TimeManager.marketManager.HighScoreOverallMoneyValue);
+            SceneManager.LoadScene("MainMenu");
+        }
+        else if (trackLmbInput)
+        {
+            TimeManager.saveSystem.Save(TimeManager.marketManager.HighScore, TimeManager.HighScoreDayValue, TimeManager.marketManager.HighScoreOverallMoneyValue);
+            ResetValuesAndTextsGameReset();
+            TimeManager.StartCoroutine(FadeOutTransitionScreen());
+        }
+    }
+
+    #region Types Of Actions After Fade In
+    private void NextDay()
+    {
+        TimeManager.dayTransitionText.text = $"Day: {TimeManager.DayCounterValue}";
+        TimeManager.DayCounterText.text = $"Day: {TimeManager.DayCounterValue}";
+        UpdateValuesAndTextsDayComplete();
         TimeManager.dayTransitionText.gameObject.SetActive(true);
         TimeManager.moneyEarnedTransitionText.gameObject.SetActive(true);
-        
-        yield return new WaitForSecondsRealtime(3f);
-        TimeManager.StartCoroutine(FadeOutTransitionScreen());
     }
+    
+    private void GameOver()
+    {
+        FinalScreen();
+        TimeManager.gameOverText.gameObject.SetActive(true);
+        
+    }
+    
+    private void GameCompleted()
+    {
+        FinalScreen();
+        TimeManager.finalDayReachedText.gameObject.SetActive(true);
+    }
+
+    private void FinalScreen()
+    {
+        TimeManager.DayCounterValue--;
+        TimeManager.marketManager.CalculateScore();
+        TimeManager.marketManager.CheckHighscore();
+        TimeManager.dayTransitionText.text = $"Days Completed: {TimeManager.DayCounterValue}";
+        UpdateValuesAndTextsDayComplete();
+        TimeManager.dayTransitionText.gameObject.SetActive(true);
+        
+        TimeManager.buttonPromptsText.gameObject.SetActive(true);
+        TimeManager.scoreText.gameObject.SetActive(true);
+        if (TimeManager.isNewHighscore)
+        {
+            TimeManager.newHighscoreText.gameObject.SetActive(true);
+        }
+    }
+
+    #endregion
+
+    #region TextUpdating
+    private void UpdateValuesAndTextsDayComplete()
+    {
+        TimeManager.marketManager.UpdateAllValues();
+        TimeManager.marketUIManager.UpdateAllTexts();
+    }
+
+    private void ResetValuesAndTextsGameReset()
+    {
+        TimeManager.marketManager.ResetAllValues();
+        TimeManager.marketUIManager.UpdateAllTexts();
+    }
+    #endregion
 
     private IEnumerator FadeOutTransitionScreen()
     {
         fadingOut = true;
         TimeManager.dayTransitionText.gameObject.SetActive(false);
         TimeManager.moneyEarnedTransitionText.gameObject.SetActive(false);
+        TimeManager.gameOverText.gameObject.SetActive(false);
+        TimeManager.buttonPromptsText.gameObject.SetActive(false);
+        TimeManager.newHighscoreText.gameObject.SetActive(false);
+        TimeManager.scoreText.gameObject.SetActive(false);
+        TimeManager.finalDayReachedText.gameObject.SetActive(false);
+        TimeManager.player.playerRb.transform.position = TimeManager.player.GetPlayerStartPosition();
         while (fadingOut)
         {
             alphaTransitionValue -= TimeManager.transitionTick;
@@ -78,6 +172,7 @@ public class TimeTransitionDaysState : TimeState
         }
         TimeManager.fishingRod.Fsm.ChangeState(TimeManager.fishingRod.IdleState);
         TimeManager.fishingRod.Caster.Fsm.ChangeState(TimeManager.fishingRod.Caster.IdleState);
+        TimeManager.fishSpawner.DespawnAllFish();
         Fsm.ChangeState(TimeManager.DayStartState);
     }
 }

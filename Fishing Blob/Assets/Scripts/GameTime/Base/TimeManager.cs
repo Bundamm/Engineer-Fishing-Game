@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -10,10 +11,21 @@ public class TimeManager : MonoBehaviour
     [Header("Other Objects")]
     public InputHandler inputHandler;
     public Volume timeVolume;
-    public GameObject localLights;
+    public FishSpawner fishSpawner;
     public Rod fishingRod;
     public MarketManager marketManager;
     public MarketUIManager marketUIManager;
+    public Player player;
+    public SaveSystem saveSystem;
+    #endregion
+    
+    #region Lights
+    [SerializeField]
+    private GameObject staticLights;
+    [SerializeField]
+    private Light2D playerLampLight;
+    [SerializeField]
+    private List<Animator> lamps; 
     #endregion
     
     #region Transition Elements
@@ -22,12 +34,17 @@ public class TimeManager : MonoBehaviour
     public Canvas gameUICanvas;
     public TextMeshProUGUI dayTransitionText;
     public TextMeshProUGUI moneyEarnedTransitionText;
+    public TextMeshProUGUI gameOverText;
+    public TextMeshProUGUI finalDayReachedText;
+    public TextMeshProUGUI newHighscoreText;
+    public TextMeshProUGUI buttonPromptsText;
+    public TextMeshProUGUI scoreText;
+    public bool isNewHighscore;
     
     public float transitionTick = 0.05f;
     #endregion
     
     #region PauseElements 
-    //TODO: IMPORTANT ADD PAUSE UI
     [Header("Pause Elements")]
     public Canvas pauseCanvas;
     #endregion
@@ -39,21 +56,24 @@ public class TimeManager : MonoBehaviour
     #endregion
     
     #region TimerValues
-    [Header("Timer Values")]
-    public int tickValue = 10;
 
-    public int timeOfNoon = 9;
-    public int timeOfAfternoon = 14;
-    
-    [HideInInspector]
-    public bool timerPaused;
-    [HideInInspector]
-    public int dayCounterValue = 1;
-    public decimal minutesValue;
-    [HideInInspector]
-    public int hoursValue;
-    public TextMeshProUGUI dayCounterText;
-    public TextMeshProUGUI timeText;
+    [field: Header("Timer Values")] 
+    [field: SerializeField]
+    public int TickValue { get; set; } = 10;
+    [field: SerializeField]
+    public int TimeOfNoon { get; set; } = 9;
+    [field: SerializeField]
+    public int TimeOfAfternoon { get; set; } = 14;
+    public bool TimerPaused { get; set; }
+    public int DayCounterValue { get; set; } = 1;
+    public int HighScoreDayValue { get; private set; } = 1;
+    public decimal MinutesValue { get; set; }
+    public int HoursValue { get; set; }
+    [field: SerializeField]
+    public TextMeshProUGUI DayCounterText { get; set; }
+    [field: SerializeField]
+    public TextMeshProUGUI TimeText { get; set; }
+
     #endregion
     
     #region State Machine Variables
@@ -80,6 +100,7 @@ public class TimeManager : MonoBehaviour
     
     private void Start()
     {
+        HighScoreDayValue = saveSystem.HighScoreDays;
         marketManager.SetStartingValues();
         marketUIManager.UpdateValueTexts();
         marketUIManager.UpdateRentValueText();
@@ -89,11 +110,30 @@ public class TimeManager : MonoBehaviour
     private void Update()
     {
         Fsm.CurrentTimeState.FrameUpdate();
-        
+        if (HoursValue >= 18)
+        {
+            foreach (Animator lamp in lamps)
+            {
+                lamp.SetBool("IsOn", true);
+            }
+            staticLights.SetActive(true);
+            playerLampLight.enabled = true;
+        }
+        else
+        {
+            foreach (Animator lamp in lamps)
+            {
+                lamp.SetBool("IsOn", false);
+            }
+            staticLights.SetActive(false);
+            playerLampLight.enabled = false;
+        }
+
     }
     
     public void PauseUnpause()
     {
-        timerPaused = !timerPaused;
+        TimerPaused = !TimerPaused;
     }
+    
 }

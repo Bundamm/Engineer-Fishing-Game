@@ -22,3 +22,4 @@ MonoBehaviour:
   fishTypeEnum: 3
   fishValue: 50
   constantFishValue: 50
+  maxFishValue: 1000

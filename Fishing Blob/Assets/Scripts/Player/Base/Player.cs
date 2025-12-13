@@ -3,29 +3,28 @@ public class Player : MonoBehaviour
 {
     #region Player Variables
     [HideInInspector]
-    public Rigidbody2D playerRB;
-    [HideInInspector]
-    public CircleCollider2D playerCollider;
-    public InputHandler InputHandler;
-    public bool currentInteractionValue;
+    public Rigidbody2D playerRb;
+    public InputHandler inputHandler;
     public InteractionType interactionType;
+    public bool CurrentInteractionValue { get; set; }
+    public Animator PlayerAnimator { get;  private set; }
     #endregion
     
     #region State Machine Variables
     public PlayerStateMachine Fsm { get; private set; }
     public PlayerIdleState IdleState { get; private set; }
     public PlayerMovingState MovingState { get; private set; }
-    public PlayerPrepareState PrepareState { get; private set; }
+    public PlayerChargeState ChargeState { get; private set; }
     public PlayerDisableMovementState DisableMovementState { get; private set; }
     
     #endregion
-    
     #region Movement Variables
     public float movementSpeed = 10f;
     public float movementSpeedWhileCharging = 1f;
     public float speedMultiplier = 10f;
     public Transform leftLimit, rightLimit;
     public Vector2 playerPosition;
+    private Vector2 playerStartPosition;
     #endregion
     
     #region Time Manager
@@ -35,17 +34,18 @@ public class Player : MonoBehaviour
     
     private void Awake()
     {
-        playerRB = GetComponent<Rigidbody2D>();
-        playerCollider = GetComponent<CircleCollider2D>();
+        PlayerAnimator = GetComponent<Animator>();
+        playerRb = GetComponent<Rigidbody2D>();
         Fsm = new PlayerStateMachine();
         IdleState = new PlayerIdleState(this, Fsm);
         MovingState = new PlayerMovingState(this, Fsm);
-        PrepareState = new PlayerPrepareState(this, Fsm);
+        ChargeState = new PlayerChargeState(this, Fsm);
         DisableMovementState = new PlayerDisableMovementState(this, Fsm);
     }
 
     private void Start()
     {
+        playerStartPosition = playerRb.transform.position;
         Fsm.Initialize(IdleState);
     }
 
@@ -59,12 +59,7 @@ public class Player : MonoBehaviour
     {
         if (timeManager.Fsm.IsInState(timeManager.PausedState)) return;
         Fsm.CurrentPlayerState.PhysicsUpdate();
-        playerPosition = playerRB.transform.position;
-    }
-    
-    private void AnimationTriggerEvent(AnimationTriggerType triggerType)
-    {
-        Fsm.CurrentPlayerState.AnimationTriggerEvent(triggerType);
+        playerPosition = playerRb.transform.position;
     }
 
     public void MovePlayer(float speed, float moveValue)
@@ -72,7 +67,7 @@ public class Player : MonoBehaviour
         Vector2 movementVector = new Vector2(moveValue * Time.deltaTime * speed* speedMultiplier, 0f);
         playerPosition += movementVector;
         playerPosition.x = Mathf.Clamp(playerPosition.x, leftLimit.position.x, rightLimit.position.x);
-        playerRB.transform.position = playerPosition;
+        playerRb.transform.position = playerPosition;
         if (moveValue != 0)
         {
             transform.localScale = new Vector2(moveValue * 0.8f, 0.8f);
@@ -90,11 +85,6 @@ public class Player : MonoBehaviour
         if (timeManager.Fsm.IsInState(timeManager.PausedState)) return;
         Fsm.CurrentPlayerState.OnTriggerExit2D(collision);
     }
-    
-    public enum AnimationTriggerType
-    {
-        Example
-    }
 
     public enum InteractionType
     {
@@ -105,9 +95,9 @@ public class Player : MonoBehaviour
 
     public void InteractionTriggerEvent(InteractionType interactionTypeEnum)
     {
-        if (currentInteractionValue)
+        if (CurrentInteractionValue)
         {
-            if (InputHandler.GetInteractValue())
+            if (inputHandler.GetInteractValue())
             {
                 Fsm.ChangeState(DisableMovementState);
             
@@ -118,8 +108,7 @@ public class Player : MonoBehaviour
                 }
                 else if (interactionTypeEnum == InteractionType.Market)
                 {
-                    //TODO: IMPLEMENT MARKET INTERACTION
-                    if (timeManager.hoursValue <= 22)
+                    if (timeManager.HoursValue <= 22)
                     {
                         timeManager.PauseUnpause();
                     }
@@ -132,5 +121,10 @@ public class Player : MonoBehaviour
                 }
             }
         }
+    }
+
+    public Vector2 GetPlayerStartPosition()
+    {
+        return playerStartPosition;
     }
 }

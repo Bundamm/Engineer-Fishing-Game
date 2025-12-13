@@ -23,6 +23,8 @@ public class FishTypes : ScriptableObject
     private float fishValue;
     [SerializeField] 
     private float constantFishValue;
+    [SerializeField] 
+    private float maxFishValue;
     
 
     
@@ -38,7 +40,7 @@ public class FishTypes : ScriptableObject
     public decimal FishValue
     {
         get => (decimal)fishValue;
-        set => fishValue = (float)value;
+        set => fishValue = Mathf.Clamp((float)value, 15f, maxFishValue);
     }
     public decimal ConstantFishValue => (decimal)constantFishValue;
 }

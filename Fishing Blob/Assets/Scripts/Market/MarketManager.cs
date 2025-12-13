@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class MarketManager : MonoBehaviour
 {
+    //TODO: ADD READING PREVIOUS RECORD
+    
     #region Other Objects
     [Header("Other Objects")]
     [SerializeField]
@@ -11,14 +13,17 @@ public class MarketManager : MonoBehaviour
     private InventoryManager inventoryManager;
     [SerializeField] 
     private FishSpawner fishSpawner;
+    [SerializeField]
+    private TimeManager timeManager;
+    [SerializeField]
+    private SaveSystem saveSystem;
     #endregion
     
-    #region Money Value Helpers
-    private int _inventoryValue = 0;
-    private int _moneyOwnedValue = 0;
-    private int _overallMoneyValue = 0;
+    #region Helper Variables
     private float _rentPriceIncrease = 0;
     private float _feedPriceIncrease = 0;
+    private float _startRentValue;
+    private float _startFeedPrice;
     #endregion
 
     #region Rent And Feed Values
@@ -28,22 +33,43 @@ public class MarketManager : MonoBehaviour
     [SerializeField]
     private float feedPrice = 100;
     [SerializeField]
+    private float maxRentValue = 20000;
+    [SerializeField]
+    private float maxFeedValue = 500;
+    [SerializeField]
     private float feedPriceMultiplier = 0.01f;
+    [SerializeField]
+    private float moneyOwnedRentMultiplier = 0.3f;
     [SerializeField]
     private float rentPriceMultiplier = 0.2f;
     [SerializeField]
-    private float moneyOwnedRentMultiplier = 0.3f;
+    private float finalScoreMultiplier = 0.5f;
+    [SerializeField]
+    private int dayCheckValue = 5;
+    
     #endregion
     
     #region Properties
     public List<FishTypes> FishTypes => fishTypes;
-    public int MoneyOwnedValue => _moneyOwnedValue;
-    public int OverallMoneyValue => _overallMoneyValue;
-    public int InventoryValue => _inventoryValue;
+    public int MoneyOwnedValue { get; private set; } = 0;
+    public int OverallMoneyValue { get; private set; } = 0;
+    public int HighScoreOverallMoneyValue { get; private set; } = 0;
+    public int InventoryValue { get; private set; } = 0;
     public float RentValue => rentValue;
     public float FeedPrice => feedPrice;
-    #endregion
+    public int FinalScore { get; private set;  }
+    public int HighScore { get; private set; }
 
+    #endregion
+    
+    private void Start()
+    {
+        _startRentValue = rentValue;
+        _startFeedPrice = feedPrice;
+        HighScoreOverallMoneyValue = saveSystem.MoneyGainedOverallHighScore;
+        HighScore = saveSystem.HighScore;
+    }
+    
     public void SetStartingValues()
     {
         foreach (FishTypes fishType in fishTypes)
@@ -66,62 +92,136 @@ public class MarketManager : MonoBehaviour
             int randomListPos = Random.Range(0, multiplierValues.Count);
             decimal r = multiplierValues[randomListPos];
             multiplierValues.RemoveAt(randomListPos);
-            fishType.FishValue += fishType.ConstantFishValue * r;
+            if (timeManager.DayCounterValue % dayCheckValue == 0)
+            {
+                fishType.FishValue -= fishType.ConstantFishValue * r;
+            }
+            else
+            {
+                fishType.FishValue += fishType.ConstantFishValue * r;
+            }
+            
         }
     }
+
+    public void ResetFishValues()
+    {
+        foreach (FishTypes fishType in fishTypes)
+        {
+            fishType.FishValue = fishType.ConstantFishValue;
+        }
+    }
+    
 
     public void UpdateValueOfInventory()
     {
         for (int i = 0; i < fishTypes.Count; i++)
         {
-            _inventoryValue += inventoryManager.GetFishSlots(i).fishAmount * (int)fishTypes[i].FishValue;
+            InventoryValue += inventoryManager.GetFishSlots(i).fishAmount * (int)fishTypes[i].FishValue;
         }
     }
     
     public void ResetInventoryValue()
     {
-        _inventoryValue = 0;
+        InventoryValue = 0;
     }
 
     public void ResetMoneyOwnedValue()
     {
-        _moneyOwnedValue /= 3;
+        MoneyOwnedValue /= 3;
+    }
+
+    public void UpdateAllValues()
+    {
+        UpdateMoneyOverallOwnedValue();
+        UpdateRentValue();
+        UpdateFishValues();
+        UpdateFeedPrice();
+    }
+    
+    public void ResetAllValues()
+    {
+        InventoryValue = 0;
+        MoneyOwnedValue = 0;
+        OverallMoneyValue = 0;
+        rentValue = _startRentValue;
+        feedPrice = _startFeedPrice;
+        ResetFishValues();
+        
     }
 
     public void SellFish()
     {
-        _moneyOwnedValue += _inventoryValue;
+        MoneyOwnedValue += InventoryValue;
         ResetInventoryValue();
         inventoryManager.ClearInventory();
     }
 
     public void UpdateMoneyOverallOwnedValue()
     {
-        _overallMoneyValue += _moneyOwnedValue;
+        OverallMoneyValue += MoneyOwnedValue;
         ResetMoneyOwnedValue();
     }
 
     public void UpdateFeedPrice()
     {
-        _feedPriceIncrease = _overallMoneyValue * feedPriceMultiplier;
-        feedPrice += _feedPriceIncrease;
-        feedPrice = (int)feedPrice;
+        _feedPriceIncrease = OverallMoneyValue * feedPriceMultiplier;
+        if (timeManager.DayCounterValue % dayCheckValue == 0)
+        {
+            feedPrice -= _feedPriceIncrease;
+            feedPrice /= 2;
+        }
+        else
+        {
+            feedPrice += _feedPriceIncrease;
+        }
+        feedPrice = Mathf.Clamp(feedPrice, 0, maxFeedValue);
+        feedPrice = (int)Mathf.Round(feedPrice);
         
     }
 
     public void UpdateRentValue()
     {
-        _rentPriceIncrease = _overallMoneyValue * moneyOwnedRentMultiplier / (rentValue *  rentPriceMultiplier);
-        rentValue *= _rentPriceIncrease;
-        rentValue = (int)rentValue;
+        _rentPriceIncrease = OverallMoneyValue * moneyOwnedRentMultiplier / (rentValue *  rentPriceMultiplier);
+        if (timeManager.DayCounterValue % dayCheckValue == 0)
+        {
+            rentValue /= _rentPriceIncrease;
+        }
+        else
+        {
+            rentValue *= _rentPriceIncrease;
+        }
+        rentValue = Mathf.Clamp(rentValue, 0, maxRentValue);
+        rentValue = (int)Mathf.Round(rentValue);
     }
 
     public void PayAndFeedFish(FishTypeEnum fishType)
     {
-        if (_moneyOwnedValue >= feedPrice)
+        if (MoneyOwnedValue >= feedPrice)
         {
-            _moneyOwnedValue -= (int)feedPrice;
+            MoneyOwnedValue -= (int)feedPrice;
             fishSpawner.FeedFish(fishType);   
+        }
+    }
+
+    public void CalculateScore()
+    {
+        int scoreHelper = OverallMoneyValue * timeManager.DayCounterValue;
+        FinalScore = (int)(scoreHelper * finalScoreMultiplier);
+    }
+
+    public void CheckHighscore()
+    {
+        if (FinalScore > HighScore)
+        {
+            HighScore = FinalScore;
+            HighScoreOverallMoneyValue = OverallMoneyValue;
+            timeManager.DayCounterValue = timeManager.DayCounterValue;
+            timeManager.isNewHighscore = true;
+        }
+        else
+        {
+            timeManager.isNewHighscore = false;
         }
     }
 }
