@@ -119,12 +119,12 @@ public class TimeTransitionDaysState : TimeState
     private void FinalScreen()
     {
         TimeManager.DayCounterValue--;
+        UpdateValuesAndTextsDayComplete();
         TimeManager.marketManager.CalculateScore();
         TimeManager.marketManager.CheckHighscore();
+        TimeManager.scoreText.text = $"Final Score: {TimeManager.marketManager.FinalScore}";
         TimeManager.dayTransitionText.text = $"Days Completed: {TimeManager.DayCounterValue}";
-        UpdateValuesAndTextsDayComplete();
         TimeManager.dayTransitionText.gameObject.SetActive(true);
-        
         TimeManager.buttonPromptsText.gameObject.SetActive(true);
         TimeManager.scoreText.gameObject.SetActive(true);
         if (TimeManager.isNewHighscore)

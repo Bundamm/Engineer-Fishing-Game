@@ -6694,8 +6694,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu
   audioManager: {fileID: 0}
   timeManager: {fileID: 1322813666}
+  saveSystem: {fileID: 0}
   controlsPanel: {fileID: 0}
   creditsPanel: {fileID: 0}
+  highscoreText: {fileID: 0}
+  mostMoneyOwnedText: {fileID: 0}
+  mostDaysCompletedText: {fileID: 0}
   startButton: {fileID: 0}
   controlsButton: {fileID: 0}
   creditsButton: {fileID: 0}

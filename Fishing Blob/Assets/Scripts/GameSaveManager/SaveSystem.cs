@@ -3,11 +3,10 @@ using UnityEngine;
 
 public class SaveSystem : MonoBehaviour
 {
-    public int HighScore { get; set; } = 0;
+    public int HighScore { get; set; }
     public int HighScoreDays { get; set; } = 1;
-    public int MoneyGainedOverallHighScore { get; set; } = 0;
-
-    public static SaveSystem Instance { get; private set; }
+    public int MoneyGainedOverallHighScore { get; set; }
+    private static SaveSystem Instance { get; set; }
     private string SavePath => Path.Combine(Application.persistentDataPath + "save.json");
 
     private void Awake()

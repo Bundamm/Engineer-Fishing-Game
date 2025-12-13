@@ -147,7 +147,6 @@ public class MarketManager : MonoBehaviour
         rentValue = _startRentValue;
         feedPrice = _startFeedPrice;
         ResetFishValues();
-        
     }
 
     public void SellFish()
@@ -160,6 +159,7 @@ public class MarketManager : MonoBehaviour
     public void UpdateMoneyOverallOwnedValue()
     {
         OverallMoneyValue += MoneyOwnedValue;
+        Debug.Log(MoneyOwnedValue);
         ResetMoneyOwnedValue();
     }
 
@@ -207,7 +207,9 @@ public class MarketManager : MonoBehaviour
     public void CalculateScore()
     {
         int scoreHelper = OverallMoneyValue * timeManager.DayCounterValue;
+        Debug.Log(OverallMoneyValue);
         FinalScore = (int)(scoreHelper * finalScoreMultiplier);
+        Debug.Log(FinalScore);
     }
 
     public void CheckHighscore()
