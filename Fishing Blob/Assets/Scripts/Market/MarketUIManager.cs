@@ -50,6 +50,7 @@ public class MarketUIManager : MonoBehaviour
     private List<MainButton> feedButtonsObjects;
     private MainButton sellButtonObject;
     private MainButton closeButtonObject;
+    private AudioSource marketSource;
     private bool currentMarketUIValue;
     #endregion
     
@@ -71,6 +72,7 @@ public class MarketUIManager : MonoBehaviour
     {
         feedButtonsObjects = new List<MainButton>();
         
+        
     }
 
     private void Start()
@@ -89,6 +91,7 @@ public class MarketUIManager : MonoBehaviour
 
         sellButtonObject = new MainButton(sellButton.GetComponent<Image>(), clickedButton);
         closeButtonObject = new MainButton(closeButton.GetComponent<Image>(), clickedCloseButton);
+        marketSource = GetComponent<AudioSource>();
     }
     #endregion
 
@@ -109,8 +112,6 @@ public class MarketUIManager : MonoBehaviour
         StartCoroutine(ClickSellButton());  
     }
     #endregion
-
-    
     
     #region Update Text
     public void UpdateMoneyOwnedText()
@@ -169,6 +170,7 @@ public class MarketUIManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(0.1f);
             marketManager.PayAndFeedFish(fishType);
             UpdateMoneyOwnedText();
+            AudioManager.Instance.PlaySound(AudioManager.SoundType.MeowFeed, marketSource);
         }
     }
     
@@ -181,6 +183,7 @@ public class MarketUIManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1f);
         timeManager.PauseUnpause();
         ToggleMarketUI();
+        AudioManager.Instance.PlaySound(AudioManager.SoundType.Close,  AudioManager.Instance.ManagerSource);
     }
 
     public IEnumerator ClickSellButton()
@@ -198,7 +201,12 @@ public class MarketUIManager : MonoBehaviour
             ToggleMarketUI();
             timeManager.PauseUnpause();
             yield return new WaitForSecondsRealtime(0.1f);
+            AudioManager.Instance.PlaySound(AudioManager.SoundType.MeowAngry, marketSource);
             timeManager.Fsm.ChangeState(timeManager.TransitionDaysState);
+        }
+        else
+        {
+            AudioManager.Instance.PlaySound(AudioManager.SoundType.MeowNormal, marketSource);
         }
     }
     #endregion

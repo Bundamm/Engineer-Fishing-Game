@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     public InteractionType interactionType;
     public bool CurrentInteractionValue { get; set; }
     public Animator PlayerAnimator { get;  private set; }
+    public AudioSource PlayerSource { get;  private set; }
+    private bool _isFirstSound = true;
     #endregion
     
     #region State Machine Variables
@@ -45,6 +47,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        PlayerSource = GetComponent<AudioSource>();
         playerStartPosition = playerRb.transform.position;
         Fsm.Initialize(IdleState);
     }
@@ -99,8 +102,6 @@ public class Player : MonoBehaviour
         {
             if (inputHandler.GetInteractValue())
             {
-                Fsm.ChangeState(DisableMovementState);
-            
                 if (interactionTypeEnum == InteractionType.Sleep)
                 {
                     Debug.Log("INTERACTION COMPLETED");
@@ -126,5 +127,17 @@ public class Player : MonoBehaviour
     public Vector2 GetPlayerStartPosition()
     {
         return playerStartPosition;
+    }
+
+    public void PlayMoveSound()
+    {
+
+        AudioManager.SoundType moveSound = _isFirstSound ? 
+            AudioManager.SoundType.MoveOne :
+            AudioManager.SoundType.MoveTwo;
+    
+        AudioManager.Instance.PlaySound(moveSound, PlayerSource);
+    
+        _isFirstSound = !_isFirstSound;
     }
 }

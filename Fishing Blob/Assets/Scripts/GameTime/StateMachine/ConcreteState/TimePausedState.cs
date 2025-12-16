@@ -10,9 +10,11 @@ public class TimePausedState : TimeState
     {
         base.EnterState();
         Debug.Log("Entered Time Paused State");
+        TimeManager.player.Fsm.ChangeState(TimeManager.player.IdleState);
         if (!TimeManager.marketUIManager.GetCurrentMarketUIValue())
         {
             TimeManager.pauseCanvas.gameObject.SetActive(true);
+            AudioManager.Instance.PlaySound(AudioManager.SoundType.Pause, AudioManager.Instance.ManagerSource);
         }
     }
 
@@ -22,6 +24,7 @@ public class TimePausedState : TimeState
         if (TimeManager.pauseCanvas.gameObject.activeInHierarchy)
         {
             TimeManager.pauseCanvas.gameObject.SetActive(false);
+            AudioManager.Instance.PlaySound(AudioManager.SoundType.Unpause, AudioManager.Instance.ManagerSource);
         }
     }
 
@@ -37,6 +40,7 @@ public class TimePausedState : TimeState
             if (TimeManager.marketUIManager.GetCurrentMarketUIValue())
             {
                 TimeManager.marketUIManager.ToggleMarketUI();
+                
             }
             if (TimeManager.HoursValue < 22)
             {

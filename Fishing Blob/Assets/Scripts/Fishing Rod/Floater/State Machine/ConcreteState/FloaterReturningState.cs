@@ -15,6 +15,7 @@ public class FloaterReturningState : FloaterState
         Floater.FloaterRb.bodyType = RigidbodyType2D.Kinematic;
         floaterToAnchorPos = Floater.CalculateMidPointBetweenFloaterAndCaster();
         Floater.Water.Splash(Floater.GetComponent<Collider2D>(), 5f);
+        AudioManager.Instance.PlaySound(AudioManager.SoundType.Reel, Floater.FloaterSource);
         percentageToCaster = 0f;
     }
 

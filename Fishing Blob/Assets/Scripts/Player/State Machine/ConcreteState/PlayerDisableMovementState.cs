@@ -10,13 +10,14 @@ public class PlayerDisableMovementState : PlayerState
     public override void EnterState()
     {
         base.EnterState();
+        Player.PlayerAnimator.SetBool("isMoving", false);
         Debug.Log("Entered PlayerDisableMovementState");
     }
 
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        Player.PlayerAnimator.SetTrigger("Idle");
+        
         if (Player.interactionType == Player.InteractionType.Market)
         {
             if (Player.timeManager.HoursValue >= 22)

@@ -37,6 +37,7 @@ public class FishHookedState : FishState
         {
             Fish.fishRB.linearVelocity = Vector3.zero;
             _spookCoroutine = Fish.StartCoroutine(WaitForUntilSpookedState());
+            AudioManager.Instance.PlaySound(AudioManager.SoundType.Hook, Fish.FishSound);
             Debug.Log("Fish stopped at floater");
         }
     }

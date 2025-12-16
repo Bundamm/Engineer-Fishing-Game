@@ -66,7 +66,7 @@ public class TimeManager : MonoBehaviour
     public int TimeOfAfternoon { get; set; } = 14;
     public bool TimerPaused { get; set; }
     public int DayCounterValue { get; set; } = 1;
-    public int HighScoreDayValue { get; private set; } = 1;
+    public int HighScoreDayValue { get; set; } = 1;
     public decimal MinutesValue { get; set; }
     public int HoursValue { get; set; }
     [field: SerializeField]

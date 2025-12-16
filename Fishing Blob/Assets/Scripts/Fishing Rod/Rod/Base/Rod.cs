@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class Rod : MonoBehaviour
 {
-    #region DO PRZEROBIENIA
+    #region Rod
+
+    public AudioSource RodSource { get; private set; }
     [Header("Scripts")]
     [SerializeField]
-    public InputHandler InputHandler;
+    public InputHandler inputHandler;
     [SerializeField]
-    public RodRotator RodRotator;
+    public RodRotator rodRotator;
+
+    [SerializeField] 
+    public Animator rodAnimator;
 
     [Header("Casting")]
     [SerializeField]
     private float maxCastPower = 400f;
     [SerializeField] 
     private float castPowerIncrease = 5f;
-    public Caster Caster;
+    public Caster caster;
     [HideInInspector]
     public float castPower;
 
@@ -51,6 +56,7 @@ public class Rod : MonoBehaviour
 
     private void Awake()
     {
+        RodSource = GetComponent<AudioSource>();
         Fsm = new RodStateMachine();
         
         IdleState = new RodIdleState(this, Fsm);
@@ -92,25 +98,30 @@ public class Rod : MonoBehaviour
     #region Public Methods
     public void ResetCast()
     {
-        RodRotator.SetIsRotated(false);
-        RodRotator.transform.rotation = RodRotator.GetStartRotation();
+        rodRotator.SetIsRotated(false);
+        rodRotator.transform.rotation = rodRotator.GetStartRotation();
     }
     
     public void CalculateCastPower()
     {
-        if (castPower <= maxCastPower)
+        if (castPower < maxCastPower)
         {
             castPower += castPowerIncrease * Time.deltaTime;
         }
+        else if(castPower >= maxCastPower)
+        {
+            rodAnimator.SetBool("IsShaking", true);
+        }
+        
     }
 
     public void CasterThrowFloater()
     {
         Debug.Log("Throwing Floater");
-        Debug.Log(Caster);
-        if (Caster.Fsm.IsInState(Caster.IdleState))
+        Debug.Log(caster);
+        if (caster.Fsm.IsInState(caster.IdleState))
         {
-            Caster.Fsm.ChangeState(Caster.ThrowingState);
+            caster.Fsm.ChangeState(caster.ThrowingState);
         }
     }
     #endregion

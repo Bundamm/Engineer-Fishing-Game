@@ -83,6 +83,7 @@ public class TimeTransitionDaysState : TimeState
         if (trackEscInput)
         {
             TimeManager.saveSystem.Save(TimeManager.marketManager.HighScore, TimeManager.HighScoreDayValue, TimeManager.marketManager.HighScoreOverallMoneyValue);
+            ResetValuesAndTextsGameReset();
             SceneManager.LoadScene("MainMenu");
         }
         else if (trackLmbInput)
@@ -119,14 +120,21 @@ public class TimeTransitionDaysState : TimeState
     private void FinalScreen()
     {
         TimeManager.DayCounterValue--;
+        if (TimeManager.saveSystem.HighScoreDays < TimeManager.DayCounterValue)
+        {
+            TimeManager.HighScoreDayValue = TimeManager.DayCounterValue;
+        }
         UpdateValuesAndTextsDayComplete();
         TimeManager.marketManager.CalculateScore();
         TimeManager.marketManager.CheckHighscore();
+        
         TimeManager.scoreText.text = $"Final Score: {TimeManager.marketManager.FinalScore}";
         TimeManager.dayTransitionText.text = $"Days Completed: {TimeManager.DayCounterValue}";
+        
         TimeManager.dayTransitionText.gameObject.SetActive(true);
         TimeManager.buttonPromptsText.gameObject.SetActive(true);
         TimeManager.scoreText.gameObject.SetActive(true);
+        
         if (TimeManager.isNewHighscore)
         {
             TimeManager.newHighscoreText.gameObject.SetActive(true);
@@ -171,7 +179,7 @@ public class TimeTransitionDaysState : TimeState
             yield return new WaitForSecondsRealtime(0.05f);
         }
         TimeManager.fishingRod.Fsm.ChangeState(TimeManager.fishingRod.IdleState);
-        TimeManager.fishingRod.Caster.Fsm.ChangeState(TimeManager.fishingRod.Caster.IdleState);
+        TimeManager.fishingRod.caster.Fsm.ChangeState(TimeManager.fishingRod.caster.IdleState);
         TimeManager.fishSpawner.DespawnAllFish();
         Fsm.ChangeState(TimeManager.DayStartState);
     }

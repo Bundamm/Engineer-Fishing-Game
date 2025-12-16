@@ -57,12 +57,12 @@ public class MainMenu : MonoBehaviour
     #endregion
     
     #region Helper Variables
-    private bool _audioEnabled = true;
-    public bool AudioEnabled => _audioEnabled;
+    private bool _audioEnabled;
     #endregion
     
     private void Start()
     {
+        _audioEnabled = AudioListener.volume > 0;
         if (SceneManager.GetActiveScene().name == "MainMenu")
         {
             highscoreText.text = $"Highscore: {saveSystem.HighScore}";
@@ -111,6 +111,7 @@ public class MainMenu : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1f);
         startButton.image.sprite = buttonSprites[0];
         yield return new WaitForSecondsRealtime(0.1f);
+        AudioManager.Instance.PlaySound(AudioManager.SoundType.UIButtonPop, AudioManager.Instance.ManagerSource);
         StartGame();
     }
 
@@ -120,6 +121,7 @@ public class MainMenu : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1f);
         controlsButton.image.sprite = buttonSprites[0];
         yield return new WaitForSecondsRealtime(0.1f);
+        AudioManager.Instance.PlaySound(AudioManager.SoundType.UIButtonPop2, AudioManager.Instance.ManagerSource);
         ToggleControlsMenu();
     }
 
@@ -131,6 +133,7 @@ public class MainMenu : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1f);
         creditsButton.image.sprite = buttonSprites[0];
         yield return new WaitForSecondsRealtime(0.1f);
+        AudioManager.Instance.PlaySound(AudioManager.SoundType.UIButtonPop2, AudioManager.Instance.ManagerSource);
         ToggleCreditsMenu();
     }
 
@@ -140,6 +143,7 @@ public class MainMenu : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1f);
         exitButton.image.sprite = buttonSprites[0];
         yield return new WaitForSecondsRealtime(0.1f);
+        AudioManager.Instance.PlaySound(AudioManager.SoundType.UIButtonPop, AudioManager.Instance.ManagerSource);
         ToggleExit();
     }
 
@@ -149,14 +153,18 @@ public class MainMenu : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1f);
         resumeButton.image.sprite = buttonSprites[0];
         yield return new WaitForSecondsRealtime(0.1f);
+        AudioManager.Instance.PlaySound(AudioManager.SoundType.Unpause, AudioManager.Instance.ManagerSource);
         timeManager.PauseUnpause();
     }
     
     public void ToggleAudioButton()
     {
         _audioEnabled = !_audioEnabled;
-        if (_audioEnabled) audioButton.image.sprite = toggleSprites[1];
-        else  audioButton.image.sprite = toggleSprites[0];
+        AudioManager.Instance.MuteSounds(_audioEnabled);
+        
+        audioButton.image.sprite = _audioEnabled ? toggleSprites[0] : toggleSprites[1];
+        if(_audioEnabled) AudioManager.Instance.PlaySound(AudioManager.SoundType.UIButtonPop, AudioManager.Instance.ManagerSource);
+        
     }
     
     private IEnumerator ToggleBackToMainMenuButton()
@@ -165,6 +173,7 @@ public class MainMenu : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1f);
         backToMainMenuButton.image.sprite = buttonSprites[0];
         yield return new WaitForSecondsRealtime(0.1f);
+        AudioManager.Instance.PlaySound(AudioManager.SoundType.UIButtonPop, AudioManager.Instance.ManagerSource);
         BackToMainMenu();
     }
 

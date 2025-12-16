@@ -26,6 +26,7 @@ public class TimeDayActiveState : TimeState
         if (TimeManager.inputHandler.GetPauseValue())
         {
             TimeManager.PauseUnpause();
+            AudioManager.Instance.PlaySound(AudioManager.SoundType.Pause, AudioManager.Instance.ManagerSource);
         }
         if (!TimeManager.TimerPaused)
         {

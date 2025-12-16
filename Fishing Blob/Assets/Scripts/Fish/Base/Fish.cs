@@ -7,6 +7,7 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
     public FishTypes fishType;
     [SerializeField]
     private CircleCollider2D fishFaceCollider;
+    public AudioSource FishSound { get; private set; }
     #endregion
 
     #region Water Variables
@@ -47,6 +48,7 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
     {
         _water = FindAnyObjectByType<Water>();
         _timeManager = FindAnyObjectByType<TimeManager>();
+        FishSound = GetComponent<AudioSource>();
         Fsm = new FishStateMachine();
 
         IdleState = new FishIdleState(this, Fsm);

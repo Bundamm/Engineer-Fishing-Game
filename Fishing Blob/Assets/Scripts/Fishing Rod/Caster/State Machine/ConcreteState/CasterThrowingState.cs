@@ -13,8 +13,8 @@ public class CasterThrowingState : CasterState
         
         // Floater initialization and casting
         Caster.CreateFloater();
-        Caster.castVector = new Vector2(Caster.Rod.castPower / 2, Caster.Rod.castPower / 3);
-        Caster.currentFloater.GetComponent<Rigidbody2D>().AddForce(Caster.castVector,  ForceMode2D.Impulse);
+        Caster.CastVector = new Vector2(Caster.Rod.castPower / 2, Caster.Rod.castPower / 3);
+        Caster.currentFloater.GetComponent<Rigidbody2D>().AddForce(Caster.CastVector,  ForceMode2D.Impulse);
         Caster.lineSpawner.InitLine(Caster.currentFloater);
         Caster.lineSpawner.SetLineActive(true);
         

@@ -24,7 +24,7 @@ public class PlayerIdleState : PlayerState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        Player.PlayerAnimator.SetTrigger("Idle");
+        
         Player.InteractionTriggerEvent(Player.interactionType);
         if (Mathf.Abs(InputHandler.GetMoveValue().x) > Mathf.Epsilon)
         {

@@ -14,6 +14,7 @@ public class TimeDayStartState : TimeState
         TimeManager.timeVolume.weight = TimeManager.volumeWeight;
         TimeManager.TimeText.text = $"{TimeManager.HoursValue:00}:{TimeManager.MinutesValue:00}";
         TimeManager.gameUICanvas.gameObject.SetActive(true);
+        AudioManager.Instance.PlaySound(AudioManager.SoundType.DayStart, AudioManager.Instance.ManagerSource);
     }
 
     public override void FrameUpdate()

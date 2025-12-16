@@ -45,7 +45,7 @@ public class CasterCaughtState : CasterState
                 Caster.Rod.Fsm.ChangeState(Caster.Rod.IdleState);
                 Caster.Rod.playerObject.Fsm.ChangeState(Caster.Rod.playerObject.IdleState);
             }
-            if (Caster.containsFish)
+            if (Caster.ContainsFish)
             {
                 Caster.inventory.IncreaseAmountOfFish(Caster.currentFloaterObject.randomFish, 1);
                 Caster.currentFloaterObject.randomFish.ResetAndDestroyFish();

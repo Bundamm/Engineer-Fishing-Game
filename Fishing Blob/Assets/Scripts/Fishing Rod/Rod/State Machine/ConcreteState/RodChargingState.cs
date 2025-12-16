@@ -11,7 +11,7 @@ public class RodChargingState : RodState
     {
         base.EnterState();
         Debug.Log("Entering RodChargingState");
-        Rod.RodRotator.SetIsRotated(false);
+        Rod.rodRotator.SetIsRotated(false);
         Rod.playerObject.Fsm.ChangeState(Rod.playerObject.ChargeState);
     }
 
@@ -30,7 +30,8 @@ public class RodChargingState : RodState
         }
         else
         {
-            if (Rod.RodRotator.GetIsRotated())
+            Rod.rodAnimator.SetBool("IsShaking", false);
+            if (Rod.rodRotator.GetIsRotated())
             {
                 RodRotator.SetIsRotated(false);
                 Fsm.ChangeState(Rod.CastingState);

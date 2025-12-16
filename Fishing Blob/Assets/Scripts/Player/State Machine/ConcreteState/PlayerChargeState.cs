@@ -8,19 +8,20 @@ public class PlayerChargeState : PlayerState
     public override void EnterState()
     {
         base.EnterState();
-        
+        Player.PlayerAnimator.SetBool("isCharging", true);
         Debug.Log("Entering PlayerPrepareState");
     }
 
     public override void ExitState()
     {
         base.ExitState();
+        Player.PlayerAnimator.SetBool("isCharging", false);
     }
 
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        Player.PlayerAnimator.SetTrigger("Charge");
+        
     }
 
     public override void PhysicsUpdate()

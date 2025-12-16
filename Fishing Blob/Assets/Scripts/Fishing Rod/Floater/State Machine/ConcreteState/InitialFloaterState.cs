@@ -39,6 +39,7 @@ public class InitialFloaterState : FloaterState
                 vel = Mathf.Clamp(Mathf.Abs(vel), 0f, Floater.Water.maxForce);
                 Floater.Water.Splash(Floater.GetComponent<Collider2D>(), vel*1.5f);
                 Floater.FloaterPosition = Floater.transform.position;
+                AudioManager.Instance.PlaySound(AudioManager.SoundType.Splash, Floater.FloaterSource);
                 Fsm.ChangeState(Floater.LookingForFishState);
             }
         }
@@ -50,6 +51,7 @@ public class InitialFloaterState : FloaterState
         {
             Floater.FloaterPosition = Floater.transform.position;
             Floater.FloaterRb.linearVelocity = Vector2.zero;
+            
             Fsm.ChangeState(Floater.ReturningState);
         }
     }

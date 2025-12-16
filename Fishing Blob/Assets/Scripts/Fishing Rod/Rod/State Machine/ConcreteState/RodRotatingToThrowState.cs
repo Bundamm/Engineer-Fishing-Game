@@ -31,6 +31,8 @@ public class RodRotatingToThrowState : RodState
                 Rod.castPower = -Rod.castPower;
                 Debug.Log(Rod.castPower);
             }
+
+            AudioManager.Instance.PlaySound(AudioManager.SoundType.Cast, Rod.RodSource);
             Fsm.ChangeState(Rod.ThrowAndWait);
         }
 

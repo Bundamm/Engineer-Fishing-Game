@@ -8,14 +8,14 @@ public class TimeNightStoppedState : TimeState
     public override void EnterState()
     {
         base.EnterState();
-        if (!TimeManager.fishingRod.Caster.Fsm.IsInState(TimeManager.fishingRod.Caster.CaughtState) && 
+        if (!TimeManager.fishingRod.caster.Fsm.IsInState(TimeManager.fishingRod.caster.CaughtState) && 
             !TimeManager.fishingRod.Fsm.IsInState(TimeManager.fishingRod.ThrowAndWait))
         {
             TimeManager.fishingRod.Fsm.ChangeState(TimeManager.fishingRod.DisabledState);
-            TimeManager.fishingRod.Caster.Fsm.ChangeState(TimeManager.fishingRod.Caster.DisabledState);
+            TimeManager.fishingRod.caster.Fsm.ChangeState(TimeManager.fishingRod.caster.DisabledState);
             TimeManager.fishingRod.playerObject.Fsm.ChangeState(TimeManager.fishingRod.playerObject.IdleState);
         }
-            
+        AudioManager.Instance.PlaySound(AudioManager.SoundType.DayOver, AudioManager.Instance.ManagerSource);
         
     }
 
@@ -27,11 +27,11 @@ public class TimeNightStoppedState : TimeState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        if (TimeManager.fishingRod.Caster.Fsm.IsInState(TimeManager.fishingRod.Caster.IdleState) &&
+        if (TimeManager.fishingRod.caster.Fsm.IsInState(TimeManager.fishingRod.caster.IdleState) &&
             TimeManager.fishingRod.Fsm.IsInState(TimeManager.fishingRod.IdleState))
         {
             TimeManager.fishingRod.Fsm.ChangeState(TimeManager.fishingRod.DisabledState);
-            TimeManager.fishingRod.Caster.Fsm.ChangeState(TimeManager.fishingRod.Caster.DisabledState);
+            TimeManager.fishingRod.caster.Fsm.ChangeState(TimeManager.fishingRod.caster.DisabledState);
             TimeManager.fishingRod.playerObject.Fsm.ChangeState(TimeManager.fishingRod.playerObject.IdleState);
         }
 

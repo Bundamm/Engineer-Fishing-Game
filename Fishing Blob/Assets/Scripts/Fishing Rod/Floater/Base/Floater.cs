@@ -24,6 +24,7 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     public List<Fish> fishies;
     [HideInInspector]
     public Fish randomFish;
+    public AudioSource FloaterSource { get; private set; }
     public EdgeCollider2D WaterCollider2D { get; private set; }
     public Rigidbody2D FloaterRb { get; private set; }
     public Water Water { get; private set; }
@@ -85,6 +86,7 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     private void Start()
     {
         FloaterStateMachine.Initialize(InitialState);
+        FloaterSource = GetComponent<AudioSource>();
     }
 
     private void Update()

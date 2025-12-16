@@ -9,19 +9,21 @@ public class PlayerMovingState : PlayerState
     public override void EnterState()
     {
         base.EnterState();
-        
+        Player.PlayerAnimator.SetBool("isMoving", true);
         Debug.Log("Entering PlayerMovingState");
     }
 
     public override void ExitState()
     {
         base.ExitState();
+        
+        Player.PlayerAnimator.SetBool("isMoving", false);
     }
 
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        Player.PlayerAnimator.SetTrigger("Move");
+        
         Player.InteractionTriggerEvent(Player.interactionType);
         
     }

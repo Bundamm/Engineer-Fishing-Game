@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+
 public class FishBitingState : FishState
 {
 
@@ -82,6 +83,7 @@ public class FishBitingState : FishState
             _movingTowardsStart = true;
             Fish.fishRB.linearVelocity = Vector3.zero;
             Debug.Log("At floater is now true");
+            AudioManager.Instance.PlaySound(AudioManager.SoundType.Bite, Fish.FishSound);
         }
     }
 }

@@ -11,8 +11,8 @@ public class RodState
     {
         Rod = rod;
         Fsm = fsm;
-        InputHandler = rod.InputHandler;
-        RodRotator = rod.RodRotator;
+        InputHandler = rod.inputHandler;
+        RodRotator = rod.rodRotator;
         
     }
     

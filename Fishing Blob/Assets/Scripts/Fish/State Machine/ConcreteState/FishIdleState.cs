@@ -32,11 +32,6 @@ public class FishIdleState : FishState
         _waterHeight = Fish.waterHeight;
         _waterWidth = Fish.waterWidth;
     }
-    
-    public override void ExitState()
-    {
-        base.ExitState();
-    }
 
     public override void FrameUpdate()
     {
@@ -63,12 +58,6 @@ public class FishIdleState : FishState
         
         
         Fish.MoveFish(finishedMovement);
-    }
-
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
-        
     }
     
 }

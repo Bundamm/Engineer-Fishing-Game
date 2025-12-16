@@ -7,10 +7,8 @@ public class Caster : MonoBehaviour, ICastAndDestroyFloater
     [Header("Casting")]
     public float MaxCastPower { get; set; }
     public float CastPowerIncrease { get; set; }
-    [HideInInspector] 
-    public Vector2 castVector;
-    [HideInInspector]
-    public bool containsFish;
+    public Vector2 CastVector { get; set; }
+    public bool ContainsFish { get; set; }
     #endregion
     
     #region Other Objects

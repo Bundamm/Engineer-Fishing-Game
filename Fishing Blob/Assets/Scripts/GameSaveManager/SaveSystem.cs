@@ -4,7 +4,7 @@ using UnityEngine;
 public class SaveSystem : MonoBehaviour
 {
     public int HighScore { get; set; }
-    public int HighScoreDays { get; set; } = 1;
+    public int HighScoreDays { get; set; }
     public int MoneyGainedOverallHighScore { get; set; }
     private static SaveSystem Instance { get; set; }
     private string SavePath => Path.Combine(Application.persistentDataPath + "save.json");

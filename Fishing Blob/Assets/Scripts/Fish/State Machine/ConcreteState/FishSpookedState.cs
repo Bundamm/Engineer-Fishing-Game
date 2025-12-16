@@ -5,8 +5,7 @@ public class FishSpookedState : FishState
 {
     private bool movingAwayFromFloater = true;
     private Vector2 floaterPos;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     public FishSpookedState(Fish fish, FishStateMachine fsm) : base(fish, fsm)
     {
     }
