@@ -27,6 +27,7 @@ public class FloaterReturningState : FloaterState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
+        
     }
 
     public override void PhysicsUpdate()
@@ -37,6 +38,7 @@ public class FloaterReturningState : FloaterState
         Floater.CasterPosition = Floater.Caster.transform.position;
         Floater.elapsedTime += Time.fixedDeltaTime;
         percentageToCaster = Floater.elapsedTime / Floater.maxTime;
-        Floater.FloaterRb.transform.position= Floater.QuadraticMovement(Floater.FloaterPosition, floaterToAnchorPos, Floater.CasterPosition, percentageToCaster);
+        Vector3 newPosition= Floater.QuadraticMovement(Floater.FloaterPosition, floaterToAnchorPos, Floater.CasterPosition, percentageToCaster);
+        Floater.FloaterRb.MovePosition(newPosition);
     }
 }

@@ -137,7 +137,7 @@ public class MarketUIManager : MonoBehaviour
 
     public void UpdateFeedPriceText()
     {
-        feedPriceText.text = $"Cost: {marketManager.FeedPrice}$";
+        feedPriceText.text = $"Fish Feeding Cost: {marketManager.FeedPrice}$";
     }
     
     public void UpdateValueTexts()
