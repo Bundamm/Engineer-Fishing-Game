@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class Water : MonoBehaviour
 {
+    
+    /// <summary>
+    /// Based on the following tutorial: https://youtu.be/TbGEKpdsmCI?si=yFig8GSb44o3kzDf
+    /// </summary>
+    
+    
     #region Mesh Variables
     [Header("Mesh")]
     [SerializeField]
@@ -25,9 +31,7 @@ public class Water : MonoBehaviour
     private EdgeCollider2D _edgeCollider;
     [SerializeField, Range(1f, 10f)] 
     private float playerCollisionRadiusMult = 4.15f;
-    [SerializeField]
     public float forceMultiplier = 0.2f;
-    [SerializeField]
     public float maxForce = 5f;
     #endregion
      
@@ -58,7 +62,6 @@ public class Water : MonoBehaviour
     {
         SimulatePoints();
         WavePropagation();
-        // UpdateColliderAndMesh();
         _waterMesh.vertices = _vertices;
     }
     

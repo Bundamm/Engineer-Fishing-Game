@@ -20,37 +20,10 @@ public class FloaterChooseAFishState : FloaterState
         
     }
 
-    public override void ExitState()
-    {
-        base.ExitState();
-        
-    }
-
-    public override void FrameUpdate()
-    {
-        base.FrameUpdate();
-
-        if (Floater.inputHandler.GetReelValue())
-        {
-            Floater.randomFish.Fsm.ChangeState(Floater.randomFish.SpookedState);
-        }
-        
-    }
-
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
         Floater.StickToSurface();
 
-    }
-
-    public override void OnTriggerEnter2D(Collider2D other)
-    {
-        base.OnTriggerEnter2D(other);
-    }
-
-    public override void OnTriggerExit2D(Collider2D other)
-    {
-        base.OnTriggerExit2D(other);
     }
 }

@@ -2,8 +2,12 @@ using UnityEngine;
 
 public class ParallaxEffect : MonoBehaviour
 {
-    private float startCameraPosX;
-    private float startLayerX;
+    /// <summary>
+    ///  Based on the following tutorial: https://www.youtube.com/watch?v=zit45k6CUMk
+    /// </summary>
+    
+    private float _startCameraPosX;
+    private float _startLayerX;
     [SerializeField] 
     private Transform targetCamera;
     [SerializeField] 
@@ -12,14 +16,14 @@ public class ParallaxEffect : MonoBehaviour
     
     void Start()
     {
-        startCameraPosX = targetCamera.position.x;
-        startLayerX = transform.position.x;
+        _startCameraPosX = targetCamera.position.x;
+        _startLayerX = transform.position.x;
     }
     
     void LateUpdate()
     {
-        float distanceMoved = targetCamera.position.x - startCameraPosX;
-        float newX = startLayerX + (distanceMoved * parallaxAmount);
+        float distanceMoved = targetCamera.position.x - _startCameraPosX;
+        float newX = _startLayerX + (distanceMoved * parallaxAmount);
         transform.position = new Vector3(newX, transform.position.y, transform.position.z);
 
     }

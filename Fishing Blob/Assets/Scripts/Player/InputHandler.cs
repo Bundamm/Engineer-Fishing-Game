@@ -43,8 +43,6 @@ public class InputHandler : MonoBehaviour
         _reelTriggered = _reelAction.IsPressed();
         _pauseTriggered = _pauseAction.WasPressedThisFrame();
         _interactTriggered = _interactAction.WasPressedThisFrame();
-        // _manageItem1 = _manageItem1Action.WasPerformedThisFrame();
-        
     }
     public bool GetCastValue() => _cast;
     public bool GetReelValue() => _reelTriggered;

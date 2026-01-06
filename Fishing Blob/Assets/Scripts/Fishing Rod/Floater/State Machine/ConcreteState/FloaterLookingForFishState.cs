@@ -15,16 +15,6 @@ public class FloaterLookingForFishState :FloaterState
         Floater.StartCoroutine(WaitForFish());
     }
 
-    public override void ExitState()
-    {
-        base.ExitState();
-    }
-
-    public override void FrameUpdate()
-    {
-        base.FrameUpdate();
-    }
-
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();

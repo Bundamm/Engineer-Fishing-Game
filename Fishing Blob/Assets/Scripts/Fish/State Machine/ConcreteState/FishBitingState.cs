@@ -28,11 +28,6 @@ public class FishBitingState : FishState
         
     }
 
-    public override void ExitState()
-    {
-        base.ExitState();
-    }
-
     public override void FrameUpdate()
     {
         base.FrameUpdate();
@@ -54,6 +49,11 @@ public class FishBitingState : FishState
         {
             Fish.MoveFishWithoutRotating(_pathToFloater);
             Fsm.ChangeState(Fish.HookedState);
+        }
+        
+        if (Fish.Floater.inputHandler.GetReelValue())
+        {
+            Fsm.ChangeState(Fish.SpookedState);
         }
     }
     

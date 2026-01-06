@@ -17,6 +17,8 @@ public class TimeManager : MonoBehaviour
     public MarketUIManager marketUIManager;
     public Player player;
     public SaveSystem saveSystem;
+    public TextMeshProUGUI marketIndicator;
+    public TextMeshProUGUI houseIndicator;
     #endregion
     
     #region Lights

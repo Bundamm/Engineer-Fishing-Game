@@ -16,11 +16,6 @@ public class FishApproachingState : FishState
         Fish.Floater.FloaterStateMachine.ChangeState(Fish.Floater.WaitForBitingState);
     }
 
-    public override void ExitState()
-    {
-        base.ExitState();
-    }
-
     public override void FrameUpdate()
     {
         base.FrameUpdate();
@@ -40,10 +35,5 @@ public class FishApproachingState : FishState
 
         Vector2 targetPath = Fish.GetPathToFloater();
         Fish.MoveFish(targetPath);
-    }
-
-    public override void AnimationTriggerEvent(Fish.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
     }
 }

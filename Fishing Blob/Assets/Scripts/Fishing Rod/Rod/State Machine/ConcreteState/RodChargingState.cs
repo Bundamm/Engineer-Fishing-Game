@@ -45,11 +45,6 @@ public class RodChargingState : RodState
         }
     }
 
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
-    }
-
     private void ChargeCast()
     {
         Rod.CheckPlayerFacingDirection();

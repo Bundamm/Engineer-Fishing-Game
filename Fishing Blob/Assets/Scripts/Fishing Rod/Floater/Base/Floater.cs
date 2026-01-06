@@ -16,7 +16,7 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     private CircleCollider2D approachingCollider;
     [SerializeField]
     private CircleCollider2D bitingCollider;
-    private FishSpawner fishSpawner;
+    private FishSpawner _fishSpawner;
     #endregion
     
     
@@ -37,7 +37,7 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     #region Time Manager And Light
     [HideInInspector]
     public TimeManager timeManager;
-    private Light2D floaterLight;
+    private Light2D _floaterLight;
     #endregion
     
     #region Positions
@@ -55,7 +55,7 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     #region State Machine Variables
     public FloaterStateMachine FloaterStateMachine { get; set; }
     public FloaterLookingForFishState LookingForFishState { get; set; }
-    public InitialFloaterState InitialState { get; set; }
+    public FloaterInitialState FloaterInitialState { get; set; }
     public FloaterChooseAFishState ChooseAFishState { get; set; }
     public FloaterWaitForBitingState  WaitForBitingState { get; set; }
     public FloaterWaitForCaughtState  WaitForCaughtState { get; set; }
@@ -66,7 +66,7 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     private void Awake()
     {
         FloaterStateMachine = new FloaterStateMachine();
-        InitialState = new InitialFloaterState(this, FloaterStateMachine);
+        FloaterInitialState = new FloaterInitialState(this, FloaterStateMachine);
         LookingForFishState = new FloaterLookingForFishState(this, FloaterStateMachine);
         ChooseAFishState = new FloaterChooseAFishState(this, FloaterStateMachine);
         WaitForBitingState = new FloaterWaitForBitingState(this, FloaterStateMachine);
@@ -78,14 +78,14 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
         Water = FindAnyObjectByType<Water>();
         WaterCollider2D = Water.GetComponent<EdgeCollider2D>();
         FloaterRb = GetComponent<Rigidbody2D>();
-        floaterLight = GetComponent<Light2D>();
+        _floaterLight = GetComponent<Light2D>();
         Caster = FindAnyObjectByType<Caster>();
         timeManager = FindAnyObjectByType<TimeManager>();
     }
 
     private void Start()
     {
-        FloaterStateMachine.Initialize(InitialState);
+        FloaterStateMachine.Initialize(FloaterInitialState);
         FloaterSource = GetComponent<AudioSource>();
     }
 
@@ -95,11 +95,11 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
         FloaterStateMachine.CurrentFloaterState.FrameUpdate();
         if (timeManager.HoursValue >= 18)
         {
-            floaterLight.enabled = true;
+            _floaterLight.enabled = true;
         }
         else
         {
-            floaterLight.enabled = false;
+            _floaterLight.enabled = false;
         }
     }
     
@@ -191,7 +191,7 @@ public class Floater : MonoBehaviour, ISurfaceStick, IFloaterColliders
     #region Reset
     public void ResetAndDestroyFloater()
     {
-        FloaterStateMachine.ChangeState(InitialState);
+        FloaterStateMachine.ChangeState(FloaterInitialState);
         // remove fish from list here
         Destroy(gameObject);
     }

@@ -12,11 +12,6 @@ public class FloaterWaitForCaughtState : FloaterState
         Debug.Log("Entered waiting for caught state");
     }
 
-    public override void ExitState()
-    {
-        base.ExitState();
-    }
-
     public override void FrameUpdate()
     {
         base.FrameUpdate();

@@ -35,8 +35,8 @@ public class InventoryManager : MonoBehaviour
     [SerializeField]
     private List<Sprite> fishGainedIconsSprites;
 
-    private List<(FishTypeEnum fishType, Sprite NoneSprite, Sprite GainedSprite)> tupleListOfFishSprites;
-    private List<(FishTypeEnum fishType, Image ImageSlot, TextMeshProUGUI TextSlot)> tupleListOfInventorySlotValues;
+    private List<(FishTypeEnum fishType, Sprite NoneSprite, Sprite GainedSprite)> _tupleListOfFishSprites;
+    private List<(FishTypeEnum fishType, Image ImageSlot, TextMeshProUGUI TextSlot)> _tupleListOfInventorySlotValues;
     #endregion  
     
     private void Start()
@@ -48,14 +48,14 @@ public class InventoryManager : MonoBehaviour
     {
         if (fishNoneIconsSprites.Count != fishGainedIconsSprites.Count) throw new Exception("There are " + fishGainedIconsSprites.Count + " gained icons and "  + fishNoneIconsSprites.Count + " none icons. The number should be the same.");
         if(fishIcons.Count != fishAmountTexts.Count) throw new Exception("There are " + fishIcons.Count + "Image slots and " + fishAmountTexts.Count + " text slots for amount of Fish. The number should be the same.");
-        tupleListOfFishSprites = new List<(FishTypeEnum, Sprite, Sprite)>();
-        tupleListOfInventorySlotValues = new List<(FishTypeEnum, Image, TextMeshProUGUI)>();
+        _tupleListOfFishSprites = new List<(FishTypeEnum, Sprite, Sprite)>();
+        _tupleListOfInventorySlotValues = new List<(FishTypeEnum, Image, TextMeshProUGUI)>();
         if (fishNoneIconsSprites.Count == fishIcons.Count)
         {
             for (int i = 0; i < fishNoneIconsSprites.Count; i++)
             {
-                tupleListOfFishSprites.Add((fishSlots[i].fishType, fishNoneIconsSprites[i], fishGainedIconsSprites[i]));
-                tupleListOfInventorySlotValues.Add((fishSlots[i].fishType, fishIcons[i], fishAmountTexts[i]));
+                _tupleListOfFishSprites.Add((fishSlots[i].fishType, fishNoneIconsSprites[i], fishGainedIconsSprites[i]));
+                _tupleListOfInventorySlotValues.Add((fishSlots[i].fishType, fishIcons[i], fishAmountTexts[i]));
             }
         }
         else
@@ -66,8 +66,8 @@ public class InventoryManager : MonoBehaviour
 
     private void UpdateInventorySlot(FishTypeEnum fishType)
     {
-        var foundTuple = tupleListOfInventorySlotValues.Find(x => x.fishType == fishType);
-        var spriteTuple = tupleListOfFishSprites.Find(x => x.fishType == fishType);
+        var foundTuple = _tupleListOfInventorySlotValues.Find(x => x.fishType == fishType);
+        var spriteTuple = _tupleListOfFishSprites.Find(x => x.fishType == fishType);
         FishSlot foundSlot = fishSlots.Find(x => x.fishType == fishType);
         
         foundTuple.TextSlot.text = $"x{foundSlot.fishAmount}";

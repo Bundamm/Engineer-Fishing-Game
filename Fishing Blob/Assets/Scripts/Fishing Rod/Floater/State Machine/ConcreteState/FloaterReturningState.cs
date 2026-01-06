@@ -2,8 +2,8 @@
 public class FloaterReturningState : FloaterState
 {
 
-    private float percentageToCaster;
-    private Vector2 floaterToAnchorPos;
+    private float _percentageToCaster;
+    private Vector2 _floaterToAnchorPos;
     
     public FloaterReturningState(Floater floater, FloaterStateMachine fsm) : base(floater, fsm)
     {
@@ -13,10 +13,10 @@ public class FloaterReturningState : FloaterState
     {
         base.EnterState();
         Floater.FloaterRb.bodyType = RigidbodyType2D.Kinematic;
-        floaterToAnchorPos = Floater.CalculateMidPointBetweenFloaterAndCaster();
+        _floaterToAnchorPos = Floater.CalculateMidPointBetweenFloaterAndCaster();
         Floater.Water.Splash(Floater.GetComponent<Collider2D>(), 5f);
         AudioManager.Instance.PlaySound(AudioManager.SoundType.Reel, Floater.FloaterSource);
-        percentageToCaster = 0f;
+        _percentageToCaster = 0f;
     }
 
     public override void ExitState()
@@ -37,8 +37,8 @@ public class FloaterReturningState : FloaterState
         
         Floater.CasterPosition = Floater.Caster.transform.position;
         Floater.elapsedTime += Time.fixedDeltaTime;
-        percentageToCaster = Floater.elapsedTime / Floater.maxTime;
-        Vector3 newPosition= Floater.QuadraticMovement(Floater.FloaterPosition, floaterToAnchorPos, Floater.CasterPosition, percentageToCaster);
+        _percentageToCaster = Floater.elapsedTime / Floater.maxTime;
+        Vector3 newPosition= Floater.QuadraticMovement(Floater.FloaterPosition, _floaterToAnchorPos, Floater.CasterPosition, _percentageToCaster);
         Floater.FloaterRb.MovePosition(newPosition);
     }
 }

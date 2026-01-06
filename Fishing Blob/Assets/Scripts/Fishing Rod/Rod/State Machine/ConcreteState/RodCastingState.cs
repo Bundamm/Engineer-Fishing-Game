@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class RodRotatingToThrowState : RodState
+public class RodCastingState : RodState
 {
-    public RodRotatingToThrowState(Rod rod, RodStateMachine fsm) : base(rod, fsm)
+    public RodCastingState(Rod rod, RodStateMachine fsm) : base(rod, fsm)
     {
     }
 
@@ -13,12 +13,7 @@ public class RodRotatingToThrowState : RodState
         Debug.Log("Entering Rotating To Throw State");
 
     }
-
-    public override void ExitState()
-    {
-        base.ExitState();
-    }
-
+    
     public override void FrameUpdate()
     {
         base.FrameUpdate();
@@ -33,14 +28,9 @@ public class RodRotatingToThrowState : RodState
             }
 
             AudioManager.Instance.PlaySound(AudioManager.SoundType.Cast, Rod.RodSource);
-            Fsm.ChangeState(Rod.ThrowAndWait);
+            Fsm.ChangeState(Rod.ThrowingState);
         }
 
-    }
-
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
     }
 
     private IEnumerator RotateBack()

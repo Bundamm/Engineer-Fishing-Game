@@ -14,12 +14,7 @@ public class RodIdleState : RodState
         
         Rod.ResetCast();
     }
-
-    public override void ExitState()
-    {
-        base.ExitState();
-    }
-
+    
     public override void FrameUpdate()
     {
         base.FrameUpdate();
@@ -29,11 +24,6 @@ public class RodIdleState : RodState
             Debug.Log("Rotating...");
             Fsm.ChangeState(Rod.ChargingState);
         }
-    }
-
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
     }
     
 }

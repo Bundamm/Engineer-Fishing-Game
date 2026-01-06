@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class InitialFloaterState : FloaterState
+public class FloaterInitialState : FloaterState
 {
-    public InitialFloaterState(Floater floater, FloaterStateMachine fsm) : base(floater, fsm)
+    public FloaterInitialState(Floater floater, FloaterStateMachine fsm) : base(floater, fsm)
     {
     }
     public override void EnterState()
@@ -11,21 +11,6 @@ public class InitialFloaterState : FloaterState
         Floater.UnstickFromSurface();
         Floater.FloaterRb.bodyType = RigidbodyType2D.Dynamic;
         Debug.Log("Entered Initial Floater State");
-    }
-
-    public override void ExitState()
-    {
-        base.ExitState();
-    }
-
-    public override void FrameUpdate()
-    {
-        base.FrameUpdate();
-    }
-
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
     }
 
     public override void OnTriggerEnter2D(Collider2D other)

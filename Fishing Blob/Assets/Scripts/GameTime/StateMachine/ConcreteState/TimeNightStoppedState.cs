@@ -9,19 +9,26 @@ public class TimeNightStoppedState : TimeState
     {
         base.EnterState();
         if (!TimeManager.fishingRod.caster.Fsm.IsInState(TimeManager.fishingRod.caster.CaughtState) && 
-            !TimeManager.fishingRod.Fsm.IsInState(TimeManager.fishingRod.ThrowAndWait))
+            !TimeManager.fishingRod.Fsm.IsInState(TimeManager.fishingRod.ThrowingState))
         {
             TimeManager.fishingRod.Fsm.ChangeState(TimeManager.fishingRod.DisabledState);
             TimeManager.fishingRod.caster.Fsm.ChangeState(TimeManager.fishingRod.caster.DisabledState);
             TimeManager.fishingRod.playerObject.Fsm.ChangeState(TimeManager.fishingRod.playerObject.IdleState);
         }
+
+        if (TimeManager.marketManager.MoneyOwnedValue >= TimeManager.marketManager.RentValue)
+        {
+            TimeManager.marketUIManager.canInteractWithHouse = true;
+            TimeManager.houseIndicator.gameObject.SetActive(true);
+            TimeManager.marketIndicator.gameObject.SetActive(true);
+        }
+        else
+        {
+            TimeManager.marketIndicator.gameObject.SetActive(true);
+        }
+        TimeManager.marketIndicator.gameObject.SetActive(true);
         AudioManager.Instance.PlaySound(AudioManager.SoundType.DayOver, AudioManager.Instance.ManagerSource);
         
-    }
-
-    public override void ExitState()
-    {
-        base.ExitState();
     }
 
     public override void FrameUpdate()

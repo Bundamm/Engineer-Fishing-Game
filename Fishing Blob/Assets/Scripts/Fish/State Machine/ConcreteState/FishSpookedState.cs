@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class FishSpookedState : FishState
 {
-    private bool movingAwayFromFloater = true;
-    private Vector2 floaterPos;
+    private bool _movingAwayFromFloater = true;
+    private Vector2 _floaterPos;
     
     public FishSpookedState(Fish fish, FishStateMachine fsm) : base(fish, fsm)
     {
@@ -15,14 +15,14 @@ public class FishSpookedState : FishState
         base.EnterState();
         Debug.Log("Entered FishSpookedState");
         Fish.fishRB.linearVelocity = Vector3.zero;
-        floaterPos = Fish.Floater.transform.position;
+        _floaterPos = Fish.Floater.transform.position;
         Fish.StartCoroutine(WaitUntilIdle());
     }
 
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        if (!movingAwayFromFloater)
+        if (!_movingAwayFromFloater)
         {
             Fsm.ChangeState(Fish.IdleState);
         }
@@ -32,12 +32,12 @@ public class FishSpookedState : FishState
     private IEnumerator WaitUntilIdle()
     {
         yield return new WaitForSecondsRealtime(Fish.fishType.WaitUntilIdleTime);
-        movingAwayFromFloater = false;
+        _movingAwayFromFloater = false;
     }
 
 private void MoveAwayFromFloater()
     {
-        Vector2 directionAwayFromFloater = ((Vector2)Fish.transform.position - floaterPos).normalized;
+        Vector2 directionAwayFromFloater = ((Vector2)Fish.transform.position - _floaterPos).normalized;
         Fish.MoveFish(directionAwayFromFloater);
     }
 }

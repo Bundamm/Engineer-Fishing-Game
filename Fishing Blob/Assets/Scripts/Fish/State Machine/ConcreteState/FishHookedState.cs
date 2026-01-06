@@ -22,14 +22,7 @@ public class FishHookedState : FishState
             Fish.StopCoroutine(_spookCoroutine);
         }
     }
-
-    public override void FrameUpdate()
-    {
-        base.FrameUpdate();
-    }
     
-    
-
     public override void OnTriggerEnter2D(Collider2D other)
     {
         base.OnTriggerEnter2D(other);

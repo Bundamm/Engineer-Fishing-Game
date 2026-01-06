@@ -13,14 +13,14 @@ public class CasterThrowingState : CasterState
         
         // Floater initialization and casting
         Caster.CreateFloater();
-        Caster.CastVector = new Vector2(Caster.Rod.castPower / 2, Caster.Rod.castPower / 3);
+        Caster.CastVector = new Vector2(Caster.rod.castPower / 2, Caster.rod.castPower / 3);
         Caster.currentFloater.GetComponent<Rigidbody2D>().AddForce(Caster.CastVector,  ForceMode2D.Impulse);
         Caster.lineSpawner.InitLine(Caster.currentFloater);
         Caster.lineSpawner.SetLineActive(true);
         
         // Camera change to floater
         Caster.cameraManager.ChangeCamera(Caster.floaterCamera, Caster.currentFloater.transform);
-        Fsm.ChangeState(Caster.WaitingForReturnState);
+        Fsm.ChangeState(Caster.WaitingState);
     }
 
     public override void ExitState()

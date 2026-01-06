@@ -13,18 +13,12 @@ public class FloaterWaitForBitingState : FloaterState
         Floater.EnableBitingCollider();
     }
 
-    public override void ExitState()
-    {
-        base.ExitState();
-    }
-
     public override void FrameUpdate()
     {
         base.FrameUpdate();
         if (Floater.inputHandler.GetReelValue())
         {
             Floater.FloaterStateMachine.ChangeState(Floater.ReturningState);
-            Floater.randomFish.Fsm.ChangeState(Floater.randomFish.SpookedState);
         }
     }
 

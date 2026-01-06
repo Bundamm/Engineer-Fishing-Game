@@ -1,9 +1,9 @@
 ﻿
 using UnityEngine;
 
-public class PlayerDisableMovementState : PlayerState
+public class PlayerStationaryState : PlayerState
 {
-    public PlayerDisableMovementState(Player player, PlayerStateMachine fsm) : base(player, fsm)
+    public PlayerStationaryState(Player player, PlayerStateMachine fsm) : base(player, fsm)
     {
     }
 

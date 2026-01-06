@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class LineSpawner : MonoBehaviour
 {
+    /// <summary>
+    /// Based on the following tutorial: https://youtu.be/bxG3XP4MVzk?si=_YkJCAOu2Qprtwqw
+    /// The simulation part is from the tutorial, the segments and pool were made by the author of the game.
+    /// </summary>
+    
     [SerializeField] private Caster caster;
     [SerializeField] private GameObject floater;
     

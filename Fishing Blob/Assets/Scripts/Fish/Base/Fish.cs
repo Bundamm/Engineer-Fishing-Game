@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotation
+public class Fish : MonoBehaviour, IFishMovable
 {
     #region Fish Variables
     public Rigidbody2D fishRB {get; set;}
@@ -112,10 +112,10 @@ public class Fish : MonoBehaviour, IFishMovable, IFishAndFloaterPositionAndRotat
     #endregion
     
     #region Movement Methods
-    public void MoveFish(Vector2 velocity)
+    public void MoveFish(Vector2 path)
     {
-        fishRB.linearVelocity = velocity;
-        fishRB.transform.up = velocity.normalized;
+        fishRB.linearVelocity = path;
+        fishRB.transform.up = path.normalized;
     }
 
     public void MoveFishWithoutRotating(Vector2 velocity)

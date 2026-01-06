@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-public class RodThrowAndWait : RodState
+public class RodThrowingState : RodState
 {
     
-    public RodThrowAndWait(Rod rod, RodStateMachine fsm) : base(rod, fsm)
+    public RodThrowingState(Rod rod, RodStateMachine fsm) : base(rod, fsm)
     {
     }
 
@@ -12,7 +12,7 @@ public class RodThrowAndWait : RodState
         base.EnterState();
         Debug.Log("Entering Rod Release Floater State");
         Rod.CasterThrowFloater();
-        Rod.playerObject.Fsm.ChangeState(Rod.playerObject.DisableMovementState);
+        Rod.playerObject.Fsm.ChangeState(Rod.playerObject.StationaryState);
         
     }
 

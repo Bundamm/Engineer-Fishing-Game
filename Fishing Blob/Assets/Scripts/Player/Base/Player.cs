@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     public PlayerIdleState IdleState { get; private set; }
     public PlayerMovingState MovingState { get; private set; }
     public PlayerChargeState ChargeState { get; private set; }
-    public PlayerDisableMovementState DisableMovementState { get; private set; }
+    public PlayerStationaryState StationaryState { get; private set; }
     
     #endregion
     #region Movement Variables
@@ -26,12 +26,13 @@ public class Player : MonoBehaviour
     public float speedMultiplier = 10f;
     public Transform leftLimit, rightLimit;
     public Vector2 playerPosition;
-    private Vector2 playerStartPosition;
+    private Vector2 _playerStartPosition;
     #endregion
     
-    #region Time Manager
-    [Header("Time Manager")]
+    #region Other Objects
+    [Header("Other Objects")]
     public TimeManager timeManager;
+    public MarketUIManager marketUIManager;
     #endregion
     
     private void Awake()
@@ -42,13 +43,13 @@ public class Player : MonoBehaviour
         IdleState = new PlayerIdleState(this, Fsm);
         MovingState = new PlayerMovingState(this, Fsm);
         ChargeState = new PlayerChargeState(this, Fsm);
-        DisableMovementState = new PlayerDisableMovementState(this, Fsm);
+        StationaryState = new PlayerStationaryState(this, Fsm);
     }
 
     private void Start()
     {
         PlayerSource = GetComponent<AudioSource>();
-        playerStartPosition = playerRb.transform.position;
+        _playerStartPosition = playerRb.transform.position;
         Fsm.Initialize(IdleState);
     }
 
@@ -102,7 +103,7 @@ public class Player : MonoBehaviour
         {
             if (inputHandler.GetInteractValue())
             {
-                if (interactionTypeEnum == InteractionType.Sleep)
+                if (interactionTypeEnum == InteractionType.Sleep && marketUIManager.canInteractWithHouse)
                 {
                     Debug.Log("INTERACTION COMPLETED");
                     timeManager.Fsm.ChangeState(timeManager.TransitionDaysState);
@@ -115,7 +116,7 @@ public class Player : MonoBehaviour
                     }
                     else
                     {
-                        Fsm.ChangeState(DisableMovementState);
+                        Fsm.ChangeState(StationaryState);
                     }
                     
                     timeManager.marketUIManager.ToggleMarketUI();
@@ -126,7 +127,7 @@ public class Player : MonoBehaviour
 
     public Vector2 GetPlayerStartPosition()
     {
-        return playerStartPosition;
+        return _playerStartPosition;
     }
 
     public void PlayMoveSound()

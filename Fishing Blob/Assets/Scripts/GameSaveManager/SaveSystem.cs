@@ -35,7 +35,7 @@ public class SaveSystem : MonoBehaviour
         Debug.Log("Saved!");
     }
 
-    public void Load()
+    private void Load()
     {
         if (File.Exists(SavePath))
         {

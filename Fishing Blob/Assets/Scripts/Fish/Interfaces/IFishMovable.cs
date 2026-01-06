@@ -4,7 +4,7 @@ public interface IFishMovable
 {
     Rigidbody2D fishRB { get; set; }
 
-    void MoveFish(Vector2 velocity);
+    void MoveFish(Vector2 path);
     
     void MoveFishWithoutRotating(Vector2 velocity);
 

@@ -6,8 +6,6 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
      public static AudioManager Instance { get; private set; }
-     
-     private AudioListener  _audioListener;
      public AudioSource ManagerSource { get; private set; }
      [SerializeField]
      private List<Sound> soundList;
@@ -32,7 +30,6 @@ public class AudioManager : MonoBehaviour
           {
                Destroy(gameObject);
           }
-          _audioListener = FindAnyObjectByType<AudioListener>();
           ManagerSource = GetComponent<AudioSource>();
      }
 

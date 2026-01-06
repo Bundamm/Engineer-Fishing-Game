@@ -1,5 +1,3 @@
-using System.Collections;
-
 using UnityEngine;
 
 public class Rod : MonoBehaviour
@@ -8,12 +6,8 @@ public class Rod : MonoBehaviour
 
     public AudioSource RodSource { get; private set; }
     [Header("Scripts")]
-    [SerializeField]
     public InputHandler inputHandler;
-    [SerializeField]
     public RodRotator rodRotator;
-
-    [SerializeField] 
     public Animator rodAnimator;
 
     [Header("Casting")]
@@ -21,9 +15,9 @@ public class Rod : MonoBehaviour
     private float maxCastPower = 400f;
     [SerializeField] 
     private float castPowerIncrease = 5f;
-    public Caster caster;
     [HideInInspector]
     public float castPower;
+    public Caster caster;
 
     [Header("Rod Rotation")] 
     public Quaternion targetRotation;
@@ -47,8 +41,8 @@ public class Rod : MonoBehaviour
     public RodIdleState IdleState { get; set; }
     public RodChargingState ChargingState { get; set; }
 
-    public RodRotatingToThrowState CastingState { get; set; }
-    public RodThrowAndWait ThrowAndWait { get; set; }
+    public RodCastingState CastingState { get; set; }
+    public RodThrowingState ThrowingState { get; set; }
     
     public RodDisabledState DisabledState { get; set; }
 
@@ -61,8 +55,8 @@ public class Rod : MonoBehaviour
         
         IdleState = new RodIdleState(this, Fsm);
         ChargingState = new RodChargingState(this, Fsm);
-        CastingState = new RodRotatingToThrowState(this, Fsm);
-        ThrowAndWait = new RodThrowAndWait(this, Fsm);
+        CastingState = new RodCastingState(this, Fsm);
+        ThrowingState = new RodThrowingState(this, Fsm);
         DisabledState = new RodDisabledState(this, Fsm);
         
         playerObject = playerTransform.GetComponent<Player>();
@@ -104,16 +98,13 @@ public class Rod : MonoBehaviour
     
     public void CalculateCastPower()
     {
-        if (castPower < maxCastPower)
-        {
-            castPower += castPowerIncrease * Time.deltaTime;
-        }
-        else if(castPower >= maxCastPower)
+        castPower = Mathf.Min(castPower + castPowerIncrease * Time.deltaTime, maxCastPower);
+        if(castPower >= maxCastPower)
         {
             rodAnimator.SetBool("IsShaking", true);
         }
         
-    }
+    } 
 
     public void CasterThrowFloater()
     {

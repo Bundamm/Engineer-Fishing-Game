@@ -14,12 +14,6 @@ public class TimeDayActiveState : TimeState
         
     }
 
-    public override void ExitState()
-    {
-        base.ExitState();
-        
-    }
-
     public override void FrameUpdate()
     {
         base.FrameUpdate();

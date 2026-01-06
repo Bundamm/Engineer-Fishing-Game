@@ -11,7 +11,7 @@ public class CasterState
     {
         Caster = caster;
         Fsm = fsm;
-        Rod = caster.Rod;
+        Rod = caster.rod;
     }
 
     public virtual void EnterState() {}

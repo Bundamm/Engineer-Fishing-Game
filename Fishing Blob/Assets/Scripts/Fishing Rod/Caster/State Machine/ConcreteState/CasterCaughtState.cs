@@ -19,18 +19,6 @@ public class CasterCaughtState : CasterState
         Caster.catchTrigger.enabled = false;
     }
 
-    public override void FrameUpdate()
-    {
-        base.FrameUpdate();
-    }
-
-    
-    
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
-    }
-
     public override void OnTriggerEnter2D(Collider2D other)
     {
         base.OnTriggerEnter2D(other);
@@ -39,11 +27,11 @@ public class CasterCaughtState : CasterState
             Caster.currentFloaterObject.ResetAndDestroyFloater();
             Caster.lineSpawner.DeleteLine();
             Caster.cameraManager.ChangeCamera(Caster.playerCamera, Caster.playerCharacter);
-            Caster.Rod.CheckPlayerFacingDirection();
-            if (Caster.Rod.Fsm.IsInState(Caster.Rod.ThrowAndWait))
+            Caster.rod.CheckPlayerFacingDirection();
+            if (Caster.rod.Fsm.IsInState(Caster.rod.ThrowingState))
             {
-                Caster.Rod.Fsm.ChangeState(Caster.Rod.IdleState);
-                Caster.Rod.playerObject.Fsm.ChangeState(Caster.Rod.playerObject.IdleState);
+                Caster.rod.Fsm.ChangeState(Caster.rod.IdleState);
+                Caster.rod.playerObject.Fsm.ChangeState(Caster.rod.playerObject.IdleState);
             }
             if (Caster.ContainsFish)
             {

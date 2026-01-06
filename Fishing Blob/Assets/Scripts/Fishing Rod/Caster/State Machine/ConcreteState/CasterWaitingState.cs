@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-public class CasterWaitingForReturnState : CasterState
+public class CasterWaitingState : CasterState
 {
-    public CasterWaitingForReturnState(Caster caster, CasterStateMachine fsm) : base(caster, fsm)
+    public CasterWaitingState(Caster caster, CasterStateMachine fsm) : base(caster, fsm)
     {
     }
 
@@ -9,12 +9,7 @@ public class CasterWaitingForReturnState : CasterState
     {
         base.EnterState();
         Debug.Log("Entering Caster Waiting State");
-    }
-
-    public override void ExitState()
-    {
-        base.ExitState();
-    }
+    }    
 
     public override void FrameUpdate()
     {

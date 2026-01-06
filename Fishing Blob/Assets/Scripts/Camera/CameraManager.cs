@@ -5,26 +5,30 @@ using Unity.Cinemachine;
 
 public class CameraManager : MonoBehaviour
 {
+    /// <summary>
+    /// Based on the following tutorial: https://www.youtube.com/watch?v=wmTCWMcjIzo
+    /// </summary>
     
-    private CinemachineCamera _activeCamera = null;
+    
+    private CinemachineCamera _activeCamera;
     
     [SerializeField]
-    private List<CinemachineCamera> _cameras;
+    private List<CinemachineCamera> cameras;
 
     public void RegisterCamera(CinemachineCamera camera)
     {
-        _cameras.Add(camera);
+        cameras.Add(camera);
     }
 
     public void UnregisterCamera(CinemachineCamera camera)
     {
-        _cameras.Remove(camera);
+        cameras.Remove(camera);
     }
 
     public void ChangeCamera(CinemachineCamera camera, Transform trackingTarget)
     {
         _activeCamera = camera;
-        foreach (var c in _cameras)
+        foreach (var c in cameras)
         {
             if (c != camera)
             {

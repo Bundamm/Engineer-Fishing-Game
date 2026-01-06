@@ -13,7 +13,7 @@ public class Caster : MonoBehaviour, ICastAndDestroyFloater
     
     #region Other Objects
     [Header("Rod")] 
-    public Rod Rod;
+    public Rod rod;
     [Header("Fishing Line")] 
     public LineSpawner lineSpawner;
     [Header("Catch Trigger")]
@@ -45,7 +45,7 @@ public class Caster : MonoBehaviour, ICastAndDestroyFloater
     public CasterStateMachine Fsm { get; set; }
     public CasterIdleState IdleState { get; set; }
     public CasterThrowingState ThrowingState { get; set; }
-    public CasterWaitingForReturnState WaitingForReturnState { get; set; }
+    public CasterWaitingState WaitingState { get; set; }
     public CasterCaughtState CaughtState { get; set; }
     public CasterDisabledState DisabledState { get; set; }
     #endregion
@@ -55,7 +55,7 @@ public class Caster : MonoBehaviour, ICastAndDestroyFloater
         Fsm = new CasterStateMachine();
         IdleState = new CasterIdleState(this, Fsm);
         ThrowingState = new CasterThrowingState(this, Fsm);
-        WaitingForReturnState = new CasterWaitingForReturnState(this, Fsm);
+        WaitingState = new CasterWaitingState(this, Fsm);
         CaughtState = new CasterCaughtState(this, Fsm);
         DisabledState = new CasterDisabledState(this, Fsm);
     }

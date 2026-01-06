@@ -13,16 +13,4 @@ public class CasterIdleState : CasterState
         Caster.ContainsFish = false;
         Debug.Log("Entering Caster Idle State");
     }
-
-    public override void ExitState()
-    {
-        base.ExitState();
-    }
-
-    public override void FrameUpdate()
-    {
-        base.FrameUpdate();
-        
-    }
-    
 }

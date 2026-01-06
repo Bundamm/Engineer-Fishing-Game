@@ -31,6 +31,8 @@ public class TimeTransitionDaysState : TimeState
         TimeManager.DayCounterValue += 1;
         TimeManager.gameUICanvas.gameObject.SetActive(false);
         TimeManager.StartCoroutine(FadeInTransitionScreen());
+        TimeManager.houseIndicator.gameObject.SetActive(false);
+        TimeManager.marketIndicator.gameObject.SetActive(false);
         
     }
 
@@ -181,6 +183,7 @@ public class TimeTransitionDaysState : TimeState
         TimeManager.fishingRod.Fsm.ChangeState(TimeManager.fishingRod.IdleState);
         TimeManager.fishingRod.caster.Fsm.ChangeState(TimeManager.fishingRod.caster.IdleState);
         TimeManager.fishSpawner.DespawnAllFish();
+        TimeManager.marketUIManager.canInteractWithHouse = false;
         Fsm.ChangeState(TimeManager.DayStartState);
     }
 }

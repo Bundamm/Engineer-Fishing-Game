@@ -29,8 +29,8 @@ public class FishSpawner : MonoBehaviour
     #endregion
     
     #region Helpers
-    private List<GameObject> spawnedFish;
-    private List<Fish> fishiesToSpawnObjects;
+    private List<GameObject> _spawnedFish;
+    private List<Fish> _fishiesToSpawnObjects;
     private int _curAmountOfFish;
     private float _waterHeight;
     private float _waterWidth;
@@ -38,11 +38,11 @@ public class FishSpawner : MonoBehaviour
 
     private void Awake()
     {
-        spawnedFish = new List<GameObject>();
-        fishiesToSpawnObjects = new List<Fish>();
+        _spawnedFish = new List<GameObject>();
+        _fishiesToSpawnObjects = new List<Fish>();
         for (int i = 0; i < fishiesToSpawn.Length; i++)
         {
-            fishiesToSpawnObjects.Add(fishiesToSpawn[i].GetComponent<Fish>());
+            _fishiesToSpawnObjects.Add(fishiesToSpawn[i].GetComponent<Fish>());
         }
     }
     
@@ -83,8 +83,7 @@ public class FishSpawner : MonoBehaviour
         GameObject newFish = Instantiate(fishiesToSpawn[Random.Range(0, fishiesToSpawn.Length)], spawnPosition, Quaternion.identity);
         newFish.transform.SetParent(fishContainer, true);
         newFish.GetComponent<Fish>().FishSpawner = this;
-        //TODO: NEED TO GET ALL FISH CURRENTLY IN THE WATER
-        spawnedFish.Add(newFish);
+        _spawnedFish.Add(newFish);
         _curAmountOfFish++;
     }
     
@@ -99,23 +98,23 @@ public class FishSpawner : MonoBehaviour
 
     public void DespawnFish(GameObject fish)
     {
-        spawnedFish.Remove(fish);
+        _spawnedFish.Remove(fish);
         Destroy(fish);
     }
 
     public void DespawnAllFish()
     {
-        for (int i = spawnedFish.Count - 1; i >= 0; i--)
+        for (int i = _spawnedFish.Count - 1; i >= 0; i--)
         {
-            Debug.Log(spawnedFish[i]);
-            if (spawnedFish[i] != null)
+            Debug.Log(_spawnedFish[i]);
+            if (_spawnedFish[i] != null)
             {
-                spawnedFish[i].GetComponent<Fish>().FishSpawner = null;
-                DespawnFish(spawnedFish[i]);
+                _spawnedFish[i].GetComponent<Fish>().FishSpawner = null;
+                DespawnFish(_spawnedFish[i]);
             }
             else
             {
-                spawnedFish.RemoveAt(i);
+                _spawnedFish.RemoveAt(i);
             }
         }
         _curAmountOfFish = 0;
@@ -129,17 +128,17 @@ public class FishSpawner : MonoBehaviour
         GameObject tempFish = new GameObject();
         for (int i = 0; i < fishiesToSpawn.Length; i++)
         {
-            if (fishiesToSpawnObjects[i].fishType.FishTypeEnum == fishType)
+            if (_fishiesToSpawnObjects[i].fishType.FishTypeEnum == fishType)
             {
                 fishToReplaceWith = fishiesToSpawn[i];
             }
         }
-        for (int i = 0; i < spawnedFish.Count; i++)
+        for (int i = 0; i < _spawnedFish.Count; i++)
         {
             if (i % fishReplaceTick == 0)
             {
-                tempFish =  spawnedFish[i];
-                spawnedFish[i] = Instantiate(fishToReplaceWith, spawnedFish[i].transform.position, Quaternion.identity);
+                tempFish =  _spawnedFish[i];
+                _spawnedFish[i] = Instantiate(fishToReplaceWith, _spawnedFish[i].transform.position, Quaternion.identity);
                 DespawnFish(tempFish);
             }
         }

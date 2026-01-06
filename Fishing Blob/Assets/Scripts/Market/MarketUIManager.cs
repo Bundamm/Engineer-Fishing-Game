@@ -47,11 +47,15 @@ public class MarketUIManager : MonoBehaviour
     #endregion
     
     #region Helper Parameters
-    private List<MainButton> feedButtonsObjects;
-    private MainButton sellButtonObject;
-    private MainButton closeButtonObject;
-    private AudioSource marketSource;
-    private bool currentMarketUIValue;
+    private List<MainButton> _feedButtonsObjects;
+    private MainButton _sellButtonObject;
+    private MainButton _closeButtonObject;
+    private AudioSource _marketSource;
+    private bool _currentMarketUIValue;
+    #endregion
+    
+    #region
+    public bool canInteractWithHouse;
     #endregion
     
     
@@ -70,7 +74,7 @@ public class MarketUIManager : MonoBehaviour
     #region Basic Unity Methods
     private void Awake()
     {
-        feedButtonsObjects = new List<MainButton>();
+        _feedButtonsObjects = new List<MainButton>();
         
         
     }
@@ -86,12 +90,12 @@ public class MarketUIManager : MonoBehaviour
             {
                     fishTypeEnum = inventoryManager.GetFishSlots(i).fishType
             };
-            feedButtonsObjects.Add(newFeedButton);
+            _feedButtonsObjects.Add(newFeedButton);
         }
 
-        sellButtonObject = new MainButton(sellButton.GetComponent<Image>(), clickedButton);
-        closeButtonObject = new MainButton(closeButton.GetComponent<Image>(), clickedCloseButton);
-        marketSource = GetComponent<AudioSource>();
+        _sellButtonObject = new MainButton(sellButton.GetComponent<Image>(), clickedButton);
+        _closeButtonObject = new MainButton(closeButton.GetComponent<Image>(), clickedCloseButton);
+        _marketSource = GetComponent<AudioSource>();
     }
     #endregion
 
@@ -161,25 +165,25 @@ public class MarketUIManager : MonoBehaviour
     #region Button Clicking Coroutines
     public IEnumerator ClickFeedButtonCoroutine(int index, FishTypeEnum fishType)
     {
-        if (feedButtonsObjects[index].fishTypeEnum == inventoryManager.GetFishSlots(index).fishType)
+        if (_feedButtonsObjects[index].fishTypeEnum == inventoryManager.GetFishSlots(index).fishType)
         {
-            Sprite temp = feedButtonsObjects[index].mainButtonImage.sprite;
-            feedButtonsObjects[index].mainButtonImage.sprite =  feedButtonsObjects[index].buttonClickedImage.sprite;
+            Sprite temp = _feedButtonsObjects[index].mainButtonImage.sprite;
+            _feedButtonsObjects[index].mainButtonImage.sprite =  _feedButtonsObjects[index].buttonClickedImage.sprite;
             yield return new WaitForSecondsRealtime(0.1f);
-            feedButtonsObjects[index].mainButtonImage.sprite = temp;
+            _feedButtonsObjects[index].mainButtonImage.sprite = temp;
             yield return new WaitForSecondsRealtime(0.1f);
             marketManager.PayAndFeedFish(fishType);
             UpdateMoneyOwnedText();
-            AudioManager.Instance.PlaySound(AudioManager.SoundType.MeowFeed, marketSource);
+            AudioManager.Instance.PlaySound(AudioManager.SoundType.MeowFeed, _marketSource);
         }
     }
     
     public IEnumerator ClickCloseButton()
     {
-        Sprite temp = closeButtonObject.mainButtonImage.sprite;
-        closeButtonObject.mainButtonImage.sprite = closeButtonObject.buttonClickedImage.sprite;
+        Sprite temp = _closeButtonObject.mainButtonImage.sprite;
+        _closeButtonObject.mainButtonImage.sprite = _closeButtonObject.buttonClickedImage.sprite;
         yield return new WaitForSecondsRealtime(0.1f);
-        closeButtonObject.mainButtonImage.sprite = temp;
+        _closeButtonObject.mainButtonImage.sprite = temp;
         yield return new WaitForSecondsRealtime(0.1f);
         timeManager.PauseUnpause();
         ToggleMarketUI();
@@ -188,10 +192,10 @@ public class MarketUIManager : MonoBehaviour
 
     public IEnumerator ClickSellButton()
     {
-        Sprite temp = sellButtonObject.mainButtonImage.sprite;
-        sellButtonObject.mainButtonImage.sprite = sellButtonObject.buttonClickedImage.sprite;
+        Sprite temp = _sellButtonObject.mainButtonImage.sprite;
+        _sellButtonObject.mainButtonImage.sprite = _sellButtonObject.buttonClickedImage.sprite;
         yield return new WaitForSecondsRealtime(0.1f);
-        sellButtonObject.mainButtonImage.sprite = temp;
+        _sellButtonObject.mainButtonImage.sprite = temp;
         yield return new WaitForSecondsRealtime(0.1f);
         marketManager.SellFish();
         UpdateMoneyOwnedText();
@@ -201,12 +205,19 @@ public class MarketUIManager : MonoBehaviour
             ToggleMarketUI();
             timeManager.PauseUnpause();
             yield return new WaitForSecondsRealtime(0.1f);
-            AudioManager.Instance.PlaySound(AudioManager.SoundType.MeowAngry, marketSource);
+            AudioManager.Instance.PlaySound(AudioManager.SoundType.MeowAngry, _marketSource);
+            timeManager.marketIndicator.gameObject.SetActive(false);
             timeManager.Fsm.ChangeState(timeManager.TransitionDaysState);
+        }
+        else if (timeManager.HoursValue >= 22 && marketManager.MoneyOwnedValue >= marketManager.RentValue)
+        {
+            timeManager.marketIndicator.gameObject.SetActive(false);
+            canInteractWithHouse = true;
+            timeManager.houseIndicator.gameObject.SetActive(true);
         }
         else
         {
-            AudioManager.Instance.PlaySound(AudioManager.SoundType.MeowNormal, marketSource);
+            AudioManager.Instance.PlaySound(AudioManager.SoundType.MeowNormal, _marketSource);
         }
     }
     #endregion
@@ -215,16 +226,16 @@ public class MarketUIManager : MonoBehaviour
     #region Helper Methods
     public void ToggleMarketUI()
     {
-        currentMarketUIValue = !currentMarketUIValue;
+        _currentMarketUIValue = !_currentMarketUIValue;
         marketManager.UpdateValueOfInventory();
         UpdateFeedPriceText();
         UpdatePredictedValueText();
-        marketCanvas.gameObject.SetActive(currentMarketUIValue);
+        marketCanvas.gameObject.SetActive(_currentMarketUIValue);
     }
 
     public bool GetCurrentMarketUIValue()
     {
-        return currentMarketUIValue;
+        return _currentMarketUIValue;
     }
     #endregion
 }
