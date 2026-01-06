@@ -26,6 +26,7 @@ public class TimeManager : MonoBehaviour
     private GameObject staticLights;
     [SerializeField]
     private Light2D playerLampLight;
+    private Animator _playerLampLightAnimator;
     [SerializeField]
     private List<Animator> lamps; 
     #endregion
@@ -106,6 +107,7 @@ public class TimeManager : MonoBehaviour
         marketManager.SetStartingValues();
         marketUIManager.UpdateValueTexts();
         marketUIManager.UpdateRentValueText();
+        _playerLampLightAnimator = playerLampLight.GetComponent<Animator>();
         Fsm.Initialize(DayStartState);
     }
     
@@ -119,6 +121,7 @@ public class TimeManager : MonoBehaviour
                 lamp.SetBool("IsOn", true);
             }
             staticLights.SetActive(true);
+            _playerLampLightAnimator.SetBool("IsOn", true);
             playerLampLight.enabled = true;
         }
         else
@@ -128,6 +131,7 @@ public class TimeManager : MonoBehaviour
                 lamp.SetBool("IsOn", false);
             }
             staticLights.SetActive(false);
+            _playerLampLightAnimator.SetBool("IsOn", false);
             playerLampLight.enabled = false;
         }
 
