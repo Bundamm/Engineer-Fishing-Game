@@ -3309,9 +3309,44 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3542089125340866785, guid: de1ef79a5d57b4c4ebf7fc9f6dd53b4b, type: 3}
+      propertyPath: m_text
+      value: "Credits\nDevelopment - Tomasz Szewa\nArt assets \nAdam Ornacki\nBackground
+        Art - <link=\"https://free-game-assets.itch.io/nature-landscapes-free-pixel-art\"><u>Craftpix</u></link>,
+        License: craftpix.net, FREEBIE PRODUCTS\nWater Texture - <link=\"https://www.freepik.com/free-photo/closeup-pool-water-texture_28741694.htm\"><u>wirestock</u></link>,
+        License: freepik.com, Free \nUI - <link=\"https://pizzadoggy.itch.io/cozy-gui\"><u>Pizza
+        Doggy</u></link>, License: pizzadoggy.itch.io, Game Asset License\n Font
+        - <link=\"https://www.dafont.com/runescape-uf.font\"><u>RuneScape UF</u></link>,
+        License:  dafont.com, Public domain\r\n\r\nSound Effects\nZapsplat, License:
+        zapsplat.com, Basic (Free) Users\r\n<link=\"https://www.zapsplat.com/music/fishing-rod-reel-wind-spool-clicks-short-and-hard-as-if-caught-a-fish-2/\"><u>Fishing
+        Rod Reel</u></link>\r\n<link=\"https://www.zapsplat.com/music/cartoon-mouth-pop-5-2/\"><u>Mouth
+        Pop 5</u></link> / <link=\"https://www.zapsplat.com/music/cartoon-mouth-pop-4-2/\"><u>Mouth
+        Pop 4</u></link>\r\nPacks: <link=\"https://www.zapsplat.com/sound-effect-packs/ui-kit/\"><u>UI
+        Kit</u></link>, <link=\"https://www.zapsplat.com/sound-effect-packs/stick-whooshes/\"><u>Whooshes</u></link>,
+        <link=\"https://www.zapsplat.com/sound-effect-packs/water-splash/\"><u>Water
+        Splash</u></link>\r\nCats: <link=\"https://www.zapsplat.com/music/cat-meow-hungry/\"><u>Meow
+        1</u></link>, <link=\"https://www.zapsplat.com/music/cat-moaning-meow-hungry/\"><u>Meow
+        2</u></link>\r\nPixabay, License:  pixabay.com, Content License, \r\n<link=\"https://pixabay.com/sound-effects/ambient-sounds-at-night-243045/\"><u>Night
+        Ambience</u></link>\r\n<link=\"https://pixabay.com/sound-effects/angry-cat-hq-sound-effect-240675/\"><u>Angry
+        Cat</u></link>\r\n<link=\"https://pixabay.com/sound-effects/roaster-crows-2-363352/\"><u>Rooster</u></link>\r\nMusic\r\n<link=\"https://pixabay.com/sound-effects/ethno-ambience-58389/\"><u>Ethno
+        Ambience</u></link>\r\n<link=\"https://pixabay.com/sound-effects/morning-forest-ambiance-17045/\"><u>Morning
+        Forest</u></link>\r\n<link=\"https://pixabay.com/sound-effects/peaceful-24736/\"><u>Peaceful</u></link>\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3542089125340866785, guid: de1ef79a5d57b4c4ebf7fc9f6dd53b4b, type: 3}
+      propertyPath: m_fontSize
+      value: 28.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713058786271219117, guid: de1ef79a5d57b4c4ebf7fc9f6dd53b4b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7662326113611214635, guid: de1ef79a5d57b4c4ebf7fc9f6dd53b4b, type: 3}
       propertyPath: m_Name
       value: ControlsCreditsPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666812778133185080, guid: de1ef79a5d57b4c4ebf7fc9f6dd53b4b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

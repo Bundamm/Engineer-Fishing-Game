@@ -1,4 +1,7 @@
 ﻿
+using System.Collections;
+using UnityEngine;
+
 public class TimeNightStoppedState : TimeState
 {
     public TimeNightStoppedState(TimeManager timeManager, TimeStateMachine fsm) : base(timeManager, fsm)
@@ -27,6 +30,7 @@ public class TimeNightStoppedState : TimeState
             TimeManager.marketIndicator.gameObject.SetActive(true);
         }
         TimeManager.marketIndicator.gameObject.SetActive(true);
+        TimeManager.StartCoroutine(ShowGoBackText());
         AudioManager.Instance.PlaySound(AudioManager.SoundType.DayOver, AudioManager.Instance.ManagerSource);
         
     }
@@ -47,6 +51,12 @@ public class TimeNightStoppedState : TimeState
             TimeManager.PauseUnpause();
             TimeManager.Fsm.ChangeState(TimeManager.PausedState);
         }
-        
     }
+
+    private IEnumerator ShowGoBackText()
+    {
+        TimeManager.timeToGoBackAnimator.SetBool("FadeIn", true);
+        yield return new WaitForSecondsRealtime(8f);
+        TimeManager.timeToGoBackAnimator.SetBool("FadeIn", false);
+    } 
 }

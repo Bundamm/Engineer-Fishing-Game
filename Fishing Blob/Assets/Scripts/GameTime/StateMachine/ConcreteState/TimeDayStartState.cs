@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 public class TimeDayStartState : TimeState
 {
     public TimeDayStartState(TimeManager timeManager, TimeStateMachine fsm) : base(timeManager, fsm)
@@ -14,6 +15,10 @@ public class TimeDayStartState : TimeState
         TimeManager.timeVolume.weight = TimeManager.volumeWeight;
         TimeManager.TimeText.text = $"{TimeManager.HoursValue:00}:{TimeManager.MinutesValue:00}";
         TimeManager.gameUICanvas.gameObject.SetActive(true);
+        if (TimeManager.DayCounterValue == 1)
+        {
+            TimeManager.StartCoroutine(DayOneInfoText());
+        }
         AudioManager.Instance.PlaySound(AudioManager.SoundType.DayStart, AudioManager.Instance.ManagerSource);
     }
 
@@ -24,5 +29,12 @@ public class TimeDayStartState : TimeState
         {
             Fsm.ChangeState(TimeManager.DayActiveState);
         }
+    }
+
+    private IEnumerator DayOneInfoText()
+    {
+        TimeManager.dayOneTimeInfoAnimator.SetBool("FadeIn", true);
+        yield return new WaitForSecondsRealtime(7f);
+        TimeManager.dayOneTimeInfoAnimator.SetBool("FadeIn", false);
     }
 }

@@ -31,17 +31,16 @@ public class TimePausedState : TimeState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        if (TimeManager.inputHandler.GetPauseValue())
-        {
-            TimeManager.PauseUnpause();
-        }
-        if (!TimeManager.TimerPaused)
+        if (TimeManager.inputHandler.GetPauseValue() || TimeManager.inputHandler.GetInteractValue())
         {
             if (TimeManager.marketUIManager.GetCurrentMarketUIValue())
             {
                 TimeManager.marketUIManager.ToggleMarketUI();
-                
             }
+            TimeManager.PauseUnpause();
+        }
+        if (!TimeManager.TimerPaused)
+        {
             if (TimeManager.HoursValue < 22)
             {
                 Fsm.ChangeState(TimeManager.DayActiveState);
